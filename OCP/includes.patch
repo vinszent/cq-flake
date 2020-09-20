@@ -1,0 +1,21 @@
+diff --git a/pywrap/bindgen/utils.py b/pywrap/bindgen/utils.py
+index a34fba2..5fc286b 100644
+--- a/pywrap/bindgen/utils.py
++++ b/pywrap/bindgen/utils.py
+@@ -38,10 +38,13 @@ def get_includes():
+     if on_windows():
+         rv.append(Path(prefix) / 'Library/include/clang/')
+     else:
+-        rv.append(Path(prefix) / 'lib/clang/8.0.0/include/')
+-        rv.append(Path(prefix) / 'lib/clang/6.0.1/include/')
+-        rv.append(Path(prefix) / 'lib/clang/9.0.1/include/')
+-        rv.append(Path(prefix) / 'include/c++/v1/')
++        rv.append('@type_traits@')
++        rv.append('@stddef_h@')
++        rv.append('@features_h@')
++        rv.append('@limits_h@')
++        rv.append('@gldev@/include/')
++        rv.append('@libx11dev@/include/')
++        rv.append('@xorgproto@/include/')
+     
+     return rv

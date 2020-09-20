@@ -1,0 +1,77 @@
+{
+  "nodes": {
+    "cadquery": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1598858786,
+        "narHash": "sha256-eMc7j41tkhtd47IZyaRjbHPBx/cVQSzoenUqak6OB6k=",
+        "owner": "cadquery",
+        "repo": "cadquery",
+        "rev": "2d721d0ff8a195a0902eb9c3add88d07546c05b1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cadquery",
+        "repo": "cadquery",
+        "type": "github"
+      }
+    },
+    "cq-editor": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1598209998,
+        "narHash": "sha256-HLyYLu985d/fEksanxXlh7rCeDnkLpCPsXH9u/UsGyk=",
+        "owner": "cadquery",
+        "repo": "cq-editor",
+        "rev": "3a87ed08c053afe74ad811938ba5979b7d3b37ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cadquery",
+        "repo": "cq-editor",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1600209923,
+        "narHash": "sha256-zoOWauTliFEjI++esk6Jzk7QO5EKpddWXQm9yQK24iM=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3cd06d3c1df6879c9e41cb2c33113df10566c760",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1600135862,
+        "narHash": "sha256-eHhiPQK2FY8Vr+AWpQuNjcId/sfrB+IVJJyuY3tuIwE=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "441a7da8080352881bb52f85e910d8855e83fc55",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "cadquery": "cadquery",
+        "cq-editor": "cq-editor",
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
