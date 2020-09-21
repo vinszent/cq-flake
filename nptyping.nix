@@ -10,22 +10,28 @@
 }:
 
 buildPythonPackage rec {
-  version = "5.2.10";
-  pname = "geomdl";
+  version = "1.3.0";
+  pname = "nptyping";
 
-  disabled = pythonOlder "3.5";
+  disabled = pythonOlder "3.4";
 
   src = fetchFromGitHub {
-    owner = "orbingol";
-    repo = "NURBS-Python";
-    rev = "v5.2.10";
-    sha256 = "1alg7kjjcs37mpy7dl0s56hbsh0h6zpaamkcwr04xd6nkddarzgn";
-    fetchSubmodules = false;
+    owner = "ramonhagenaars";
+    repo = "nptyping";
+    rev = "v" + version;
+    sha256 = "sha256-/5tYBrJ8rzERhRG4HWqM32/TzbxizEcV+u9RXo9wuNg=";
+    fetchSubmodules = true;
   };
 
-  checkInputs = [ pytest ];
+  checkInputs = [
+    pycodestyle
+    pylint
+    pytest
+    coverage
+    codecov
+  ];
 
-  propagatedBuildInputs = [ numpy matplotlib plotly ];
+  propagatedBuildInputs = [ numpy typish ];
 
   meta = with stdenv.lib; {
     description = "A pure Python, self-contained, object-oriented B-Spline and NURBS spline library";

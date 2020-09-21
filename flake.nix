@@ -5,7 +5,8 @@
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
     flake-utils.url = "github:numtide/flake-utils";
     cadquery = {
-      url = "github:cadquery/cadquery";
+      url = "github:cadquery/cadquery/assembly";
+      # url = "github:cadquery/cadquery/master";
       flake = false;
     };
     cq-editor = {
@@ -42,6 +43,7 @@
                 geomdl = python-super.callPackage ./geomdl.nix { };
                 ezdxf = python-super.callPackage ./ezdxf.nix { };
                 sphinx = python-super.callPackage ./sphinx.nix { };
+                nptyping = python-super.callPackage ./nptyping.nix { };
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./cq-editor.nix {
