@@ -7,6 +7,11 @@
   , numpy
   , matplotlib
   , plotly
+  , typish
+  , pycodestyle
+  , pylint
+  , coverage
+  , codecov
 }:
 
 buildPythonPackage rec {
@@ -31,11 +36,14 @@ buildPythonPackage rec {
     codecov
   ];
 
-  propagatedBuildInputs = [ numpy typish ];
+  propagatedBuildInputs = [
+    numpy
+    typish
+  ];
 
   meta = with stdenv.lib; {
-    description = "A pure Python, self-contained, object-oriented B-Spline and NURBS spline library";
-    homepage = "https://onurraufbingol.com/NURBS-Python/";
+    description = "Type hints for Numpy";
+    homepage = "https://github.com/ramonhagenaars/nptyping";
     license = licenses.mit;
     maintainers = with maintainers; [ marcus7070 ];
   };

@@ -44,6 +44,7 @@
                 ezdxf = python-super.callPackage ./ezdxf.nix { };
                 sphinx = python-super.callPackage ./sphinx.nix { };
                 nptyping = python-super.callPackage ./nptyping.nix { };
+                typish = python-super.callPackage ./typish.nix { };
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./cq-editor.nix {
