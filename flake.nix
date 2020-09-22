@@ -54,6 +54,10 @@
           };
 
           defaultPackage = packages.cq-editor;
+          defaultApp = {
+            type = "app";
+            program = defaultPackage + "/bin/cq-editor";
+          };
         }
       );
 
