@@ -54,6 +54,7 @@
             # looks like the current release of OCP uses 7.4.0, not the most recent 7.4.0p1 release
             opencascade-occt = pkgs.callPackage ./opencascade-occt/7_4_0.nix { };
             cadquery-docs = packages.python37.pkgs.cadquery_w_docs.doc;
+            cadquery-env = packages.python37.withPackages (ps: with ps; [ cadquery ocp ] );
           };
 
           defaultPackage = packages.cq-editor;
@@ -61,6 +62,9 @@
             type = "app";
             program = defaultPackage + "/bin/cq-editor";
           };
+          # devShell = (packages.python37.withPackages (ps: [ ps.cadquery ] )).env;
+          # devShell = (packages.python37.buildEnv.override { extraLibs = [ packages.python37.pkgs.cadquery ]; }).env;
+          devShell = packages.cadquery-env.env;
         }
       );
 
