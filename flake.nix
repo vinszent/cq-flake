@@ -64,7 +64,7 @@
           };
           # devShell = (packages.python37.withPackages (ps: [ ps.cadquery ] )).env;
           # devShell = (packages.python37.buildEnv.override { extraLibs = [ packages.python37.pkgs.cadquery ]; }).env;
-          devShell = packages.cadquery-env.env;
+          # devShell = packages.cadquery-env.env;
         }
       );
 
