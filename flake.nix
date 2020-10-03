@@ -5,15 +5,14 @@
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
     flake-utils.url = "github:numtide/flake-utils";
     cadquery = {
-      url = "github:cadquery/cadquery/assembly";
-      # url = "github:cadquery/cadquery/master";
+      url = "github:cadquery/cadquery/master";
       flake = false;
     };
     cq-editor = {
       url = "github:cadquery/cq-editor";
       flake = false;
     };
-    # OCP uses submodules
+    # OCP uses submodules, flake inputs don't support submodules
     # ocp = {
     #   url = "github:cadquery/ocp";
     #   flake = false;
