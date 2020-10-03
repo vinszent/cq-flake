@@ -11,7 +11,7 @@
 
 buildPythonPackage rec {
   version = "5.2.10";
-  pname = "ezdxf";
+  pname = "geomdl";
 
   disabled = pythonOlder "3.5";
 

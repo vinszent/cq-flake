@@ -27,6 +27,8 @@
   , ipython
   , typing-extensions
   , src
+  , scipy
+  , nptyping
 }:
 
 let 
@@ -62,6 +64,8 @@ in buildPythonPackage rec {
     ezdxf
     ipython
     typing-extensions 
+    scipy
+    nptyping
   ];
 
   # If the user wants extra fonts, probably have to add them here

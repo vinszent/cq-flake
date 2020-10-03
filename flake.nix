@@ -5,7 +5,8 @@
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
     flake-utils.url = "github:numtide/flake-utils";
     cadquery = {
-      url = "github:cadquery/cadquery";
+      url = "github:cadquery/cadquery/assembly";
+      # url = "github:cadquery/cadquery/master";
       flake = false;
     };
     cq-editor = {
@@ -42,6 +43,8 @@
                 geomdl = python-super.callPackage ./geomdl.nix { };
                 ezdxf = python-super.callPackage ./ezdxf.nix { };
                 sphinx = python-super.callPackage ./sphinx.nix { };
+                nptyping = python-super.callPackage ./nptyping.nix { };
+                typish = python-super.callPackage ./typish.nix { };
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./cq-editor.nix {
@@ -51,6 +54,7 @@
             # looks like the current release of OCP uses 7.4.0, not the most recent 7.4.0p1 release
             opencascade-occt = pkgs.callPackage ./opencascade-occt/7_4_0.nix { };
             cadquery-docs = packages.python37.pkgs.cadquery_w_docs.doc;
+            cadquery-env = packages.python37.withPackages (ps: with ps; [ cadquery python-language-server ] );
           };
 
           defaultPackage = packages.cq-editor;
