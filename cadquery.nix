@@ -29,6 +29,8 @@
   , src
   , scipy
   , nptyping
+  , sphinx-autodoc-typehints
+  , sphinxcadquery
 }:
 
 let 
@@ -56,7 +58,12 @@ in buildPythonPackage rec {
 
   inherit src;
 
-  nativeBuildInputs = lib.lists.optionals documentation [ sphinx sphinx_rtd_theme ];
+  nativeBuildInputs = lib.lists.optionals documentation [
+    sphinx
+    sphinx_rtd_theme
+    sphinx-autodoc-typehints
+    sphinxcadquery
+  ];
 
   propagatedBuildInputs = [
     pyparsing

@@ -260,7 +260,8 @@ in buildPythonPackage {
     cp ${setuppy} ./setup.py
   '';
 
-  doCheck = false;
+  # doCheck = false;
+  pythonImportsCheck = [ "OCP" "OCP.gp" ];
 
   meta = with lib; {
     description = "Python wrapper for Opencascade Technology 7.4 generated using pywrap";

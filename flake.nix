@@ -44,6 +44,12 @@
                 sphinx = python-super.callPackage ./sphinx.nix { };
                 nptyping = python-super.callPackage ./nptyping.nix { };
                 typish = python-super.callPackage ./typish.nix { };
+                sphinx-autodoc-typehints = python-super.callPackage ./sphinx-autodoc-typehints.nix { };
+                sphobjinv = python-super.callPackage ./sphobjinv.nix { };
+                stdio-mgr = python-super.callPackage ./stdio-mgr.nix { };
+                sphinx-issues = python-super.callPackage ./sphinx-issues.nix { };
+                pytest-subtests = python-super.callPackage ./pytest-subtests.nix { };
+                sphinxcadquery = python-super.callPackage ./sphinxcadquery.nix { };
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./cq-editor.nix {
