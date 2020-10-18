@@ -51,8 +51,9 @@ let
     src = fetchFromGitHub {
       owner = "CadQuery";
       repo = "OCP";
-      rev = "0059e425875fb6fa3e8b3f0335c9d08924e6726c";
-      sha256 = "1h4m3y5k4chl1cdd0gy9vw0saf5vfwik0djgs64y1hfic9b4dgw1";
+      # rev = "0059e425875fb6fa3e8b3f0335c9d08924e6726c";
+      rev = "3d77d55f00ea20946d1b282f0cab7ff7c70947e9";
+      sha256 = "sha256-vupbGz19WCVZ7Jqdk2WZ0IzzWcJev7JrB1h3ieSLbn0=";
       fetchSubmodules = true;
     };
   
@@ -266,7 +267,7 @@ in buildPythonPackage {
   meta = with lib; {
     description = "Python wrapper for Opencascade Technology 7.4 generated using pywrap";
     homepage = "https://github.com/CadQuery/OCP";
-    # license = licenses.asl20;  # not yet set
+    license = licenses.asl20;
     maintainers = with maintainers; [ marcus7070 ];
   };
 }

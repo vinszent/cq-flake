@@ -3,11 +3,11 @@
     "cadquery": {
       "flake": false,
       "locked": {
-        "lastModified": 1601549286,
-        "narHash": "sha256-cvs7Tkl2ytIXMbFdqoaqX/aX7PWArm7LwcCGLcNKh1s=",
+        "lastModified": 1602606505,
+        "narHash": "sha256-V7noa6leBuC3j7IAtW2W6Qrv6q54VDuSSb8UUlZDfcQ=",
         "owner": "cadquery",
         "repo": "cadquery",
-        "rev": "292a0d8d0aa56fd6419d7907a078aad8ee6a362d",
+        "rev": "7f26c3b3c6b87fdeda44c1f40a264b4b06994209",
         "type": "github"
       },
       "original": {
