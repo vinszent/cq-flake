@@ -5,7 +5,7 @@
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
     flake-utils.url = "github:numtide/flake-utils";
     cadquery = {
-      url = "github:cadquery/cadquery/master";
+      url = "github:cadquery/cadquery/locations-wire";
       flake = false;
     };
     cq-editor = {
