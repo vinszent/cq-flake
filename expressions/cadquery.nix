@@ -42,10 +42,12 @@ let
         rm $out/nix-support/propagated-build-inputs
       '';
     }) else null;
+  version = if (builtins.hasAttr "rev" src) then (builtins.substring 0 7 src.rev) else "local-dev";
 
 in buildPythonPackage rec {
   pname = "cadquery";
-  version = "git-" + builtins.substring 0 7 src.rev;
+  # version = "git-" + builtins.substring 0 7 src.rev;
+  inherit src version;
 
   outputs = [ "out" ] ++ lib.lists.optional documentation "doc";
 
@@ -55,8 +57,6 @@ in buildPythonPackage rec {
   #   rev = 2d721d0ff8a195a0902eb9c3add88d07546c05b1;
   #   sha256 = "sha256-eMc7j41tkhtd47IZyaRjbHPBx/cVQSzoenUqak6OB6k=";
   # };
-
-  inherit src;
 
   nativeBuildInputs = lib.lists.optionals documentation [
     sphinx
