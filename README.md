@@ -51,3 +51,11 @@ If you build it on one machine, you can push it to other machines with the comma
 ```sh
 nix copy --to ssh://192.168.1.XXX /nix/store/xxxxxxx-hashymchashyface-xxxxxxx-cq-editor-local
 ```
+
+## Local dev
+
+Should you wish to do dev work with CadQuery check out the `dev` branch of this repo. `flake.nix` shows how to reference a local copy (must be a Git repo) of CadQuery instead of a GitHub copy. Then use a command like:
+
+```sh
+nix flake update --update-input cadquery . && nix build -L .#cadquery-docs && qutebrowser ./result-doc/share/doc/index.html
+```
