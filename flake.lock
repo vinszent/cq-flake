@@ -3,7 +3,7 @@
     "cadquery": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-JUy9cx3wLGteZKEBSifACtzIOARe2bztS7/u0qMJ6gk=",
+        "narHash": "sha256-fSCDcKYV2uHh1+zvKXLDqNTnU3CQvtF0v5inMd/Ye7Q=",
         "path": "/home/marcus/tempbuild/cq-dev/cadquery",
         "type": "path"
       },
