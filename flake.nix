@@ -6,7 +6,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     cadquery = {
       # url = "github:marcus7070/cadquery/marcus7070\/docs";
-      url = "/home/marcus/tempbuild/cq-dev/cadquery";
+      url = "/home/marcus/tempbuild/cadquery";
       flake = false;
     };
     cq-editor = {
