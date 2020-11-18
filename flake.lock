@@ -3,12 +3,12 @@
     "cadquery": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-fSCDcKYV2uHh1+zvKXLDqNTnU3CQvtF0v5inMd/Ye7Q=",
-        "path": "/home/marcus/tempbuild/cq-dev/cadquery",
+        "narHash": "sha256-M4vyJQ33FSzh7yUDl/0q+SwjhfmQjCRg5JJYDghuphk=",
+        "path": "/home/marcus/tempbuild/cadquery",
         "type": "path"
       },
       "original": {
-        "path": "/home/marcus/tempbuild/cq-dev/cadquery",
+        "path": "/home/marcus/tempbuild/cadquery",
         "type": "path"
       }
     },
