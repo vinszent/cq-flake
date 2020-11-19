@@ -60,6 +60,8 @@
             opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt/7_4_0.nix { };
             cadquery-docs = packages.python37.pkgs.cadquery_w_docs.doc;
             cadquery-env = packages.python37.withPackages (ps: with ps; [ cadquery python-language-server ] );
+            # useful for debugging:
+            nixpkgs_in = pkgs;
           };
 
           defaultPackage = packages.cq-editor;

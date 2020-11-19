@@ -18,7 +18,8 @@
   , toposort
   , llvmPackages_9
   , libcxx
-  , gcc8
+  # , gcc8
+  , gcc9
   , clang
   , pyparsing
   , pybind11
@@ -30,7 +31,6 @@
   , libglvnd
   , xlibs
   , python
-  , gcc-unwrapped
   , writeTextFile
 }:
 let
@@ -86,12 +86,6 @@ let
     glibc.dev
   ];
 
-  # prePatch = ''
-  #   # make sure we only refer to the headers from nixpkgs, not the vendored
-  #   # headers that are only used in the mac build I think.
-  #   rm -rf ./opencascade
-  # '';
-
   patches = [
     ./py-fix.patch
     # note the order of the include paths in this patch are important, build
@@ -105,9 +99,9 @@ let
     --subst-var-by "python" "${python}"
     substituteInPlace pywrap/bindgen/utils.py \
     --subst-var-by "features_h" "${glibc.dev}/include" \
-    --subst-var-by "limits_h" "${gcc8.cc}/lib/gcc/x86_64-unknown-linux-gnu/8.4.0/include-fixed" \
+    --subst-var-by "limits_h" "${gcc9.cc}/lib/gcc/x86_64-unknown-linux-gnu/9.3.0/include-fixed" \
     --subst-var-by "type_traits" "${libcxx}/include/c++/v1" \
-    --subst-var-by "stddef_h" "${gcc8.cc}/lib/gcc/x86_64-unknown-linux-gnu/8.4.0/include" \
+    --subst-var-by "stddef_h" "${gcc9.cc}/lib/gcc/x86_64-unknown-linux-gnu/9.3.0/include" \
     --subst-var-by "gldev" "${libglvnd.dev}" \
     --subst-var-by "libx11dev" "${xlibs.libX11.dev}" \
     --subst-var-by "xorgproto" "${xlibs.xorgproto}"
@@ -183,7 +177,7 @@ let
       # glibc
       # glibc.dev
       # llvm_9
-      gcc8.cc
+      gcc9.cc
     ]; 
 
     # probably need OCCT in that cmake prefix as well
