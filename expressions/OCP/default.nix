@@ -32,6 +32,7 @@
   , xlibs
   , python
   , writeTextFile
+  , debug ? true
 }:
 let
 
@@ -136,6 +137,7 @@ let
     version = "7.4-RC1";
 
     src = ocp-pybound;
+    separateDebugInfo = debug;
 
     disabled = pythonOlder "3.6" || pythonAtLeast "3.9";
     
@@ -239,7 +241,7 @@ let
           packages=[""],
           package_dir={"": "."},
           package_data={
-              "": ["OCP.cpython-37m-x86_64-linux-gnu.so"]
+              "": ["OCP.cpython-38-x86_64-linux-gnu.so"]
           },
           cmdclass = {"build_py": BuildPyNoBuild}
       )
@@ -255,7 +257,14 @@ in buildPythonPackage {
     cp ${setuppy} ./setup.py
   '';
 
-  # doCheck = false;
+  outputs = [ "out" ] ++ lib.lists.optional debug "debug";
+  dontStrip = debug;
+
+  postInstall = lib.strings.optionalString debug ''
+    mkdir $debug
+    cp -rv ${ocp-result.debug}/* $debug/
+  '';
+
   pythonImportsCheck = [ "OCP" "OCP.gp" ];
 
   meta = with lib; {

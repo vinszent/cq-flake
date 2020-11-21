@@ -59,3 +59,5 @@ Should you wish to do dev work with CadQuery check out the `dev` branch of this 
 ```sh
 nix flake update --update-input cadquery . && nix build -L .#cadquery-docs && qutebrowser ./result-doc/share/doc/index.html
 ```
+
+I've also added some debug stuff for debugging with `gdb`. Debugging symbols for Python have come and gone from nixpkgs, if the debugging attributes don't have all the symbols you need look into setting overriding `separateDebugInfo = true;` in the Python expression. The most likely method you need for debugging is to run `nix develop github:marcus7070/cq-flake#cadquery-env-debug`, start python, switch to a second terminal, `gdb python <PID>`, `continue`, switch back to python, make it crash, switch back to gdb, `bt`. gdb can't run scripts so it's difficult to start Python from within gdb, easier just to attach it to a running instance.

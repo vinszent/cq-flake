@@ -3,18 +3,13 @@
     "cadquery": {
       "flake": false,
       "locked": {
-        "lastModified": 1604093511,
-        "narHash": "sha256-N520Ce3cUP10wfjPx4yFsFGSA86VjNNYx2qP4LSYexg=",
-        "owner": "cadquery",
-        "repo": "cadquery",
-        "rev": "65f9608f54f27c832c0293226b8012038a32814d",
-        "type": "github"
+        "narHash": "sha256-TcbDFlJbd+kQZtuN0HouRvw7EHZs4Hb11dubNNSPGcI=",
+        "path": "/home/marcus/tempbuild/cadquery",
+        "type": "path"
       },
       "original": {
-        "owner": "cadquery",
-        "ref": "master",
-        "repo": "cadquery",
-        "type": "github"
+        "path": "/home/marcus/tempbuild/cadquery",
+        "type": "path"
       }
     },
     "cq-editor": {
@@ -50,11 +45,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1603490384,
-        "narHash": "sha256-x74qvonDyMN/w7EP00wjvTYRMHOybHvJldjvYCpn5+k=",
+        "lastModified": 1604403191,
+        "narHash": "sha256-zA/CTy9mKYiaHLO0RnPNl9JZ1CMydn7E6XqoN5os6BU=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "582f622f6c82e8db2efc4d490e5945db177ed597",
+        "rev": "24c5059468026eb8df4c77e98192567378656bc3",
         "type": "github"
       },
       "original": {
