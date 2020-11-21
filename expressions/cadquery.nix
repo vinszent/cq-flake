@@ -86,7 +86,6 @@ in buildPythonPackage rec {
     pytest
   ];
 
-  doCheck = false;
   checkPhase = ''
     pytest -v
   '';

@@ -3,13 +3,17 @@
     "cadquery": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-TcbDFlJbd+kQZtuN0HouRvw7EHZs4Hb11dubNNSPGcI=",
-        "path": "/home/marcus/tempbuild/cadquery",
-        "type": "path"
+        "lastModified": 1605873710,
+        "narHash": "sha256-O+vlqKUyQ/SJOC43yl9hhazKwf4DjEK48OgAlCnIgXA=",
+        "owner": "CadQuery",
+        "repo": "cadquery",
+        "rev": "78d100dd052a4216a350af81d66946102814d048",
+        "type": "github"
       },
       "original": {
-        "path": "/home/marcus/tempbuild/cadquery",
-        "type": "path"
+        "owner": "CadQuery",
+        "repo": "cadquery",
+        "type": "github"
       }
     },
     "cq-editor": {
