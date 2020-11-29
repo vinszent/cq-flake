@@ -18,7 +18,8 @@
   , toposort
   , llvmPackages_9
   , libcxx
-  , gcc8
+  # , gcc8
+  , gcc9
   , clang
   , pyparsing
   , pybind11
@@ -30,8 +31,8 @@
   , libglvnd
   , xlibs
   , python
-  , gcc-unwrapped
   , writeTextFile
+  , debug ? true
 }:
 let
 
@@ -46,14 +47,13 @@ let
   # intermediate step, do pybind, cmake in the next step
   ocp-pybound = stdenv.mkDerivation rec {
     pname = "pybound-ocp";
-    version = "git-0059e42";
+    version = "git-" + builtins.substring 0 7 src.rev;
 
     src = fetchFromGitHub {
       owner = "CadQuery";
       repo = "OCP";
-      # rev = "0059e425875fb6fa3e8b3f0335c9d08924e6726c";
-      rev = "3d77d55f00ea20946d1b282f0cab7ff7c70947e9";
-      sha256 = "sha256-vupbGz19WCVZ7Jqdk2WZ0IzzWcJev7JrB1h3ieSLbn0=";
+      rev = "ede30205f69cfd2cb05f40de963617611239e7ad";
+      sha256 = "sha256-l76il46KGVgXpWdH5vTB9WHm6wTSK1H2QtRh6ev+M4E=";
       fetchSubmodules = true;
     };
   
@@ -86,12 +86,6 @@ let
     glibc.dev
   ];
 
-  # prePatch = ''
-  #   # make sure we only refer to the headers from nixpkgs, not the vendored
-  #   # headers that are only used in the mac build I think.
-  #   rm -rf ./opencascade
-  # '';
-
   patches = [
     ./py-fix.patch
     # note the order of the include paths in this patch are important, build
@@ -105,9 +99,9 @@ let
     --subst-var-by "python" "${python}"
     substituteInPlace pywrap/bindgen/utils.py \
     --subst-var-by "features_h" "${glibc.dev}/include" \
-    --subst-var-by "limits_h" "${gcc8.cc}/lib/gcc/x86_64-unknown-linux-gnu/8.4.0/include-fixed" \
+    --subst-var-by "limits_h" "${gcc9.cc}/lib/gcc/x86_64-unknown-linux-gnu/9.3.0/include-fixed" \
     --subst-var-by "type_traits" "${libcxx}/include/c++/v1" \
-    --subst-var-by "stddef_h" "${gcc8.cc}/lib/gcc/x86_64-unknown-linux-gnu/8.4.0/include" \
+    --subst-var-by "stddef_h" "${gcc9.cc}/lib/gcc/x86_64-unknown-linux-gnu/9.3.0/include" \
     --subst-var-by "gldev" "${libglvnd.dev}" \
     --subst-var-by "libx11dev" "${xlibs.libX11.dev}" \
     --subst-var-by "xorgproto" "${xlibs.xorgproto}"
@@ -142,6 +136,7 @@ let
     version = "7.4-RC1";
 
     src = ocp-pybound;
+    separateDebugInfo = debug;
 
     disabled = pythonOlder "3.6" || pythonAtLeast "3.9";
     
@@ -183,7 +178,7 @@ let
       # glibc
       # glibc.dev
       # llvm_9
-      gcc8.cc
+      gcc9.cc
     ]; 
 
     # probably need OCCT in that cmake prefix as well
@@ -245,7 +240,7 @@ let
           packages=[""],
           package_dir={"": "."},
           package_data={
-              "": ["OCP.cpython-37m-x86_64-linux-gnu.so"]
+              "": ["OCP.cpython-38-x86_64-linux-gnu.so"]
           },
           cmdclass = {"build_py": BuildPyNoBuild}
       )
@@ -261,7 +256,14 @@ in buildPythonPackage {
     cp ${setuppy} ./setup.py
   '';
 
-  # doCheck = false;
+  outputs = [ "out" ] ++ lib.lists.optional debug "debug";
+  dontStrip = debug;
+
+  postInstall = lib.strings.optionalString debug ''
+    mkdir $debug
+    cp -rv ${ocp-result.debug}/* $debug/
+  '';
+
   pythonImportsCheck = [ "OCP" "OCP.gp" ];
 
   meta = with lib; {

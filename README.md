@@ -45,7 +45,7 @@ which will leave a symlink called `result` pointing to the HTML docs. Note that 
 
 ## Build times
 
-`OCP` is a huge build. It takes me about an hour on a beefy desktop. One day I'll get around to publishing my build results to [Cachix](https://cachix.org/) so you can download the binaries directly. Feel free to leave an issue here if you want me to hurry up.
+`OCP` is a huge build. It takes me about an hour on a beefy desktop. Also, now `opencascade-occt` has to be rebuilt with the correct flags for CadQuery, adding another 30 mins to the build time. One day I'll get around to publishing my build results to [Cachix](https://cachix.org/) so you can download the binaries directly. Feel free to leave an issue here if you want me to hurry up.
 
 If you build it on one machine, you can push it to other machines with the command
 ```sh
@@ -59,3 +59,5 @@ Should you wish to do dev work with CadQuery check out the `dev` branch of this 
 ```sh
 nix flake update --update-input cadquery . && nix build -L .#cadquery-docs && qutebrowser ./result-doc/share/doc/index.html
 ```
+
+I've also added some debug stuff for debugging with `gdb`. Debugging symbols for Python have come and gone from nixpkgs, if the debugging attributes don't have all the symbols you need look into setting overriding `separateDebugInfo = true;` in the Python expression. The most likely method you need for debugging is to run `nix develop github:marcus7070/cq-flake#cadquery-env-debug`, start python, switch to a second terminal, `gdb python <PID>`, `continue`, switch back to python, make it crash, switch back to gdb, `bt`. gdb can't run scripts so it's difficult to start Python (which under nix is usually a script wrapper around the actual Python binary) from within gdb, easier just to attach it to a running instance.

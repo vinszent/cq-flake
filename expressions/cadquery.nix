@@ -80,9 +80,7 @@ in buildPythonPackage rec {
     fontDirectories = [ freefont_ttf ];
   };
 
-  # Build errors on 2.7 and >=3.8 (officially only supports 3.6 and 3.7).
-  # TODO recheck 3.8, I think that might be working now.
-  disabled = !(isPy3k && (pythonOlder "3.8"));
+  disabled = !(isPy3k && (pythonOlder "3.9"));
 
   checkInputs = [
     pytest
