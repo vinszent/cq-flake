@@ -65,6 +65,7 @@
                 sphinx-issues = python-super.callPackage ./expressions/sphinx-issues.nix { };
                 pytest-subtests = python-super.callPackage ./expressions/pytest-subtests.nix { };
                 sphinxcadquery = python-super.callPackage ./expressions/sphinxcadquery.nix { };
+                cq-kit = python-super.callPackage ./expressions/cq-kit.nix { };
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
@@ -77,7 +78,7 @@
             );
             cadquery-docs = packages.python38.pkgs.cadquery_w_docs.doc;
             cadquery-env = packages.python38.withPackages (
-              ps: with ps; [ cadquery python-language-server ]
+              ps: with ps; [ cadquery python-language-server cq-kit ]
             );
             cadquery-env-debug = (let
                 py = pkgs.enableDebugging packages.python38; 
