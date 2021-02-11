@@ -9,7 +9,7 @@
       flake = false;
     };
     cq-editor = {
-      url = "github:cadquery/cq-editor";
+      url = "/home/marcus/tempbuild/CQ-editor";
       flake = false;
     };
     # OCP uses submodules, flake inputs don't support submodules

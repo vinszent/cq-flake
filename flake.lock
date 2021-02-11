@@ -19,17 +19,13 @@
     "cq-editor": {
       "flake": false,
       "locked": {
-        "lastModified": 1601842508,
-        "narHash": "sha256-zrzqSTuYewPnyP0SJpvGv0uYqnRZ5ERF8ff5uEmSWow=",
-        "owner": "cadquery",
-        "repo": "cq-editor",
-        "rev": "a6baff74df8f34924fcf8ea51ec2d7b4c943518d",
-        "type": "github"
+        "narHash": "sha256-2S2A9xVUJ6gvwwaYlVMwykVktya4WDklY47Q50jf/Eg=",
+        "path": "/home/marcus/tempbuild/CQ-editor",
+        "type": "path"
       },
       "original": {
-        "owner": "cadquery",
-        "repo": "cq-editor",
-        "type": "github"
+        "path": "/home/marcus/tempbuild/CQ-editor",
+        "type": "path"
       }
     },
     "flake-utils": {
