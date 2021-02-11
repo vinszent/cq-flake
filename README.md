@@ -41,7 +41,7 @@ You can also generate the docs with:
 ```
 nix build github:marcus7070/cq-flake#cadquery-docs
 ```
-which will leave a symlink called `result` pointing to the HTML docs. Note that the [Read The Docs](https://cadquery.readthedocs.io/en/latest/intro.html) version is not frequently updated.
+which will leave a symlink called `result` pointing to the HTML docs. Note that the [online docs at readthedocs.io](https://cadquery.readthedocs.io/en/latest/intro.html) can be behind (or possibly in front) of the version you are using.
 
 ## Build times
 
