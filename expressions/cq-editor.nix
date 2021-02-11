@@ -18,7 +18,8 @@ mkDerivationWith python3Packages.buildPythonApplication {
     pyqt5
     pyparsing
     pyqtgraph
-    spyder_3
+    # spyder_3
+    spyder
     pathpy
     qtconsole
     requests
