@@ -19,9 +19,12 @@
     "cq-editor": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-2S2A9xVUJ6gvwwaYlVMwykVktya4WDklY47Q50jf/Eg=",
-        "path": "/home/marcus/tempbuild/CQ-editor",
-        "type": "path"
+        "lastModified": 1612891518,
+        "narHash": "sha256-bQmvUkopq9S/D6GPhkqKorf5Bh4z8jlm6nD7OE4BkxQ=",
+        "owner": "CadQuery",
+        "repo": "CQ-editor",
+        "rev": "19f4a9220ac000de3fca9303a3cf736309c9dc79",
+        "type": "github"
       },
       "original": {
         "owner": "CadQuery",
