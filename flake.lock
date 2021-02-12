@@ -24,8 +24,9 @@
         "type": "path"
       },
       "original": {
-        "path": "/home/marcus/tempbuild/CQ-editor",
-        "type": "path"
+        "owner": "CadQuery",
+        "repo": "CQ-editor",
+        "type": "github"
       }
     },
     "flake-utils": {
