@@ -66,6 +66,7 @@
                 pytest-subtests = python-super.callPackage ./expressions/pytest-subtests.nix { };
                 sphinxcadquery = python-super.callPackage ./expressions/sphinxcadquery.nix { };
                 cq-kit = python-super.callPackage ./expressions/cq-kit.nix { };
+                black = python-super.callPackage ./expressions/black.nix { };
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
