@@ -79,7 +79,7 @@
             );
             cadquery-docs = packages.python38.pkgs.cadquery_w_docs.doc;
             cadquery-env = packages.python38.withPackages (
-              ps: with ps; [ cadquery python-language-server cq-kit ]
+              ps: with ps; [ cadquery python-language-server cq-kit black mypy pytest ]
             );
             cadquery-env-debug = (let
                 py = pkgs.enableDebugging packages.python38; 
