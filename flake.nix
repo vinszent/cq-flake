@@ -32,47 +32,50 @@
           packages = {
             python38 = pkgs.python38.override {
               packageOverrides = python-self : python-super: {
-                cadquery = python-super.callPackage ./expressions/cadquery.nix {
+                cadquery = python-self.callPackage ./expressions/cadquery.nix {
                   documentation = false;
                   src = inputs.cadquery;
                 };
-                cadquery-debug = python-super.callPackage ./expressions/cadquery.nix {
+                cadquery-debug = python-self.callPackage ./expressions/cadquery.nix {
                   documentation = false;
                   src = inputs.cadquery;
                   ocp = packages.python38.pkgs.ocp-debug;
                 };
-                cadquery_w_docs = python-super.callPackage ./expressions/cadquery.nix {
+                cadquery_w_docs = python-self.callPackage ./expressions/cadquery.nix {
                   documentation = true;
                   src = inputs.cadquery;
                 };
-                ocp = python-super.callPackage ./expressions/OCP {
+                ocp = python-self.callPackage ./expressions/OCP {
+                  stdenv = pkgs.gcc9Stdenv;
                   opencascade-occt = packages.opencascade-occt; 
                 };
-                ocp-debug = python-super.callPackage ./expressions/OCP {
+                ocp-debug = python-self.callPackage ./expressions/OCP {
                   opencascade-occt = packages.opencascade-occt-debug; 
                   debug = true;
                 };
-                clang = python-super.callPackage ./expressions/clang.nix { };
-                cymbal = python-super.callPackage ./expressions/cymbal.nix { };
-                geomdl = python-super.callPackage ./expressions/geomdl.nix { };
-                ezdxf = python-super.callPackage ./expressions/ezdxf.nix { };
-                sphinx = python-super.callPackage ./expressions/sphinx.nix { };
-                nptyping = python-super.callPackage ./expressions/nptyping.nix { };
-                typish = python-super.callPackage ./expressions/typish.nix { };
-                sphinx-autodoc-typehints = python-super.callPackage ./expressions/sphinx-autodoc-typehints.nix { };
-                sphobjinv = python-super.callPackage ./expressions/sphobjinv.nix { };
-                stdio-mgr = python-super.callPackage ./expressions/stdio-mgr.nix { };
-                sphinx-issues = python-super.callPackage ./expressions/sphinx-issues.nix { };
-                pytest-subtests = python-super.callPackage ./expressions/pytest-subtests.nix { };
-                sphinxcadquery = python-super.callPackage ./expressions/sphinxcadquery.nix { };
-                black = python-super.callPackage ./expressions/black.nix { };
+                clang = python-self.callPackage ./expressions/clang.nix { };
+                cymbal = python-self.callPackage ./expressions/cymbal.nix { };
+                geomdl = python-self.callPackage ./expressions/geomdl.nix { };
+                ezdxf = python-self.callPackage ./expressions/ezdxf.nix { };
+                sphinx = python-self.callPackage ./expressions/sphinx.nix { };
+                nptyping = python-self.callPackage ./expressions/nptyping.nix { };
+                typish = python-self.callPackage ./expressions/typish.nix { };
+                sphinx-autodoc-typehints = python-self.callPackage ./expressions/sphinx-autodoc-typehints.nix { };
+                sphobjinv = python-self.callPackage ./expressions/sphobjinv.nix { };
+                stdio-mgr = python-self.callPackage ./expressions/stdio-mgr.nix { };
+                sphinx-issues = python-self.callPackage ./expressions/sphinx-issues.nix { };
+                pytest-subtests = python-self.callPackage ./expressions/pytest-subtests.nix { };
+                sphinxcadquery = python-self.callPackage ./expressions/sphinxcadquery.nix { };
+                black = python-self.callPackage ./expressions/black.nix { };
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
               python3Packages = packages.python38.pkgs;
               src = inputs.cq-editor;
             };
-            opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt { };
+            opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt {
+              stdenv = pkgs.gcc9Stdenv;
+            };
             opencascade-occt-debug = packages.opencascade-occt.overrideAttrs (
               oldAttrs: rec {separateDebugInfo = true;}
             );

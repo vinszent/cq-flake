@@ -59,6 +59,10 @@ stdenv.mkDerivation rec {
       url = "https://github.com/conda-forge/occt-feedstock/raw/429f53c9bcc1fc8c1ef00d31875d284b6b6b692f/recipe/vtk.patch";
       sha256 = "sha256-/ph8ijQEjqV/wPwqrzmNtmn/T59AB2omGHH64F67xbY=";
     })
+    (fetchpatch {
+      url = "https://raw.githubusercontent.com/conda-forge/occt-feedstock/4c0508cf97179058e9ddc6bd9e8693c29537cd20/recipe/fix-private-linking.patch";
+      sha256 = "0x2h5wkrjicbamv87hyr56xmzr7j5pxl2170sg29hhxpl7bqzryv";
+    })
   ];
 
   # I've removed the 3RDPARTY_DIR flag, not really sure if it's needed or not
