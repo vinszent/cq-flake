@@ -61,7 +61,7 @@ stdenv.mkDerivation rec {
     })
     (fetchpatch {
       url = "https://raw.githubusercontent.com/conda-forge/occt-feedstock/4c0508cf97179058e9ddc6bd9e8693c29537cd20/recipe/fix-private-linking.patch";
-      sha256 = "0x2h5wkrjicbamv87hyr56xmzr7j5pxl2170sg29hhxpl7bqzryv";
+      sha256 = "sha256-+2ejlbSnmoP52+O8aiJE3915vYk6FhRd+8uUJAovssI=";
     })
   ];
 
