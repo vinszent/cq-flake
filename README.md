@@ -45,11 +45,13 @@ which will leave a symlink called `result` pointing to the HTML docs. Note that 
 
 ## Build times
 
-`OCP` is a huge build. It takes me about an hour on a beefy desktop. Also, now `opencascade-occt` has to be rebuilt with the correct flags for CadQuery, adding another 30 mins to the build time. One day I'll get around to publishing my build results to [Cachix](https://cachix.org/) so you can download the binaries directly. Feel free to leave an issue here if you want me to hurry up.
+`OCP` is a huge build. It takes me about an hour on a beefy desktop. Also, now `opencascade-occt` has to be rebuilt with the correct flags for CadQuery, adding another 30 mins to the build time. 
 
-If you build it on one machine, you can push it to other machines with the command
+I'm publishing my builds on Cachix, under the `marcus7070` cache. [Here are the usage instructions](https://app.cachix.org/cache/marcus7070).
+
+Once you have CQ on one machine, you can also push the runtime closure to other machines with the command:
 ```sh
-nix copy --to ssh://192.168.1.XXX /nix/store/xxxxxxx-hashymchashyface-xxxxxxx-cq-editor-local
+nix copy --to ssh://192.168.1.XXX /nix/store/xxxxxxx-hashymchashyface-xxxxxxx-cq-editor
 ```
 
 ## Local dev
