@@ -1,5 +1,6 @@
 { lib
   , stdenv
+  , src
   , buildPythonPackage
   , symlinkJoin
   , fetchFromGitHub
@@ -18,7 +19,6 @@
   , toposort
   , llvmPackages_9
   , libcxx
-  # , gcc8
   , gcc9
   , clang
   , pyparsing
@@ -33,6 +33,7 @@
   , python
   , writeTextFile
   , debug ? true
+  , pywrap
 }:
 let
 
@@ -48,87 +49,81 @@ let
   ocp-pybound = stdenv.mkDerivation rec {
     pname = "pybound-ocp";
     version = "git-" + builtins.substring 0 7 src.rev;
+    inherit src;
 
-    src = fetchFromGitHub {
-      owner = "CadQuery";
-      repo = "OCP";
-      rev = "ede30205f69cfd2cb05f40de963617611239e7ad";
-      sha256 = "sha256-l76il46KGVgXpWdH5vTB9WHm6wTSK1H2QtRh6ev+M4E=";
-      fetchSubmodules = true;
-    };
-  
-  phases = [
-    "unpackPhase"
-    "patchPhase"
-    "buildPhase"
-    "installPhase"
-  ];
+    phases = [
+      "unpackPhase"
+      "patchPhase"
+      "buildPhase"
+      "installPhase"
+    ];
 
-  CONDA_PREFIX = "${conda-like-libs}";
+    CONDA_PREFIX = "${conda-like-libs}";
 
-  nativeBuildInputs = [
-    toml
-    clang # the python package
-    logzero
-    pandas
-    joblib
-    pathpy
-    tqdm
-    jinja2
-    toposort
-    pyparsing
-    pybind11
-    cymbal
-    schema
-    click
-    libcxx
-    glibc
-    glibc.dev
-  ];
+    nativeBuildInputs = [
+      toml
+      clang # the python package
+      logzero
+      pandas
+      joblib
+      pathpy
+      tqdm
+      jinja2
+      toposort
+      pyparsing
+      pybind11
+      cymbal
+      schema
+      click
+      libcxx
+      glibc
+      glibc.dev
+      pywrap
+    ];
 
-  patches = [
-    ./py-fix.patch
-    # note the order of the include paths in this patch are important, build
-    # will fail if they are out of order
-    ./includes.patch
-    ./less-warnings.patch
-  ];
+    patches = [
+      ./py-fix.patch
+      # note the order of the include paths in this patch are important, build
+      # will fail if they are out of order
+      ./includes.patch
+      ./less-warnings.patch
+    ];
 
-  postPatch = ''
-    substituteInPlace pywrap/bindgen/CMakeLists.j2 \
-    --subst-var-by "python" "${python}"
-    substituteInPlace pywrap/bindgen/utils.py \
-    --subst-var-by "features_h" "${glibc.dev}/include" \
-    --subst-var-by "limits_h" "${gcc9.cc}/lib/gcc/x86_64-unknown-linux-gnu/9.3.0/include-fixed" \
-    --subst-var-by "type_traits" "${libcxx}/include/c++/v1" \
-    --subst-var-by "stddef_h" "${gcc9.cc}/lib/gcc/x86_64-unknown-linux-gnu/9.3.0/include" \
-    --subst-var-by "gldev" "${libglvnd.dev}" \
-    --subst-var-by "libx11dev" "${xlibs.libX11.dev}" \
-    --subst-var-by "xorgproto" "${xlibs.xorgproto}"
-  '';
+    postPatch = ''
+      substituteInPlace pywrap/bindgen/CMakeLists.j2 \
+      --subst-var-by "python" "${python}"
+      substituteInPlace pywrap/bindgen/utils.py \
+      --subst-var-by "features_h" "${glibc.dev}/include" \
+      --subst-var-by "limits_h" "${gcc9.cc}/lib/gcc/x86_64-unknown-linux-gnu/9.3.0/include-fixed" \
+      --subst-var-by "type_traits" "${libcxx}/include/c++/v1" \
+      --subst-var-by "stddef_h" "${gcc9.cc}/lib/gcc/x86_64-unknown-linux-gnu/9.3.0/include" \
+      --subst-var-by "gldev" "${libglvnd.dev}" \
+      --subst-var-by "libx11dev" "${xlibs.libX11.dev}" \
+      --subst-var-by "xorgproto" "${xlibs.xorgproto}"
+    '';
 
-  preBuild = ''
-    export PYBIND11_USE_CMAKE=1
-    export PYTHONPATH=$PYTHONPATH:$(pwd)/pywrap 
-  '';
+    preBuild = ''
+      export PYBIND11_USE_CMAKE=1
+      export PYTHONPATH=$PYTHONPATH:$(pwd)/pywrap 
+    '';
 
-  buildPhase = ''
-    runHook preBuild
-    echo "starting bindgen parse"
-    python -m bindgen -n $NIX_BUILD_CORES parse ocp.toml out.pkl && \
-    echo "finished bindgen parse" && \
-    echo "starting transform" && \
-    python -m bindgen -n $NIX_BUILD_CORES transform ocp.toml out.pkl out_f.pkl && \
-    echo "finished bindgen transform" && \
-    echo "starting generate" && \
-    python -m bindgen -n $NIX_BUILD_CORES generate ocp.toml out_f.pkl && \
-    echo "finished bindgen generate"
-  '';
+    buildPhase = ''
+      runHook preBuild
+      echo "starting bindgen parse"
+      python -m bindgen -n $NIX_BUILD_CORES parse ocp.toml out.pkl && \
+      echo "finished bindgen parse" && \
+      echo "starting transform" && \
+      python -m bindgen -n $NIX_BUILD_CORES transform ocp.toml out.pkl out_f.pkl && \
+      echo "finished bindgen transform" && \
+      echo "starting generate" && \
+      python -m bindgen -n $NIX_BUILD_CORES generate ocp.toml out_f.pkl && \
+      echo "finished bindgen generate"
+    '';
 
-  installPhase = ''
-    mkdir -p $out
-    cp -r ./* $out/
-  '';
+    installPhase = ''
+      mkdir -p $out
+      cp -r ./* $out/
+    '';
   };
 
   ocp-result = stdenv.mkDerivation rec {

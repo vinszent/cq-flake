@@ -12,13 +12,11 @@
       url = "github:CadQuery/CQ-editor";
       flake = false;
     };
-    # OCP uses submodules, flake inputs don't support submodules
-    # ocp = {
-    #   url = "github:cadquery/ocp";
-    #   flake = false;
-    #   rev = "0059e425875fb6fa3e8b3f0335c9d08924e6726c";
+    ocp = {
+      url = "github:cadquery/ocp";
+      flake = false;
+      rev = "7.4RC1";
     #   sha256 = "1h4m3y5k4chl1cdd0gy9vw0saf5vfwik0djgs64y1hfic9b4dgw1";
-    #   fetchSubmodules = true;
     # };
   };
 
@@ -47,6 +45,7 @@
                 };
                 ocp = python-self.callPackage ./expressions/OCP {
                   stdenv = pkgs.gcc9Stdenv;
+                  src = inputs.ocp;
                   opencascade-occt = packages.opencascade-occt; 
                 };
                 ocp-debug = python-self.callPackage ./expressions/OCP {
@@ -67,6 +66,7 @@
                 pytest-subtests = python-self.callPackage ./expressions/pytest-subtests.nix { };
                 sphinxcadquery = python-self.callPackage ./expressions/sphinxcadquery.nix { };
                 black = python-self.callPackage ./expressions/black.nix { };
+                pybind11 = python-self.callPackage ./expressions/pybind11.nix { };
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
