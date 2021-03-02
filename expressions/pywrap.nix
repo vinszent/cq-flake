@@ -48,6 +48,8 @@ buildPythonPackage rec {
 
   dontUseCmakeConfigure = true;
 
+  pythonImportCheck = [ "bindgen" ];
+
   meta = with stdenv.lib; {
     description = "C++ binding generator based on libclang and pybind11";
     homepage = "https://github.com/CadQuery/pywrap/";

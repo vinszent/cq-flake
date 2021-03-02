@@ -3,26 +3,56 @@
   , buildPythonPackage
   , fetchFromGitHub
   , python
-  , llvmPackages_9
+  , llvmPackages_6
+  , writeTextFile
+  , setuptools
 }:
+let 
+  setuppy = writeTextFile {
+    name = "setup.py";
+    text = ''
+      from setuptools import setup, find_packages
+      from os import getenv
 
-buildPythonPackage {
-  pname = "clang";
-  version = "9.0.1";
+
+      setup(
+          name="clang",
+          version=getenv("version"),
+          description="Python bindings to clang",
+          license="ncsa",
+          packages=find_packages(),
+          test_suite="tests",
+      )
+    '';};
   src = fetchFromGitHub {
     owner = "llvm";
     repo = "llvm-project";
-    rev = "llvmorg-9.0.1";
-    sha256 = "1d1qayvrvvc1di7s7jfxnjvxq2az4lwq1sw1b2gq2ic0nksvajz0";
+    rev = "llvmorg-6.0.1";
+    sha256 = "sha256-L/Q9XS+RkjhA+61QxQ2dTSzOS9Z+5aEGnAj8skw6Jk4=";
   };
 
-  format = "other";
-  phases = [ "unpackPhase" "installPhase" "fixupPhase" ];
+in buildPythonPackage {
+  pname = "clang";
+  version = "6.0.1";
 
-  propagatedBuildInputs = [ llvmPackages_9.clang ];
+  unpackPhase = ''
+    export sourceRoot=$PWD/source
+    mkdir $sourceRoot
+    cp -rv --no-preserve=mode ${src}/clang/bindings/python/* $sourceRoot/
+    cp -rv ${setuppy} $sourceRoot/setup.py
+  '';
 
-  installPhase = ''
-    install -D --target-directory=$out/${python.sitePackages}/clang ./clang/bindings/python/clang/*
+  propagatedBuildInputs = [
+  #   llvmPackages_6.clang
+    llvmPackages_6.clang-unwrapped.lib
+  ];
+
+  # makeWrapperArgs = [
+  #   "--set CLANG_LIBRARY_PATH ${llvmPackages_6.clang-unwrapped.lib}/lib"
+  # ];
+
+  preCheck = ''
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${llvmPackages_6.clang-unwrapped.lib}/lib
   '';
 
   meta = with lib; {

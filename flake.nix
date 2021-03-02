@@ -54,7 +54,7 @@
                   opencascade-occt = packages.opencascade-occt-debug; 
                   debug = true;
                 };
-                # clang = python-self.callPackage ./expressions/clang.nix { };
+                clang = python-self.callPackage ./expressions/clang.nix { };
                 cymbal = python-self.callPackage ./expressions/cymbal.nix { };
                 geomdl = python-self.callPackage ./expressions/geomdl.nix { };
                 ezdxf = python-self.callPackage ./expressions/ezdxf.nix { };
