@@ -37,13 +37,13 @@
 }:
 let
 
-  conda-like-libs = symlinkJoin {
-    name = "OCP-conda-like-libs";
-    paths = [
-      opencascade-occt
-      llvmPackages_9.libclang
-    ];
-  };
+  # conda-like-libs = symlinkJoin {
+  #   name = "OCP-conda-like-libs";
+  #   paths = [
+  #     opencascade-occt
+  #     llvmPackages_9.libclang
+  #   ];
+  # };
 
   # intermediate step, do pybind, cmake in the next step
   ocp-pybound = stdenv.mkDerivation rec {
@@ -58,7 +58,7 @@ let
       "installPhase"
     ];
 
-    CONDA_PREFIX = "${conda-like-libs}";
+    # CONDA_PREFIX = "${conda-like-libs}";
 
     nativeBuildInputs = [
       toml
@@ -104,7 +104,7 @@ let
 
     preBuild = ''
       export PYBIND11_USE_CMAKE=1
-      export PYTHONPATH=$PYTHONPATH:$(pwd)/pywrap 
+      # export PYTHONPATH=$PYTHONPATH:$(pwd)/pywrap 
     '';
 
     buildPhase = ''

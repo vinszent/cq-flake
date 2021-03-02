@@ -50,6 +50,8 @@ buildPythonPackage rec {
 
   pythonImportCheck = [ "bindgen" ];
 
+  # need to wrap pywrap/bindgen here with the -l and -i flags. See OCP/includes.patch and create an includes dir with symlinkJoin.
+
   meta = with stdenv.lib; {
     description = "C++ binding generator based on libclang and pybind11";
     homepage = "https://github.com/CadQuery/pywrap/";
