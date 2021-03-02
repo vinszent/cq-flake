@@ -13,11 +13,13 @@
       flake = false;
     };
     ocp = {
-      url = "github:cadquery/ocp";
+      url = "github:cadquery/ocp/7.4.0";
       flake = false;
-      rev = "7.4RC1";
-    #   sha256 = "1h4m3y5k4chl1cdd0gy9vw0saf5vfwik0djgs64y1hfic9b4dgw1";
-    # };
+    };
+    pywrap = {
+      url = "github:CadQuery/pywrap";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... } @ inputs:
@@ -52,7 +54,7 @@
                   opencascade-occt = packages.opencascade-occt-debug; 
                   debug = true;
                 };
-                clang = python-self.callPackage ./expressions/clang.nix { };
+                # clang = python-self.callPackage ./expressions/clang.nix { };
                 cymbal = python-self.callPackage ./expressions/cymbal.nix { };
                 geomdl = python-self.callPackage ./expressions/geomdl.nix { };
                 ezdxf = python-self.callPackage ./expressions/ezdxf.nix { };
@@ -66,7 +68,10 @@
                 pytest-subtests = python-self.callPackage ./expressions/pytest-subtests.nix { };
                 sphinxcadquery = python-self.callPackage ./expressions/sphinxcadquery.nix { };
                 black = python-self.callPackage ./expressions/black.nix { };
-                pybind11 = python-self.callPackage ./expressions/pybind11.nix { };
+                pybind11 = python-self.callPackage ./expressions/pybind11 { };
+                pywrap = python-self.callPackage ./expressions/pywrap.nix {
+                  src = inputs.pywrap;
+                };
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {

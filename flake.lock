@@ -63,12 +63,47 @@
         "type": "github"
       }
     },
+    "ocp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1603225578,
+        "narHash": "sha256-yg0xhqtxLsIbi523y5K4eU8ECPZXHVjYJ6OtdCwM8JQ=",
+        "owner": "cadquery",
+        "repo": "ocp",
+        "rev": "ede30205f69cfd2cb05f40de963617611239e7ad",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cadquery",
+        "ref": "7.4.0",
+        "repo": "ocp",
+        "type": "github"
+      }
+    },
+    "pywrap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1612598676,
+        "narHash": "sha256-GqJAZ26bhRcTOg8bMiw8Oe012k6tLu3nS6vZdb7EcDM=",
+        "owner": "CadQuery",
+        "repo": "pywrap",
+        "rev": "cb06e717fa3368333ed4e0520eb6e9e2bd8e81a0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CadQuery",
+        "repo": "pywrap",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "cadquery": "cadquery",
         "cq-editor": "cq-editor",
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "ocp": "ocp",
+        "pywrap": "pywrap"
       }
     }
   },

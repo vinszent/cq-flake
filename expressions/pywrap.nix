@@ -4,6 +4,22 @@
   , pythonOlder
   , fetchFromGitHub
   , src
+  , clang
+  , pybind11
+  , joblib
+  , toml
+  , cmake
+  , ninja
+  , click
+  , cymbal
+  , jinja2
+  , logzero
+  , pandas
+  , pathpy
+  , pyparsing
+  , schema
+  , tqdm
+  , toposort
 }:
 
 buildPythonPackage rec {
@@ -29,6 +45,8 @@ buildPythonPackage rec {
     tqdm
     toposort
   ];
+
+  dontUseCmakeConfigure = true;
 
   meta = with stdenv.lib; {
     description = "C++ binding generator based on libclang and pybind11";
