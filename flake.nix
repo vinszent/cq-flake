@@ -71,6 +71,10 @@
                 pybind11 = python-self.callPackage ./expressions/pybind11 { };
                 pywrap = python-self.callPackage ./expressions/pywrap.nix {
                   src = inputs.pywrap;
+                  stdenv = pkgs.gcc6Stdenv;
+                  gcc = pkgs.gcc6;
+                  llvmPackages = pkgs.llvmPackages_6;
+                  # clang is also pinned to 6.0.1 in the clang expression
                 };
               };
             };
