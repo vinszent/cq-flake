@@ -47,6 +47,8 @@
                 };
                 ocp = python-self.callPackage ./expressions/OCP {
                   stdenv = pkgs.gcc9Stdenv;
+                  gcc = pkgs.gcc9;
+                  llvmPackages = pkgs.llvmPackages_9;
                   src = inputs.ocp;
                   opencascade-occt = packages.opencascade-occt; 
                 };
@@ -69,11 +71,11 @@
                 sphinxcadquery = python-self.callPackage ./expressions/sphinxcadquery.nix { };
                 black = python-self.callPackage ./expressions/black.nix { };
                 pybind11 = python-self.callPackage ./expressions/pybind11 { };
-                pywrap = python-self.callPackage ./expressions/pywrap.nix {
+                pywrap = python-self.callPackage ./expressions/pywrap {
                   src = inputs.pywrap;
-                  stdenv = pkgs.gcc6Stdenv;
-                  gcc = pkgs.gcc6;
-                  llvmPackages = pkgs.llvmPackages_6;
+                  stdenv = pkgs.gcc8Stdenv;
+                  gcc = pkgs.gcc8;
+                  llvmPackages = pkgs.llvmPackages_8;
                   # clang is also pinned to 6.0.1 in the clang expression
                 };
               };

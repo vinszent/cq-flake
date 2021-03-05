@@ -17,9 +17,9 @@
   , tqdm
   , jinja2
   , toposort
-  , llvmPackages_9
+  , llvmPackages
   , libcxx
-  , gcc9
+  , gcc
   , clang
   , pyparsing
   , pybind11
@@ -32,7 +32,6 @@
   , xlibs
   , python
   , writeTextFile
-  , debug ? true
   , pywrap
 }:
 let
@@ -81,42 +80,45 @@ let
       pywrap
     ];
 
-    patches = [
-      ./py-fix.patch
-      # note the order of the include paths in this patch are important, build
-      # will fail if they are out of order
-      ./includes.patch
-      ./less-warnings.patch
-    ];
-
-    postPatch = ''
-      substituteInPlace pywrap/bindgen/CMakeLists.j2 \
-      --subst-var-by "python" "${python}"
-      substituteInPlace pywrap/bindgen/utils.py \
-      --subst-var-by "features_h" "${glibc.dev}/include" \
-      --subst-var-by "limits_h" "${gcc9.cc}/lib/gcc/x86_64-unknown-linux-gnu/9.3.0/include-fixed" \
-      --subst-var-by "type_traits" "${libcxx}/include/c++/v1" \
-      --subst-var-by "stddef_h" "${gcc9.cc}/lib/gcc/x86_64-unknown-linux-gnu/9.3.0/include" \
-      --subst-var-by "gldev" "${libglvnd.dev}" \
-      --subst-var-by "libx11dev" "${xlibs.libX11.dev}" \
-      --subst-var-by "xorgproto" "${xlibs.xorgproto}"
-    '';
-
     preBuild = ''
+      # should this actually be in pywrap?
       export PYBIND11_USE_CMAKE=1
-      # export PYTHONPATH=$PYTHONPATH:$(pwd)/pywrap 
     '';
+
+  # the order of the following includes is critical, but makes utterly zero sense to me. Order discovered by trial and error and anger.
+    pywrapFlags =  builtins.concatStringsSep " " (
+      map (p: ''-i '' + p) [
+        "${xlibs.xorgproto}/include"
+        "${xlibs.libX11.dev}/include"
+        "${libglvnd.dev}/include"
+        "${llvmPackages.libcxx}/include/c++/v1"
+        "${stdenv.glibc.dev}/include"
+        "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include-fixed"
+        "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include"
+        # "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include"
+        # "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include-fixed"
+        # "${stdenv.glibc.dev}/include"
+        # "${llvmPackages.libcxx}/include/c++/v1"
+        # "${libglvnd.dev}/include"
+        # "${xlibs.libX11.dev}/include"
+        # "${xlibs.xorgproto}/include"
+    ]);
 
     buildPhase = ''
       runHook preBuild
+      echo "pywrapFlags are:"
+      echo $pywrapFlags
       echo "starting bindgen parse"
-      python -m bindgen -n $NIX_BUILD_CORES parse ocp.toml out.pkl && \
+      # python -m bindgen -n $NIX_BUILD_CORES parse ocp.toml out.pkl && \
+      pywrap -n $NIX_BUILD_CORES $pywrapFlags parse ocp.toml out.pkl && \
       echo "finished bindgen parse" && \
       echo "starting transform" && \
-      python -m bindgen -n $NIX_BUILD_CORES transform ocp.toml out.pkl out_f.pkl && \
+      # python -m bindgen -n $NIX_BUILD_CORES transform ocp.toml out.pkl out_f.pkl && \
+      pywrap -n $NIX_BUILD_CORES $pywrapFlags transform ocp.toml out.pkl out_f.pkl && \
       echo "finished bindgen transform" && \
       echo "starting generate" && \
-      python -m bindgen -n $NIX_BUILD_CORES generate ocp.toml out_f.pkl && \
+      # python -m bindgen -n $NIX_BUILD_CORES generate ocp.toml out_f.pkl && \
+      pywrap -n $NIX_BUILD_CORES $pywrapFlags generate ocp.toml out_f.pkl && \
       echo "finished bindgen generate"
     '';
 
@@ -131,17 +133,18 @@ let
     version = "7.4-RC1";
 
     src = ocp-pybound;
-    separateDebugInfo = debug;
 
-    disabled = pythonOlder "3.6" || pythonAtLeast "3.9";
+    disabled = pythonOlder "3.6";
     
-    CONDA_PREFIX = "${conda-like-libs}";
+    # CONDA_PREFIX = "${conda-like-libs}";
 
     # phases = [ "unpackPhase" "patchPhase" "buildPhase" ];
 
     nativeBuildInputs = [
       cmake
       ninja
+      pywrap
+      # python
       toml
       clang # the python package
       # llvm_9
@@ -173,7 +176,7 @@ let
       # glibc
       # glibc.dev
       # llvm_9
-      gcc9.cc
+      gcc.cc
     ]; 
 
     # probably need OCCT in that cmake prefix as well
@@ -194,6 +197,8 @@ let
 
     cmakeFlags = [
       "-S ../OCP"
+      "-DPYTHON_EXECUTABLE=${python}/bin/python"
+      "-DOPENCASCADE_INCLUDE_DIR=${src}/opencascade"
     ];
 
     checkPhase = ''
@@ -251,13 +256,7 @@ in buildPythonPackage {
     cp ${setuppy} ./setup.py
   '';
 
-  outputs = [ "out" ] ++ lib.lists.optional debug "debug";
-  dontStrip = debug;
-
-  postInstall = lib.strings.optionalString debug ''
-    mkdir $debug
-    cp -rv ${ocp-result.debug}/* $debug/
-  '';
+  propagatedBuildInputs = [ opencascade-occt ];
 
   pythonImportsCheck = [ "OCP" "OCP.gp" ];
 
