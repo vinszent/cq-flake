@@ -1,6 +1,7 @@
 # adapted from github:conda-forge/occt-feedstock which is the canonical cadquery source.
 { 
   stdenv
+  , lib
   , fetchurl
   , fetchpatch
   , cmake
@@ -78,7 +79,7 @@ stdenv.mkDerivation rec {
     "-D USE_RAPIDJSON:BOOL=ON"
   ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Open CASCADE Technology, libraries for 3D modeling and numerical simulation";
     homepage = "https://www.opencascade.org/";
     license = licenses.lgpl21;  # essentially...

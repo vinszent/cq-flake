@@ -1,5 +1,6 @@
 { 
   stdenv
+  , lib
   , buildPythonPackage
   , pythonOlder
   , fetchFromGitHub
@@ -45,7 +46,7 @@ buildPythonPackage rec {
   # requires internet access
   doCheck = false;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Type hints support for the Sphinx autodoc extension";
     homepage = "https://github.com/agronholm/sphinx-autodoc-typehints";
     license = licenses.mit;

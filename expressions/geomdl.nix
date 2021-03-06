@@ -1,5 +1,6 @@
 { 
   stdenv
+  , lib
   , buildPythonPackage
   , pythonOlder
   , fetchFromGitHub
@@ -27,7 +28,7 @@ buildPythonPackage rec {
 
   propagatedBuildInputs = [ numpy matplotlib plotly ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "A pure Python, self-contained, object-oriented B-Spline and NURBS spline library";
     homepage = "https://onurraufbingol.com/NURBS-Python/";
     license = licenses.mit;

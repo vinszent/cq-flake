@@ -1,5 +1,6 @@
 { 
   stdenv
+  , lib
   , buildPythonPackage
   , pythonOlder
   , fetchFromGitHub
@@ -69,7 +70,7 @@ buildPythonPackage rec {
     ''--add-flags "-l ${llvmPackages.libclang}/lib/libclang.so"''
   ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "C++ binding generator based on libclang and pybind11";
     homepage = "https://github.com/CadQuery/pywrap/";
     license = licenses.asl20;

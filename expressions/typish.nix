@@ -1,5 +1,6 @@
 { 
   stdenv
+  , lib
   , buildPythonPackage
   , pythonOlder
   , fetchFromGitHub
@@ -22,7 +23,7 @@ buildPythonPackage rec {
   # checks have a circular dependency with nptyping
   doCheck = false; 
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "For more control over your types";
     homepage = "https://github.com/ramonhagenaars/typish";
     license = licenses.mit;
