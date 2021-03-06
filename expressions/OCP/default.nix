@@ -2,32 +2,16 @@
   , stdenv
   , src
   , buildPythonPackage
-  , symlinkJoin
   , fetchFromGitHub
   , pythonOlder
-  , pythonAtLeast
   , cmake
   , ninja
   , opencascade-occt
-  , toml
-  , logzero
-  , pandas
-  , joblib
-  , pathpy
-  , tqdm
-  , jinja2
-  , toposort
   , llvmPackages
   , libcxx
   , gcc
-  , clang
-  , pyparsing
   , pybind11
-  , cymbal
-  , schema
-  , click
-  , llvm_9
-  , glibc
+  # , glibc
   , libglvnd
   , xlibs
   , python
@@ -35,14 +19,6 @@
   , pywrap
 }:
 let
-
-  # conda-like-libs = symlinkJoin {
-  #   name = "OCP-conda-like-libs";
-  #   paths = [
-  #     opencascade-occt
-  #     llvmPackages_9.libclang
-  #   ];
-  # };
 
   # intermediate step, do pybind, cmake in the next step
   ocp-pybound = stdenv.mkDerivation rec {
@@ -57,26 +33,8 @@ let
       "installPhase"
     ];
 
-    # CONDA_PREFIX = "${conda-like-libs}";
-
     nativeBuildInputs = [
-      toml
-      clang # the python package
-      logzero
-      pandas
-      joblib
-      pathpy
-      tqdm
-      jinja2
-      toposort
-      pyparsing
-      pybind11
-      cymbal
-      schema
-      click
-      libcxx
-      glibc
-      glibc.dev
+      llvmPackages.libcxx
       pywrap
     ];
 
@@ -95,13 +53,6 @@ let
         "${stdenv.glibc.dev}/include"
         "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include-fixed"
         "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include"
-        # "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include"
-        # "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include-fixed"
-        # "${stdenv.glibc.dev}/include"
-        # "${llvmPackages.libcxx}/include/c++/v1"
-        # "${libglvnd.dev}/include"
-        # "${xlibs.libX11.dev}/include"
-        # "${xlibs.xorgproto}/include"
     ]);
 
     buildPhase = ''
@@ -109,15 +60,12 @@ let
       echo "pywrapFlags are:"
       echo $pywrapFlags
       echo "starting bindgen parse"
-      # python -m bindgen -n $NIX_BUILD_CORES parse ocp.toml out.pkl && \
       pywrap -n $NIX_BUILD_CORES $pywrapFlags parse ocp.toml out.pkl && \
       echo "finished bindgen parse" && \
       echo "starting transform" && \
-      # python -m bindgen -n $NIX_BUILD_CORES transform ocp.toml out.pkl out_f.pkl && \
       pywrap -n $NIX_BUILD_CORES $pywrapFlags transform ocp.toml out.pkl out_f.pkl && \
       echo "finished bindgen transform" && \
       echo "starting generate" && \
-      # python -m bindgen -n $NIX_BUILD_CORES generate ocp.toml out_f.pkl && \
       pywrap -n $NIX_BUILD_CORES $pywrapFlags generate ocp.toml out_f.pkl && \
       echo "finished bindgen generate"
     '';
@@ -136,50 +84,22 @@ let
 
     disabled = pythonOlder "3.6";
     
-    # CONDA_PREFIX = "${conda-like-libs}";
-
-    # phases = [ "unpackPhase" "patchPhase" "buildPhase" ];
-
     nativeBuildInputs = [
       cmake
       ninja
       pywrap
-      # python
-      toml
-      clang # the python package
-      # llvm_9
-      # llvmPackages_9.clang
-      logzero
-      pandas
-      joblib
-      pathpy
-      tqdm
-      jinja2
-      toposort
-      pyparsing
       pybind11
-      cymbal
-      schema
-      click
-      # glibc.dev
-      # llvmPackages_9.libcxx
+      python
       libcxx
-      # llvmPackages_9.clang-unwrapped
-      # gcc8.cc
-      # glibc
     ];
     
     buildInputs = [
       libglvnd.dev
       xlibs.libX11.dev
       xlibs.xorgproto
-      # glibc
-      # glibc.dev
-      # llvm_9
       gcc.cc
     ]; 
 
-    # probably need OCCT in that cmake prefix as well
     preConfigure = ''
       export CMAKE_PREFIX_PATH=${pybind11}/share/cmake/pybind11:$CMAKE_PREFIX_PATH
       export PYBIND11_USE_CMAKE=1
@@ -187,7 +107,6 @@ let
     '';
 
     preBuild = ''
-      # export CMAKE_INCLUDE_PATH=$CMAKE_INCLUDE_PATH:$(pwd)/opencascade
       export NIX_CFLAGS_COMPILE="$NIX_CFLAGS_COMPILE -Wno-deprecated-declarations"
     '';
 
@@ -212,13 +131,9 @@ let
       mkdir $out
       cp ./*.so $out/
     '';
-    # installPhase = ''
-    #   dest=$(toPythonPath $out)
-    #   install -D --mode=0555 --target=$dest ./*.so
-    # '';
-      # install -D --target=$dest ${ocp-pybound}/*.pkl
-      # echo "from .OCP import *" > $dest/__init__.py
   };
+
+  # TODO: get rid of hardcoded python version in the following:
   setuppy = writeTextFile {
     name = "setup.py";
     text = ''

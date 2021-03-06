@@ -80,6 +80,23 @@
         "type": "github"
       }
     },
+    "ocp-stubs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1602699687,
+        "narHash": "sha256-mkc0B3zOsFTT02wsMXfc/8YjB9aMCrpEZvIv/poUL/Y=",
+        "owner": "cadquery",
+        "repo": "ocp-stubs",
+        "rev": "71ed6f0d3896c19d5ec0fe10faae1d1626f2b3f3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cadquery",
+        "ref": "7.4.0",
+        "repo": "ocp-stubs",
+        "type": "github"
+      }
+    },
     "pywrap": {
       "flake": false,
       "locked": {
@@ -103,6 +120,7 @@
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
         "ocp": "ocp",
+        "ocp-stubs": "ocp-stubs",
         "pywrap": "pywrap"
       }
     }

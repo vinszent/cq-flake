@@ -10,10 +10,3 @@ index 003539e..ed00ecb 100755
                     '-Wno-deprecated-declarations'],
               parsing_header = '',
               tu_parsing_header = '',
-@@ -49,4 +50,4 @@ def parse_tu(path,
- 
-     tr_unit.path = ('dummy.cxx',path.name)
- 
--    return tr_unit
-\ No newline at end of file
-+    return tr_unit

@@ -16,6 +16,10 @@
       url = "github:cadquery/ocp/7.4.0";
       flake = false;
     };
+    ocp-stubs = {
+      url = "github:cadquery/ocp-stubs/7.4.0";
+      flake = false;
+    };
     pywrap = {
       url = "github:CadQuery/pywrap";
       flake = false;
@@ -28,7 +32,15 @@
       systems = [ "x86_64-linux" ];
     in
       flake-utils.lib.eachSystem systems ( system:
-        let pkgs = nixpkgs.legacyPackages.${system}; in rec {
+        let 
+          pkgs = nixpkgs.legacyPackages.${system};
+          # keep gcc, llvm and stdenv versions in sync
+          gccSet = {
+            gcc = pkgs.gcc9;
+            llvmPackages = pkgs.llvmPackages_9;
+            stdenv = pkgs.gcc9Stdenv;
+          };
+        in rec {
           packages = {
             python38 = pkgs.python38.override {
               packageOverrides = python-self : python-super: {
@@ -36,26 +48,16 @@
                   documentation = false;
                   src = inputs.cadquery;
                 };
-                cadquery-debug = python-self.callPackage ./expressions/cadquery.nix {
-                  documentation = false;
-                  src = inputs.cadquery;
-                  ocp = packages.python38.pkgs.ocp-debug;
-                };
                 cadquery_w_docs = python-self.callPackage ./expressions/cadquery.nix {
                   documentation = true;
                   src = inputs.cadquery;
                 };
                 ocp = python-self.callPackage ./expressions/OCP {
-                  stdenv = pkgs.gcc9Stdenv;
-                  gcc = pkgs.gcc9;
-                  llvmPackages = pkgs.llvmPackages_9;
                   src = inputs.ocp;
+                  inherit (gccSet) stdenv gcc llvmPackages;
                   opencascade-occt = packages.opencascade-occt; 
                 };
-                ocp-debug = python-self.callPackage ./expressions/OCP {
-                  opencascade-occt = packages.opencascade-occt-debug; 
-                  debug = true;
-                };
+                # TODO keep clang version in sync with llvm
                 clang = python-self.callPackage ./expressions/clang.nix { };
                 cymbal = python-self.callPackage ./expressions/cymbal.nix { };
                 geomdl = python-self.callPackage ./expressions/geomdl.nix { };
@@ -73,10 +75,11 @@
                 pybind11 = python-self.callPackage ./expressions/pybind11 { };
                 pywrap = python-self.callPackage ./expressions/pywrap {
                   src = inputs.pywrap;
-                  stdenv = pkgs.gcc8Stdenv;
-                  gcc = pkgs.gcc8;
-                  llvmPackages = pkgs.llvmPackages_8;
+                  inherit (gccSet) stdenv gcc llvmPackages;
                   # clang is also pinned to 6.0.1 in the clang expression
+                };
+                ocp-stubs = python-self.callPackage ./expressions/OCP/stubs.nix {
+                  src = inputs.ocp-stubs;
                 };
               };
             };
@@ -85,31 +88,12 @@
               src = inputs.cq-editor;
             };
             opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt {
-              stdenv = pkgs.gcc9Stdenv;
+              inherit (gccSet) stdenv;
             };
-            opencascade-occt-debug = packages.opencascade-occt.overrideAttrs (
-              oldAttrs: rec {separateDebugInfo = true;}
-            );
             cadquery-docs = packages.python38.pkgs.cadquery_w_docs.doc;
             cadquery-env = packages.python38.withPackages (
-              ps: with ps; [ cadquery python-language-server ]
+              ps: with ps; [ cadquery python-language-server black mypy ocp-stubs ]
             );
-            cadquery-env-debug = (let
-                py = pkgs.enableDebugging packages.python38; 
-                debug_dirs = pkgs.lib.strings.makeSearchPath "lib/debug" [
-                  py.pkgs.ocp.debug
-                  packages.opencascade-occt-debug.debug
-                  py.debug
-                ];
-              in pkgs.mkShell {
-                buildInputs = [
-                  (py.withPackages (ps: with ps; [ cadquery-debug python-language-server ] ))
-                  packages.nixpkgs-in.gdb
-                ];
-                shellHook = ''
-                  export NIX_DEBUG_INFO_DIRS=${debug_dirs}
-                '';
-              });
             # useful for debugging:
             nixpkgs-in = pkgs;
           };
