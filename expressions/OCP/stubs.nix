@@ -1,7 +1,7 @@
 { stdenv, buildPythonPackage, src, lib }:
 
 buildPythonPackage rec {
-  version = src.rev;
+  version = src.shortRev;
   pname = "ocp-stubs";
 
   inherit src;

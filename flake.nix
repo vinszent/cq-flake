@@ -36,6 +36,7 @@
           pkgs = nixpkgs.legacyPackages.${system};
           # keep gcc, llvm and stdenv versions in sync
           gccSet = {
+            # have to use gcc9 because freeimage complains with gcc8, could probably build freeimage with gcc8 if I have to, but this is easier.
             gcc = pkgs.gcc9;
             llvmPackages = pkgs.llvmPackages_9;
             stdenv = pkgs.gcc9Stdenv;

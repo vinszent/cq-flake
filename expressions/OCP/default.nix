@@ -28,7 +28,6 @@ let
 
     phases = [
       "unpackPhase"
-      "patchPhase"
       "buildPhase"
       "installPhase"
     ];
@@ -38,12 +37,12 @@ let
       pywrap
     ];
 
+    # should this actually be in pywrap?
     preBuild = ''
-      # should this actually be in pywrap?
       export PYBIND11_USE_CMAKE=1
     '';
 
-  # the order of the following includes is critical, but makes utterly zero sense to me. Order discovered by trial and error and anger.
+  # the order of the following includes is critical, but makes utterly zero sense to me. Order discovered by trial and error and hulk smashing the keyboard.
     pywrapFlags =  builtins.concatStringsSep " " (
       map (p: ''-i '' + p) [
         "${xlibs.xorgproto}/include"
