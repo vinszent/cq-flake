@@ -1,5 +1,6 @@
 { 
   stdenv
+  , lib
   , buildPythonPackage
   , fetchFromGitHub
   , pytestCheckHook
@@ -28,7 +29,7 @@ buildPythonPackage rec {
 
   pythonImportsCheck = [ "stdio_mgr" ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Context manager for mocking/wrapping stdin/stdout/stderr";
     homepage = "https://github.com/bskinn/stdio-mgr/";
     license = licenses.mit;

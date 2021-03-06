@@ -1,5 +1,6 @@
 { 
   stdenv
+  , lib
   , buildPythonPackage
   , pythonOlder
   , fetchFromGitHub
@@ -41,7 +42,7 @@ buildPythonPackage rec {
     typish
   ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Type hints for Numpy";
     homepage = "https://github.com/ramonhagenaars/nptyping";
     license = licenses.mit;

@@ -1,5 +1,6 @@
 { 
   stdenv
+  , lib
   , buildPythonPackage
   , fetchFromGitHub
   , sphinx
@@ -27,7 +28,7 @@ buildPythonPackage rec {
 
   pythonImportsCheck = [ "sphinxcadquery" ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "An extension to visualize CadQuery 3D files in your Sphinx documentation";
     homepage = "https://github.com/Peque/sphinxcadquery";
     license = licenses.bsd3;
