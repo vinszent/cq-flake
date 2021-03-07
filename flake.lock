@@ -3,11 +3,11 @@
     "cadquery": {
       "flake": false,
       "locked": {
-        "lastModified": 1613755499,
-        "narHash": "sha256-7qhJxKGxK4nNl6ixRizagai6QTdYshyysFplXSNYZ0M=",
+        "lastModified": 1614801799,
+        "narHash": "sha256-6Gpfu3Yrj/q6pfHI1+iJ0he4OvBlwvJogOGU4usbVDQ=",
         "owner": "CadQuery",
         "repo": "cadquery",
-        "rev": "e4ed8816171e429afc511602049e74beef388640",
+        "rev": "0325474f7270bd71820f0b88513eadf6380253e1",
         "type": "github"
       },
       "original": {
@@ -19,11 +19,11 @@
     "cq-editor": {
       "flake": false,
       "locked": {
-        "lastModified": 1612891518,
-        "narHash": "sha256-bQmvUkopq9S/D6GPhkqKorf5Bh4z8jlm6nD7OE4BkxQ=",
+        "lastModified": 1614446363,
+        "narHash": "sha256-45xxHU5jU1BENnfH9Sf1w1dVHUInsnNm1q4E98Jrk3s=",
         "owner": "CadQuery",
         "repo": "CQ-editor",
-        "rev": "19f4a9220ac000de3fca9303a3cf736309c9dc79",
+        "rev": "32e731769ab044e3ba703a52f7a9fbd803021832",
         "type": "github"
       },
       "original": {
@@ -66,16 +66,15 @@
     "ocp": {
       "flake": false,
       "locked": {
-        "lastModified": 1603225578,
-        "narHash": "sha256-yg0xhqtxLsIbi523y5K4eU8ECPZXHVjYJ6OtdCwM8JQ=",
+        "lastModified": 1614795074,
+        "narHash": "sha256-gVCMy6EafcxJQY1sRFAqFaSJhtbTsFnMOWomcv3pKHw=",
         "owner": "cadquery",
         "repo": "ocp",
-        "rev": "ede30205f69cfd2cb05f40de963617611239e7ad",
+        "rev": "e1df3469a39228ce2553aacc3a0238e334d4dd9a",
         "type": "github"
       },
       "original": {
         "owner": "cadquery",
-        "ref": "7.4.0",
         "repo": "ocp",
         "type": "github"
       }
@@ -83,16 +82,15 @@
     "ocp-stubs": {
       "flake": false,
       "locked": {
-        "lastModified": 1602699687,
-        "narHash": "sha256-mkc0B3zOsFTT02wsMXfc/8YjB9aMCrpEZvIv/poUL/Y=",
+        "lastModified": 1614280796,
+        "narHash": "sha256-/x82W4thZlzY1Qw6iBplq21zqgUopp6vTyABqVlCzeI=",
         "owner": "cadquery",
         "repo": "ocp-stubs",
-        "rev": "71ed6f0d3896c19d5ec0fe10faae1d1626f2b3f3",
+        "rev": "51932c145b16af53fed202ea4d6896263249d8b4",
         "type": "github"
       },
       "original": {
         "owner": "cadquery",
-        "ref": "7.4.0",
         "repo": "ocp-stubs",
         "type": "github"
       }

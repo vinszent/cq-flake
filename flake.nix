@@ -13,11 +13,11 @@
       flake = false;
     };
     ocp = {
-      url = "github:cadquery/ocp/7.4.0";
+      url = "github:cadquery/ocp";
       flake = false;
     };
     ocp-stubs = {
-      url = "github:cadquery/ocp-stubs/7.4.0";
+      url = "github:cadquery/ocp-stubs";
       flake = false;
     };
     pywrap = {
@@ -38,8 +38,13 @@
           gccSet = {
             # have to use gcc9 because freeimage complains with gcc8, could probably build freeimage with gcc8 if I have to, but this is easier.
             gcc = pkgs.gcc9;
-            llvmPackages = pkgs.llvmPackages_9;
+            llvmPackages = pkgs.llvmPackages_10; # canonical now builds with llvm10: https://github.com/CadQuery/OCP/commit/2ecc243e2011e1ea5c57023dee22e562dacefcdd
             stdenv = pkgs.gcc9Stdenv;
+          };
+          # TODO: try replacing this with vtk_9 from python.pkgs
+          vtk_9p = pkgs.vtk_9.override {
+            enablePython = true;
+            pythonInterpreter = pkgs.python38;
           };
         in rec {
           packages = {
@@ -57,6 +62,7 @@
                   src = inputs.ocp;
                   inherit (gccSet) stdenv gcc llvmPackages;
                   opencascade-occt = packages.opencascade-occt; 
+                  vtk_9 = vtk_9p;
                 };
                 # TODO keep clang version in sync with llvm
                 clang = python-self.callPackage ./expressions/clang.nix { };
@@ -90,6 +96,7 @@
             };
             opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt {
               inherit (gccSet) stdenv;
+              vtk_9 = vtk_9p;
             };
             cadquery-docs = packages.python38.pkgs.cadquery_w_docs.doc;
             cadquery-env = packages.python38.withPackages (

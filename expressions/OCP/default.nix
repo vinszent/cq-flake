@@ -17,14 +17,18 @@
   , python
   , writeTextFile
   , pywrap
+  , vtk_9
+  , rapidjson
 }:
 let
+
+  version = "v7.5.1-git-" + src.shortRev;
 
   # intermediate step, do pybind, cmake in the next step
   ocp-pybound = stdenv.mkDerivation rec {
     pname = "pybound-ocp";
-    version = "git-" + builtins.substring 0 7 src.rev;
-    inherit src;
+    # version = "git-" + builtins.substring 0 7 src.rev;
+    inherit version src;
 
     phases = [
       "unpackPhase"
@@ -35,6 +39,7 @@ let
     nativeBuildInputs = [
       llvmPackages.libcxx
       pywrap
+      rapidjson
     ];
 
     # should this actually be in pywrap?
@@ -45,6 +50,8 @@ let
   # the order of the following includes is critical, but makes utterly zero sense to me. Order discovered by trial and error and hulk smashing the keyboard.
     pywrapFlags =  builtins.concatStringsSep " " (
       map (p: ''-i '' + p) [
+        "${rapidjson}/include"
+        "${vtk_9}/include/vtk-9.0/"
         "${xlibs.xorgproto}/include"
         "${xlibs.libX11.dev}/include"
         "${libglvnd.dev}/include"
@@ -77,7 +84,8 @@ let
 
   ocp-result = stdenv.mkDerivation rec {
     pname = "ocp-result";
-    version = "7.4-RC1";
+    # version = "7.5.1-git-" + src.shortRev;
+    inherit version;
 
     src = ocp-pybound;
 
@@ -90,6 +98,7 @@ let
       pybind11
       python
       libcxx
+      rapidjson
     ];
     
     buildInputs = [
@@ -97,7 +106,8 @@ let
       xlibs.libX11.dev
       xlibs.xorgproto
       gcc.cc
-    ]; 
+      vtk_9
+    ] ++ opencascade-occt.buildInputs ++ opencascade-occt.propagatedBuildInputs; 
 
     preConfigure = ''
       export CMAKE_PREFIX_PATH=${pybind11}/share/cmake/pybind11:$CMAKE_PREFIX_PATH
@@ -117,6 +127,9 @@ let
       "-S ../OCP"
       "-DPYTHON_EXECUTABLE=${python}/bin/python"
       "-DOPENCASCADE_INCLUDE_DIR=${src}/opencascade"
+      # "-DCMAKE_CXX_STANDARD_LIBRARIES=${vtk_9}/lib/libtkWrappingPythonCore-9.0.so.9.0.1"
+      # "-DCMAKE_CXX_FLAGS=-I\ ${vtk_9}/include/vtk-9.0"
+      # "-DVTK_DIR=${vtk_9}/lib/cmake/vtk-9.0/"
     ];
 
     checkPhase = ''
@@ -163,7 +176,8 @@ let
     
 in buildPythonPackage {
   pname = "OCP";
-  version = "7.4-RC1";
+  # version = lib.debug.traceSeqN 3 src.shortRev ("7.5.1-git-" + src.shortRev);
+  inherit version;
   src = ocp-result;
 
   prePatch = ''
@@ -175,7 +189,7 @@ in buildPythonPackage {
   pythonImportsCheck = [ "OCP" "OCP.gp" ];
 
   meta = with lib; {
-    description = "Python wrapper for Opencascade Technology 7.4 generated using pywrap";
+    description = "Python wrapper for Opencascade Technology 7.5.1 generated using pywrap";
     homepage = "https://github.com/CadQuery/OCP";
     license = licenses.asl20;
     maintainers = with maintainers; [ marcus7070 ];
