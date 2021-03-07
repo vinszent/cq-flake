@@ -47,6 +47,23 @@
         "type": "github"
       }
     },
+    "llvm_src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1594138897,
+        "narHash": "sha256-YOVIaKo/DJ4ugHOk9l5y8YLDmhtZD7WWOBbEbexjYqs=",
+        "owner": "llvm",
+        "repo": "llvm-project",
+        "rev": "ef32c611aa214dea855364efd7ba451ec5ec3f74",
+        "type": "github"
+      },
+      "original": {
+        "owner": "llvm",
+        "ref": "llvmorg-10.0.1",
+        "repo": "llvm-project",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1613761605,
@@ -116,6 +133,7 @@
         "cadquery": "cadquery",
         "cq-editor": "cq-editor",
         "flake-utils": "flake-utils",
+        "llvm_src": "llvm_src",
         "nixpkgs": "nixpkgs",
         "ocp": "ocp",
         "ocp-stubs": "ocp-stubs",

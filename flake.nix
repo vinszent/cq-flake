@@ -24,6 +24,10 @@
       url = "github:CadQuery/pywrap";
       flake = false;
     };
+    llvm_src = {
+      url = "github:llvm/llvm-project/llvmorg-10.0.1";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... } @ inputs:
@@ -35,7 +39,7 @@
         let 
           pkgs = nixpkgs.legacyPackages.${system};
           # keep gcc, llvm and stdenv versions in sync
-          gccSet = {
+          gccSet = rec {
             # have to use gcc9 because freeimage complains with gcc8, could probably build freeimage with gcc8 if I have to, but this is easier.
             gcc = pkgs.gcc9;
             llvmPackages = pkgs.llvmPackages_10; # canonical now builds with llvm10: https://github.com/CadQuery/OCP/commit/2ecc243e2011e1ea5c57023dee22e562dacefcdd
@@ -58,8 +62,10 @@
                   inherit (gccSet) stdenv gcc llvmPackages;
                   opencascade-occt = packages.opencascade-occt; 
                 };
-                # TODO keep clang version in sync with llvm
-                clang = python-self.callPackage ./expressions/clang.nix { };
+                clang = python-self.callPackage ./expressions/clang.nix {
+                  src = inputs.llvm_src;
+                  llvmPackages = gccSet.llvmPackages;
+                };
                 cymbal = python-self.callPackage ./expressions/cymbal.nix { };
                 geomdl = python-self.callPackage ./expressions/geomdl.nix { };
                 ezdxf = python-self.callPackage ./expressions/ezdxf.nix { };

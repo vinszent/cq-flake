@@ -3,9 +3,10 @@
   , buildPythonPackage
   , fetchFromGitHub
   , python
-  , llvmPackages_6
+  , llvmPackages
   , writeTextFile
   , setuptools
+  , src
 }:
 let 
   setuppy = writeTextFile {
@@ -24,16 +25,10 @@ let
           test_suite="tests",
       )
     '';};
-  src = fetchFromGitHub {
-    owner = "llvm";
-    repo = "llvm-project";
-    rev = "llvmorg-6.0.1";
-    sha256 = "sha256-L/Q9XS+RkjhA+61QxQ2dTSzOS9Z+5aEGnAj8skw6Jk4=";
-  };
 
 in buildPythonPackage {
   pname = "clang";
-  version = "6.0.1";
+  version = llvmPackages.clang-unwrapped.version;
 
   unpackPhase = ''
     export sourceRoot=$PWD/source
@@ -43,16 +38,11 @@ in buildPythonPackage {
   '';
 
   propagatedBuildInputs = [
-  #   llvmPackages_6.clang
-    llvmPackages_6.clang-unwrapped.lib
+    llvmPackages.clang-unwrapped.lib
   ];
 
-  # makeWrapperArgs = [
-  #   "--set CLANG_LIBRARY_PATH ${llvmPackages_6.clang-unwrapped.lib}/lib"
-  # ];
-
   preCheck = ''
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${llvmPackages_6.clang-unwrapped.lib}/lib
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${llvmPackages.clang-unwrapped.lib}/lib
   '';
 
   meta = with lib; {
