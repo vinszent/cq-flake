@@ -100,7 +100,7 @@
             };
             cadquery-docs = packages.python38.pkgs.cadquery_w_docs.doc;
             cadquery-env = packages.python38.withPackages (
-              ps: with ps; [ cadquery python-language-server black mypy ocp-stubs ]
+              ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov ]
             );
             # useful for debugging:
             nixpkgs-in = pkgs;
