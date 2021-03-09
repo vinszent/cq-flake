@@ -88,6 +88,7 @@
                 ocp-stubs = python-self.callPackage ./expressions/OCP/stubs.nix {
                   src = inputs.ocp-stubs;
                 };
+                pytest-flakefinder = python-self.callPackage ./expressions/pytest-flakefinder.nix { };
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
@@ -100,8 +101,16 @@
             };
             cadquery-docs = packages.python38.pkgs.cadquery_w_docs.doc;
             cadquery-env = packages.python38.withPackages (
-              ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov ]
+              ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder ]
             );
+            cadquery-dev-shell = packages.python38.withPackages (
+              ps: with ps; ([ black mypy ocp-stubs ] 
+              ++ cadquery.propagatedBuildInputs 
+              # I have no idea why, but I can't access checkInputs
+              # ++ cadquery.checkInputs
+              ++ [ pytest ]
+              ++ cadquery.nativeBuildInputs
+            ));
             # useful for debugging:
             nixpkgs-in = pkgs;
           };
@@ -111,6 +120,9 @@
             type = "app";
             program = defaultPackage + "/bin/cq-editor";
           };
+          # TODO: add dev env for cadquery
+          devShell = packages.cadquery-dev-shell;
+          # TODO: add dev env for cq-editor, with hopefully working pyqt5
         }
       );
 }
