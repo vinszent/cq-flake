@@ -39,13 +39,30 @@
         "type": "github"
       }
     },
+    "llvm_src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1594138897,
+        "narHash": "sha256-YOVIaKo/DJ4ugHOk9l5y8YLDmhtZD7WWOBbEbexjYqs=",
+        "owner": "llvm",
+        "repo": "llvm-project",
+        "rev": "ef32c611aa214dea855364efd7ba451ec5ec3f74",
+        "type": "github"
+      },
+      "original": {
+        "owner": "llvm",
+        "ref": "llvmorg-10.0.1",
+        "repo": "llvm-project",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1600135862,
-        "narHash": "sha256-eHhiPQK2FY8Vr+AWpQuNjcId/sfrB+IVJJyuY3tuIwE=",
-        "owner": "nixos",
+        "lastModified": 1613761605,
+        "narHash": "sha256-lUF6UPR96ZzQC0faNXBHLoLhNAdxZqYqDwz0PaIZ/7Y=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "441a7da8080352881bb52f85e910d8855e83fc55",
+        "rev": "9816b99e71c3504b0b4c1f8b2e004148460029d4",
         "type": "github"
       },
       "original": {
@@ -55,12 +72,64 @@
         "type": "github"
       }
     },
+    "ocp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1614795074,
+        "narHash": "sha256-gVCMy6EafcxJQY1sRFAqFaSJhtbTsFnMOWomcv3pKHw=",
+        "owner": "cadquery",
+        "repo": "ocp",
+        "rev": "e1df3469a39228ce2553aacc3a0238e334d4dd9a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cadquery",
+        "repo": "ocp",
+        "type": "github"
+      }
+    },
+    "ocp-stubs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1614280796,
+        "narHash": "sha256-/x82W4thZlzY1Qw6iBplq21zqgUopp6vTyABqVlCzeI=",
+        "owner": "cadquery",
+        "repo": "ocp-stubs",
+        "rev": "51932c145b16af53fed202ea4d6896263249d8b4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cadquery",
+        "repo": "ocp-stubs",
+        "type": "github"
+      }
+    },
+    "pywrap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1612598676,
+        "narHash": "sha256-GqJAZ26bhRcTOg8bMiw8Oe012k6tLu3nS6vZdb7EcDM=",
+        "owner": "CadQuery",
+        "repo": "pywrap",
+        "rev": "cb06e717fa3368333ed4e0520eb6e9e2bd8e81a0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CadQuery",
+        "repo": "pywrap",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "cadquery": "cadquery",
         "cq-editor": "cq-editor",
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "llvm_src": "llvm_src",
+        "nixpkgs": "nixpkgs",
+        "ocp": "ocp",
+        "ocp-stubs": "ocp-stubs",
+        "pywrap": "pywrap"
       }
     }
   },

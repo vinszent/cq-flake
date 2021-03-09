@@ -1,5 +1,6 @@
 { 
   stdenv
+  , lib
   , buildPythonPackage
   , pythonOlder
   , fetchFromGitHub
@@ -62,7 +63,7 @@ buildPythonPackage rec {
   #   popd
   # '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Toolkit for manipulation and inspection of Sphinx objects.inv files";
     homepage = "http://sphobjinv.readthedocs.io/en/latest/";
     license = licenses.mit;

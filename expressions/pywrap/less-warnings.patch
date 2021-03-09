@@ -1,0 +1,12 @@
+diff --git a/bindgen/translation_unit.py b/bindgen/translation_unit.py
+index 003539e..ed00ecb 100755
+--- a/bindgen/translation_unit.py
++++ b/bindgen/translation_unit.py
+@@ -12,6 +12,7 @@ def parse_tu(path,
+              prefix=None,
+              platform_includes=[],
+              args=['-x', 'c++', '-std=c++17','-D__CODE_GENERATOR__',
++                   '-Wno-macro-redefined', '-Wno-unknown-pragmas',
+                    '-Wno-deprecated-declarations'],
+              parsing_header = '',
+              tu_parsing_header = '',

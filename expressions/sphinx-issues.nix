@@ -1,5 +1,6 @@
 { 
   stdenv
+  , lib
   , buildPythonPackage
   , fetchFromGitHub
   , pytestCheckHook
@@ -26,7 +27,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "A Sphinx extension for linking to your project's issue tracker";
     homepage = "https://github.com/sloria/sphinx-issues/";
     license = licenses.mit;

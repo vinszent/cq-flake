@@ -1,5 +1,6 @@
 { 
   stdenv
+  , lib
   , buildPythonPackage
   , fetchFromGitHub
   , pytestCheckHook
@@ -35,7 +36,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "unittest subTest() support and subtests fixture";
     homepage = "http://pytest.org/";
     license = licenses.mit;

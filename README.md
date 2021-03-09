@@ -43,15 +43,17 @@ You can also generate the docs with:
 ```
 nix build github:marcus7070/cq-flake#cadquery-docs
 ```
-which will leave a symlink called `result` pointing to the HTML docs. Note that the [Read The Docs](https://cadquery.readthedocs.io/en/latest/intro.html) version is not frequently updated.
+which will leave a symlink called `result` pointing to the HTML docs. Note that the [online docs at readthedocs.io](https://cadquery.readthedocs.io/en/latest/intro.html) can be behind (or possibly in front) of the version you are using.
 
 ## Build times
 
-`OCP` is a huge build. It takes me about an hour on a beefy desktop. Also, now `opencascade-occt` has to be rebuilt with the correct flags for CadQuery, adding another 30 mins to the build time. One day I'll get around to publishing my build results to [Cachix](https://cachix.org/) so you can download the binaries directly. Feel free to leave an issue here if you want me to hurry up.
+`OCP` is a huge build. It takes me about an hour on a beefy desktop. Also, now `opencascade-occt` has to be rebuilt with the correct flags for CadQuery, adding another 30 mins to the build time. 
 
-If you build it on one machine, you can push it to other machines with the command
+I'm publishing my builds on Cachix, under the `marcus7070` cache. [Here are the usage instructions](https://app.cachix.org/cache/marcus7070).
+
+Once you have CQ on one machine, you can also push the runtime closure to other machines with the command:
 ```sh
-nix copy --to ssh://192.168.1.XXX /nix/store/xxxxxxx-hashymchashyface-xxxxxxx-cq-editor-local
+nix copy --to ssh://192.168.1.XXX /nix/store/xxxxxxx-hashymchashyface-xxxxxxx-cq-editor
 ```
 
 ## Local dev
@@ -62,4 +64,5 @@ Should you wish to do dev work with CadQuery check out the `dev` branch of this 
 nix flake update --update-input cadquery . && nix build -L .#cadquery-docs && qutebrowser ./result-doc/share/doc/index.html
 ```
 
-I've also added some debug stuff for debugging with `gdb`. Debugging symbols for Python have come and gone from nixpkgs, if the debugging attributes don't have all the symbols you need look into setting overriding `separateDebugInfo = true;` in the Python expression. The most likely method you need for debugging is to run `nix develop github:marcus7070/cq-flake#cadquery-env-debug`, start python, switch to a second terminal, `gdb python <PID>`, `continue`, switch back to python, make it crash, switch back to gdb, `bt`. gdb can't run scripts so it's difficult to start Python (which under nix is usually a sh script wrapper around the actual Python binary) from within gdb, easier just to attach it to a running instance.
+~~I've also added some debug stuff for debugging with `gdb`. Debugging symbols for Python have come and gone from nixpkgs, if the debugging attributes don't have all the symbols you need look into setting overriding `separateDebugInfo = true;` in the Python expression. The most likely method you need for debugging is to run `nix develop github:marcus7070/cq-flake#cadquery-env-debug`, start python, switch to a second terminal, `gdb python <PID>`, `continue`, switch back to python, make it crash, switch back to gdb, `bt`. gdb can't run scripts so it's difficult to start Python (which under nix is usually a script wrapper around the actual Python binary) from within gdb, easier just to attach it to a running instance.~~
+Debugging currently removed from nixpkgs.

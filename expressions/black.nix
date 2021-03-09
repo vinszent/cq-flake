@@ -1,4 +1,4 @@
-{ stdenv, buildPythonPackage, fetchPypi, pythonOlder
+{ stdenv, lib, buildPythonPackage, fetchPypi, pythonOlder
 , attrs, click, toml, appdirs, aiohttp, aiohttp-cors
 , glibcLocales, typed-ast, pathspec, regex
 , setuptools_scm, pytest }:
@@ -32,7 +32,7 @@ buildPythonPackage rec {
 
   propagatedBuildInputs = [ attrs appdirs click toml aiohttp aiohttp-cors pathspec regex typed-ast ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "The uncompromising Python code formatter";
     homepage    = "https://github.com/psf/black";
     license     = licenses.mit;
