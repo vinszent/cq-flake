@@ -77,6 +77,7 @@
                 sphinx-issues = python-self.callPackage ./expressions/sphinx-issues.nix { };
                 pytest-subtests = python-self.callPackage ./expressions/pytest-subtests.nix { };
                 sphinxcadquery = python-self.callPackage ./expressions/sphinxcadquery.nix { };
+                cq-kit = python-self.callPackage ./expressions/cq-kit.nix { };
                 black = python-self.callPackage ./expressions/black.nix { };
                 pybind11 = python-self.callPackage ./expressions/pybind11 { };
                 pywrap = python-self.callPackage ./expressions/pywrap {
