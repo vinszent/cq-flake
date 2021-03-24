@@ -10,6 +10,7 @@
     };
     cq-editor = {
       url = "/home/marcus/tempbuild/CQ-editor";
+      flake = false;
     };
     ocp = {
       url = "github:cadquery/ocp";

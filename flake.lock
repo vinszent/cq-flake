@@ -3,7 +3,7 @@
     "cadquery": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-VE+W5YF3Ew0KaJecdVCSimzGnQB5V4fMvBGktYbQLbs=",
+        "narHash": "sha256-yFDRydPa1gteUt+Cn5gnygGEyLSdngouVAXkITai7BQ=",
         "path": "/home/marcus/tempbuild/cadquery",
         "type": "path"
       },
@@ -15,7 +15,7 @@
     "cq-editor": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-2S2A9xVUJ6gvwwaYlVMwykVktya4WDklY47Q50jf/Eg=",
+        "narHash": "sha256-xcBOg79gr6ihN+Lrl3L5B+gviqm5ZqdQlmck9i8czAI=",
         "path": "/home/marcus/tempbuild/CQ-editor",
         "type": "path"
       },
