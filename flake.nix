@@ -103,6 +103,29 @@
             cadquery-env = packages.python38.withPackages (
               ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder ]
             );
+            pip-install-env = pkgs.mkShell rec {
+              name = "pipInstallEnv";
+              dir = "/tmp/cq-pip";
+              venvDir = dir + "/.venv";
+              buildInputs = with packages.python38.pkgs; [
+                # python
+                venvShellHook
+                cadquery
+                python-language-server
+                black
+                mypy
+                ocp-stubs
+                pytest
+                pytest-xdist
+                pytest-cov
+                pytest-flakefinder
+              ];
+              postShellHook = ''
+                # allow pip to install wheels
+                unset SOURCE_DATE_EPOCH
+                cd ${dir}
+              '';
+            };
             # cadquery-dev-shell = packages.python38.withPackages (
             #   ps: with ps; ([ black mypy ocp-stubs ] 
             #   ++ cadquery.propagatedBuildInputs 
