@@ -3,11 +3,11 @@
     "cadquery": {
       "flake": false,
       "locked": {
-        "lastModified": 1616064238,
-        "narHash": "sha256-A35w37Z7ps2jLvXNgf1LSRrPj3FhqGiTJrhg87Y+wkU=",
+        "lastModified": 1617015720,
+        "narHash": "sha256-Z3ypkAVYjR3HaANaSIX6R+f3UaWjHUANnSfZI/kdxYM=",
         "owner": "CadQuery",
         "repo": "cadquery",
-        "rev": "bb32f93c63d8bf9632d60dffa37bf45187cc5c78",
+        "rev": "df550f071a8eee5a21c206466bb4d27411c604e8",
         "type": "github"
       },
       "original": {
@@ -19,11 +19,11 @@
     "cq-editor": {
       "flake": false,
       "locked": {
-        "lastModified": 1614446363,
-        "narHash": "sha256-45xxHU5jU1BENnfH9Sf1w1dVHUInsnNm1q4E98Jrk3s=",
+        "lastModified": 1615794689,
+        "narHash": "sha256-+Xdm6CClZSWaja7MAqu5MLdlYvIoEketXywjbV6YWXI=",
         "owner": "CadQuery",
         "repo": "CQ-editor",
-        "rev": "32e731769ab044e3ba703a52f7a9fbd803021832",
+        "rev": "a8dc4ff3e54d7f74cfc25f9fa1509ccbd7d5442e",
         "type": "github"
       },
       "original": {
