@@ -21,7 +21,8 @@
   , documentation ? false
   , sphinx
   , sphinx_rtd_theme
-  , pytest
+  , pytestCheckHook
+  , pytest-xdist
   , ocp
   , ezdxf
   , ipython
@@ -83,12 +84,14 @@ in buildPythonPackage rec {
   disabled = !(isPy3k && (pythonOlder "3.9"));
 
   checkInputs = [
-    pytest
+    pytestCheckHook
+    pytest-xdist
   ];
 
-  checkPhase = ''
-    pytest -v
-  '';
+  pytestFlagsArray = [
+    "-W ignore::FutureWarning"
+    "-n $NIX_BUILD_CORES"
+  ];
 
   # Documentation, very expensive so build after checkPhase
   preInstall = lib.optionalString documentation ''
