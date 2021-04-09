@@ -19,11 +19,11 @@
     "cq-editor": {
       "flake": false,
       "locked": {
-        "lastModified": 1615794689,
-        "narHash": "sha256-+Xdm6CClZSWaja7MAqu5MLdlYvIoEketXywjbV6YWXI=",
+        "lastModified": 1617908667,
+        "narHash": "sha256-rYgkcfwN9kZqLqGZWDjHtLpcWkTAFQs/J8MHS7tby2w=",
         "owner": "CadQuery",
         "repo": "CQ-editor",
-        "rev": "a8dc4ff3e54d7f74cfc25f9fa1509ccbd7d5442e",
+        "rev": "02fe0aec6b9c2d3b265cf5044b9834018a5772e2",
         "type": "github"
       },
       "original": {
