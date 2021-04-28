@@ -76,7 +76,7 @@
                 sphobjinv = python-self.callPackage ./expressions/sphobjinv.nix { };
                 stdio-mgr = python-self.callPackage ./expressions/stdio-mgr.nix { };
                 sphinx-issues = python-self.callPackage ./expressions/sphinx-issues.nix { };
-                pytest-subtests = python-self.callPackage ./expressions/pytest-subtests.nix { };
+                # pytest-subtests = python-self.callPackage ./expressions/pytest-subtests.nix { };
                 sphinxcadquery = python-self.callPackage ./expressions/sphinxcadquery.nix { };
                 cq-kit = python-self.callPackage ./expressions/cq-kit.nix { };
                 black = python-self.callPackage ./expressions/black.nix { };
@@ -102,7 +102,7 @@
             };
             cadquery-docs = packages.python38.pkgs.cadquery_w_docs.doc;
             cadquery-env = packages.python38.withPackages (
-              ps: with ps; [ cadquery python-language-server cq-kit black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder ]
+              ps: with ps; [ cadquery python-language-server cq-kit black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder multimethod ]
             );
             cadquery-dev-shell = packages.python38.withPackages (
               ps: with ps; ([ black mypy ocp-stubs ] 
