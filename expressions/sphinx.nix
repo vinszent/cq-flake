@@ -28,6 +28,7 @@
 , sphinxcontrib-websupport
 , typing
 , setuptools
+, packaging
 }:
 
 buildPythonPackage rec {
@@ -68,6 +69,7 @@ buildPythonPackage rec {
     sphinxcontrib-qthelp
     sphinxcontrib-serializinghtml
     sphinxcontrib-websupport
+    packaging
   ] ++ lib.optional (pythonOlder "3.5") typing;
 
   # Lots of tests. Needs network as well at some point.
