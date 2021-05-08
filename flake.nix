@@ -89,6 +89,7 @@
                   src = inputs.ocp-stubs;
                 };
                 pytest-flakefinder = python-self.callPackage ./expressions/pytest-flakefinder.nix { };
+                multimethod = python-self.callPackage ./expressions/multimethod.nix { };
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
