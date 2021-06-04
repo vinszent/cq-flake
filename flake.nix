@@ -87,9 +87,9 @@
                 ocp-stubs = python-self.callPackage ./expressions/OCP/stubs.nix {
                   src = inputs.ocp-stubs;
                 };
-                pytest-flakefinder = python-self.callPackage ./expressions/pytest-flakefinder.nix { };
               };
             };
+            pytest-flakefinder = pkgs.python38.pkgs.callPackage ./expressions/pytest-flakefinder.nix { };
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
               python3Packages = packages.python38.pkgs;
               src = inputs.cq-editor;
@@ -100,7 +100,7 @@
             };
             cadquery-docs = packages.python38.pkgs.cadquery_w_docs.doc;
             cadquery-env = packages.python38.withPackages (
-              ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder ]
+              ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov packages.pytest-flakefinder ]
             );
             # cadquery-dev-shell = packages.python38.withPackages (
             #   ps: with ps; ([ black mypy ocp-stubs ] 
