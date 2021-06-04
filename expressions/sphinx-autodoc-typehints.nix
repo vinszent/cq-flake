@@ -44,7 +44,10 @@ buildPythonPackage rec {
   ];
 
   # requires internet access
-  doCheck = false;
+  # doCheck = false;
+  disabledTests = [
+    "format_annotation"
+  ];
 
   meta = with lib; {
     description = "Type hints support for the Sphinx autodoc extension";

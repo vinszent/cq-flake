@@ -45,6 +45,7 @@
             llvmPackages = pkgs.llvmPackages_10; # canonical now builds with llvm10: https://github.com/CadQuery/OCP/commit/2ecc243e2011e1ea5c57023dee22e562dacefcdd
             stdenv = pkgs.gcc9Stdenv;
           };
+          python = pkgs.python38;
         in rec {
           packages = {
             python38 = pkgs.python38.override {
@@ -62,34 +63,43 @@
                   inherit (gccSet) stdenv gcc llvmPackages;
                   opencascade-occt = packages.opencascade-occt; 
                 };
-                clang = python-self.callPackage ./expressions/clang.nix {
-                  src = inputs.llvm_src;
-                  llvmPackages = gccSet.llvmPackages;
-                };
-                cymbal = python-self.callPackage ./expressions/cymbal.nix { };
-                geomdl = python-self.callPackage ./expressions/geomdl.nix { };
-                ezdxf = python-self.callPackage ./expressions/ezdxf.nix { };
                 sphinx = python-self.callPackage ./expressions/sphinx.nix { };
                 nptyping = python-self.callPackage ./expressions/nptyping.nix { };
                 typish = python-self.callPackage ./expressions/typish.nix { };
-                sphinx-autodoc-typehints = python-self.callPackage ./expressions/sphinx-autodoc-typehints.nix { };
-                sphobjinv = python-self.callPackage ./expressions/sphobjinv.nix { };
-                stdio-mgr = python-self.callPackage ./expressions/stdio-mgr.nix { };
-                sphinx-issues = python-self.callPackage ./expressions/sphinx-issues.nix { };
                 sphinxcadquery = python-self.callPackage ./expressions/sphinxcadquery.nix { };
-                black = python-self.callPackage ./expressions/black.nix { };
-                pybind11 = python-self.callPackage ./expressions/pybind11 { };
-                pywrap = python-self.callPackage ./expressions/pywrap {
-                  src = inputs.pywrap;
-                  inherit (gccSet) stdenv gcc llvmPackages;
-                  # clang is also pinned to 6.0.1 in the clang expression
-                };
-                ocp-stubs = python-self.callPackage ./expressions/OCP/stubs.nix {
-                  src = inputs.ocp-stubs;
-                };
               };
             };
+            clang = python.pkgs.callPackage ./expressions/clang.nix {
+              src = inputs.llvm_src;
+              llvmPackages = gccSet.llvmPackages;
+            };
+            pybind11 = python.pkgs.callPackage ./expressions/pybind11 { };
+            cymbal = python.pkgs.callPackage ./expressions/cymbal.nix {
+              clang = packages.clang;
+            };
+            pywrap = python.pkgs.callPackage ./expressions/pywrap {
+              src = inputs.pywrap;
+              inherit (gccSet) stdenv gcc llvmPackages;
+              inherit (packages) clang pybind11 cymbal;
+            };
+            geomdl = python.pkgs.callPackage ./expressions/geomdl.nix { };
+            ezdxf = python.pkgs.callPackage ./expressions/ezdxf.nix {
+              inherit (packages) geomdl;
+            };
+            stdio-mgr = python.pkgs.callPackage ./expressions/stdio-mgr.nix { };
+            sphinx-issues = python.pkgs.callPackage ./expressions/sphinx-issues.nix { };
+            dictdiffer = python.pkgs.callPackage ./expressions/dictdiffer.nix { };
+            sphobjinv = python.pkgs.callPackage ./expressions/sphobjinv.nix {
+              inherit (packages) stdio-mgr dictdiffer;
+            };
+            sphinx-autodoc-typehints = python.pkgs.callPackage ./expressions/sphinx-autodoc-typehints.nix {
+              inherit (packages) sphobjinv;
+            };
+            black = python.pkgs.callPackage ./expressions/black.nix { };
             pytest-flakefinder = pkgs.python38.pkgs.callPackage ./expressions/pytest-flakefinder.nix { };
+            ocp-stubs = python.pkgs.callPackage ./expressions/OCP/stubs.nix {
+              src = inputs.ocp-stubs;
+            };
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
               python3Packages = packages.python38.pkgs;
               src = inputs.cq-editor;
