@@ -8,14 +8,14 @@
 }:
 
 buildPythonPackage rec {
-  version = "1.3.2";
+  version = "1.3.3";
   pname = "sphinxcadquery";
 
   src = fetchFromGitHub {
-    owner = "Peque";
+    owner = "CadQuery";
     repo = pname;
     rev = "v" + version;
-    sha256 = "sha256-oQYKk+77F/4uGtAd1pAZrdsUrHUuZLZTnWUqRVqKDn0=";
+    sha256 = "sha256-cy6dkv9d2NgkqBSAA/G0jv6iQTTlYi1qxGHEdGfIF8o=";
     fetchSubmodules = true;
   };
 
@@ -30,7 +30,7 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "An extension to visualize CadQuery 3D files in your Sphinx documentation";
-    homepage = "https://github.com/Peque/sphinxcadquery";
+    homepage = "https://github.com/CadQuery/sphinxcadquery";
     license = licenses.bsd3;
     maintainers = with maintainers; [ marcus7070 ];
   };
