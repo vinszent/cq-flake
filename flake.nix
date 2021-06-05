@@ -64,8 +64,6 @@
                   opencascade-occt = packages.opencascade-occt; 
                 };
                 sphinx = python-self.callPackage ./expressions/sphinx.nix { };
-                nptyping = python-self.callPackage ./expressions/nptyping.nix { };
-                typish = python-self.callPackage ./expressions/typish.nix { };
                 sphinxcadquery = python-self.callPackage ./expressions/sphinxcadquery.nix { };
               };
             };
@@ -91,6 +89,10 @@
             dictdiffer = python.pkgs.callPackage ./expressions/dictdiffer.nix { };
             sphobjinv = python.pkgs.callPackage ./expressions/sphobjinv.nix {
               inherit (packages) stdio-mgr dictdiffer;
+            };
+            typish = python.pkgs.callPackage ./expressions/typish.nix { };
+            nptyping = python.pkgs.callPackage ./expressions/nptyping.nix {
+              inherit (packages) typish;
             };
             sphinx-autodoc-typehints = python.pkgs.callPackage ./expressions/sphinx-autodoc-typehints.nix {
               inherit (packages) sphobjinv;
