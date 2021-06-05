@@ -12,7 +12,7 @@
 }:
 
 buildPythonPackage rec {
-  version = "1.11.0";
+  version = "1.12.0";
   pname = "sphinx-autodoc-typehints";
 
   disabled = pythonOlder "3.7";
@@ -21,7 +21,7 @@ buildPythonPackage rec {
     owner = "agronholm";
     repo = "sphinx-autodoc-typehints";
     rev = version;
-    sha256 = "sha256-a2d/guaUvUO41skqg5/wXEAC176Xb87obWzOwPCjqlY=";
+    sha256 = "sha256-hM4YIWsfEESaKaXg6Ds+XDUIz3Bi64RoMfBfnuBPdrM=";
     fetchSubmodules = true;
   };
 
@@ -44,7 +44,6 @@ buildPythonPackage rec {
   ];
 
   # requires internet access
-  # doCheck = false;
   disabledTests = [
     "format_annotation"
   ];
