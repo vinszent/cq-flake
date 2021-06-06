@@ -12,13 +12,14 @@
   , sphinx
   , sphinx_rtd_theme
   , stdio-mgr
-  , sphinx-issues
   , pytest-subtests
   , flake8
+  , dictdiffer
+  , pytest-check
 }:
 
 buildPythonPackage rec {
-  version = "2.0.1";
+  version = "2.1";
   pname = "sphobjinv";
 
   disabled = pythonOlder "3.4";
@@ -27,7 +28,7 @@ buildPythonPackage rec {
     owner = "bskinn";
     repo = pname;
     rev = "v" + version;
-    sha256 = "sha256-x/Fq6pGljKJ1uuHhV8R6J94tmfYxZ24J7jNVeQrfOTw=";
+    sha256 = "sha256-7uEjTz0/D7Sv1CnOz/Fry16SjMfEUA4dXYifH0pFhyM=";
     fetchSubmodules = true;
   };
 
@@ -43,25 +44,18 @@ buildPythonPackage rec {
     sphinx
     sphinx_rtd_theme
     stdio-mgr
-    sphinx-issues
     pytest-subtests
     flake8
+    dictdiffer
+    pytest-check
   ];
 
   disabledTests = [
     "nonloc"
     "flake8_ext"
     "readme"
+    "cli_invocations"
   ];
-
-  # needs network access:
-  # preCheck = ''
-  #   echo "Building HTML doc for test phase"
-  #   pushd .
-  #   cd doc
-  #   make html
-  #   popd
-  # '';
 
   meta = with lib; {
     description = "Toolkit for manipulation and inspection of Sphinx objects.inv files";

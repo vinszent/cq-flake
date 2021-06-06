@@ -1,13 +1,13 @@
 {
   "nodes": {
-    "cadquery": {
+    "cadquery-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1621163456,
-        "narHash": "sha256-55Q5EWTaHxiwGxyP6rCOhBcL4WEKeTPCgtumtdzeazU=",
+        "lastModified": 1622565417,
+        "narHash": "sha256-9+JYaGBiUC5D2y9JtXYibICpuomMWTaqdIc5LzD38sM=",
         "owner": "CadQuery",
         "repo": "cadquery",
-        "rev": "05e42a75e157ed911aeef84cd7a4a864c59a5750",
+        "rev": "7b1a99ca8a901e3a76d27743ee98fc76344b362a",
         "type": "github"
       },
       "original": {
@@ -16,7 +16,7 @@
         "type": "github"
       }
     },
-    "cq-editor": {
+    "cq-editor-src": {
       "flake": false,
       "locked": {
         "lastModified": 1618333223,
@@ -47,7 +47,7 @@
         "type": "github"
       }
     },
-    "llvm_src": {
+    "llvm-src": {
       "flake": false,
       "locked": {
         "lastModified": 1594138897,
@@ -80,14 +80,14 @@
         "type": "github"
       }
     },
-    "ocp": {
+    "ocp-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1614795074,
-        "narHash": "sha256-gVCMy6EafcxJQY1sRFAqFaSJhtbTsFnMOWomcv3pKHw=",
+        "lastModified": 1621853250,
+        "narHash": "sha256-vZDed+3EsHrwpZqMh5evQeYkcyTQNUS2rKRQqAhetnQ=",
         "owner": "cadquery",
         "repo": "ocp",
-        "rev": "e1df3469a39228ce2553aacc3a0238e334d4dd9a",
+        "rev": "b058865f1f041941564637addf47c547119d8284",
         "type": "github"
       },
       "original": {
@@ -96,7 +96,7 @@
         "type": "github"
       }
     },
-    "ocp-stubs": {
+    "ocp-stubs-src": {
       "flake": false,
       "locked": {
         "lastModified": 1614280796,
@@ -112,14 +112,14 @@
         "type": "github"
       }
     },
-    "pywrap": {
+    "pywrap-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1612598676,
-        "narHash": "sha256-GqJAZ26bhRcTOg8bMiw8Oe012k6tLu3nS6vZdb7EcDM=",
+        "lastModified": 1622043941,
+        "narHash": "sha256-qxDY5qkOEmaG+ssgQnaVvP/hMP05pkSZRvZaZ3/I4K0=",
         "owner": "CadQuery",
         "repo": "pywrap",
-        "rev": "cb06e717fa3368333ed4e0520eb6e9e2bd8e81a0",
+        "rev": "f8869e5a47fd3e3e1d31e7ab89b46c158f7487bf",
         "type": "github"
       },
       "original": {
@@ -130,14 +130,14 @@
     },
     "root": {
       "inputs": {
-        "cadquery": "cadquery",
-        "cq-editor": "cq-editor",
+        "cadquery-src": "cadquery-src",
+        "cq-editor-src": "cq-editor-src",
         "flake-utils": "flake-utils",
-        "llvm_src": "llvm_src",
+        "llvm-src": "llvm-src",
         "nixpkgs": "nixpkgs",
-        "ocp": "ocp",
-        "ocp-stubs": "ocp-stubs",
-        "pywrap": "pywrap"
+        "ocp-src": "ocp-src",
+        "ocp-stubs-src": "ocp-stubs-src",
+        "pywrap-src": "pywrap-src"
       }
     }
   },
