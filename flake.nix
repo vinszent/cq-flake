@@ -4,27 +4,27 @@
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
     flake-utils.url = "github:numtide/flake-utils";
-    cadquery = {
+    cadquery-src = {
       url = "/home/marcus/tempbuild/cadquery";
       flake = false;
     };
-    cq-editor = {
+    cq-editor-src = {
       url = "/home/marcus/tempbuild/CQ-editor";
       flake = false;
     };
-    ocp = {
+    ocp-src = {
       url = "github:cadquery/ocp";
       flake = false;
     };
-    ocp-stubs = {
+    ocp-stubs-src = {
       url = "github:cadquery/ocp-stubs";
       flake = false;
     };
-    pywrap = {
+    pywrap-src = {
       url = "github:CadQuery/pywrap";
       flake = false;
     };
-    llvm_src = {
+    llvm-src = {
       url = "github:llvm/llvm-project/llvmorg-10.0.1";
       flake = false;
     };
@@ -45,6 +45,20 @@
             llvmPackages = pkgs.llvmPackages_10; # canonical now builds with llvm10: https://github.com/CadQuery/OCP/commit/2ecc243e2011e1ea5c57023dee22e562dacefcdd
             stdenv = pkgs.gcc9Stdenv;
           };
+          opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt {
+            inherit (gccSet) stdenv;
+            vtk_9 = pkgs.python38.pkgs.vtk_9;  # awkward, py-vtk-9 -> not-py occt -> py-cadquery, not sure how to close the python package set.
+          };
+          py-overrides = import expressions/py-overrides.nix {
+            inherit gccSet;
+            inherit (inputs) llvm-src pywrap-src ocp-src ocp-stubs-src cadquery-src;
+            occt = opencascade-occt;
+          };
+          python = pkgs.python38.override {
+            packageOverrides = py-overrides;
+            self = python;
+          };
+
         in rec {
           packages = {
             python38 = pkgs.python38.override {
@@ -93,16 +107,12 @@
               };
             };
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
-              python3Packages = packages.python38.pkgs;
-              src = inputs.cq-editor;
+              python3Packages = python.pkgs;
+              src = inputs.cq-editor-src;
             };
-            opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt {
-              inherit (gccSet) stdenv;
-              vtk_9 = packages.python38.pkgs.vtk_9;
-            };
-            cadquery-docs = packages.python38.pkgs.cadquery_w_docs.doc;
-            cadquery-env = packages.python38.withPackages (
-              ps: with ps; [ cadquery python-language-server cq-kit black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder multimethod ]
+            cadquery-docs = python.pkgs.cadquery_w_docs.doc;
+            cadquery-env = python.withPackages (
+              ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder ]
             );
             # cadquery-dev-shell = packages.python38.withPackages (
             #   ps: with ps; ([ black mypy ocp-stubs ] 
@@ -112,8 +122,6 @@
             #   ++ [ pytest ]
             #   ++ cadquery.nativeBuildInputs
             # ));
-            # useful for debugging:
-            nixpkgs-in = pkgs;
           };
 
           defaultPackage = packages.cq-editor;

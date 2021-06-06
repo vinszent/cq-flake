@@ -42,6 +42,8 @@ buildPythonPackage rec {
     typish
   ];
 
+  pythonImportsCheck = [ "nptyping" ];
+
   meta = with lib; {
     description = "Type hints for Numpy";
     homepage = "https://github.com/ramonhagenaars/nptyping";
