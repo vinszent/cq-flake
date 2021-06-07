@@ -77,6 +77,7 @@
             #   ++ [ pytest ]
             #   ++ cadquery.nativeBuildInputs
             # ));
+            inherit python;
           };
 
           defaultPackage = packages.cq-editor;
@@ -84,6 +85,7 @@
             type = "app";
             program = defaultPackage + "/bin/cq-editor";
           };
+          overlays = { inherit py-overrides; };
           # TODO: add dev env for cadquery
           # devShell = packages.cadquery-dev-shell;
           # TODO: add dev env for cq-editor, with hopefully working pyqt5
