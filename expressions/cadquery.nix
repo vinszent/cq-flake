@@ -4,23 +4,8 @@
   , pythonOlder
   , fetchFromGitHub
   , pyparsing
-  # , opencascade
-  , stdenv
-  , python
-  , cmake
-  , swig
-  , ninja
-  , smesh
-  , freetype
-  , libGL
-  , libGLU
-  , libX11
-  , six
   , makeFontsConf
   , freefont_ttf
-  , documentation ? false
-  , sphinx
-  , sphinx_rtd_theme
   , pytestCheckHook
   , pytest-xdist
   , ocp
@@ -30,41 +15,12 @@
   , src
   , scipy
   , nptyping
-  , sphinx-autodoc-typehints
-  , sphinxcadquery
 }:
 
-let 
-  sphinx-build = if documentation then
-    python.pkgs.sphinx.overrideAttrs (super: {
-      propagatedBuildInputs = super.propagatedBuildInputs or [] ++ [ python.pkgs.sphinx_rtd_theme ];
-      postFixup = super.postFixup or "" + ''
-        # Do not propagate Python
-        rm $out/nix-support/propagated-build-inputs
-      '';
-    }) else null;
-  version = if (builtins.hasAttr "rev" src) then (builtins.substring 0 7 src.rev) else "local-dev";
-
-in buildPythonPackage rec {
+buildPythonPackage rec {
   pname = "cadquery";
-  # version = "git-" + builtins.substring 0 7 src.rev;
-  inherit src version;
-
-  outputs = [ "out" ] ++ lib.lists.optional documentation "doc";
-
-  # src = fetchFromGitHub {
-  #   owner = "CadQuery";
-  #   repo = pname;
-  #   rev = 2d721d0ff8a195a0902eb9c3add88d07546c05b1;
-  #   sha256 = "sha256-eMc7j41tkhtd47IZyaRjbHPBx/cVQSzoenUqak6OB6k=";
-  # };
-
-  nativeBuildInputs = lib.lists.optionals documentation [
-    sphinx
-    sphinx_rtd_theme
-    sphinx-autodoc-typehints
-    sphinxcadquery
-  ];
+  version = if (builtins.hasAttr "rev" src) then (builtins.substring 0 7 src.rev) else "local-dev";
+  inherit src;
 
   propagatedBuildInputs = [
     pyparsing
@@ -92,17 +48,6 @@ in buildPythonPackage rec {
     "-W ignore::FutureWarning"
     "-n $NIX_BUILD_CORES"
   ];
-
-  # Documentation, very expensive so build after checkPhase
-  preInstall = lib.optionalString documentation ''
-    echo "Building CadQuery docs"
-    PYTHONPATH=$PYTHONPATH:$(pwd) ./build-docs.sh
-  '';
-
-  postInstall = lib.optionalString documentation ''
-    mkdir -p $out/share/doc
-    cp -r target/docs/* $out/share/doc
-  '';
 
   meta = with lib; {
     description = "Parametric scripting language for creating and traversing CAD models";
