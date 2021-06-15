@@ -60,7 +60,6 @@
   };
 
   cadquery = self.callPackage ./cadquery.nix {
-    documentation = false;
     src = cadquery-src;
   };
 
