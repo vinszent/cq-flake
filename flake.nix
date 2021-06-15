@@ -65,7 +65,9 @@
               python3Packages = python.pkgs;
               src = inputs.cq-editor-src;
             };
-            cadquery-docs = python.pkgs.cadquery_w_docs.doc;
+            cq-docs = python.pkgs.callPackage ./expressions/cq-docs.nix {
+              src = inputs.cadquery-src;
+            };
             cadquery-env = python.withPackages (
               ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder ]
             );

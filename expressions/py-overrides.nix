@@ -15,6 +15,8 @@
 
   cymbal = self.callPackage ./cymbal.nix { };
 
+  dictdiffer = self.callPackage ./dictdiffer.nix { };
+
   geomdl = self.callPackage ./geomdl.nix { };
 
   ezdxf = self.callPackage ./ezdxf.nix { };
