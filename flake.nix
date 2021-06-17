@@ -62,51 +62,6 @@
 
         in rec {
           packages = {
-            python38 = pkgs.python38.override {
-              packageOverrides = python-self : python-super: {
-                cadquery = python-self.callPackage ./expressions/cadquery.nix {
-                  documentation = false;
-                  src = inputs.cadquery;
-                };
-                cadquery_w_docs = python-self.callPackage ./expressions/cadquery.nix {
-                  documentation = true;
-                  src = inputs.cadquery;
-                };
-                ocp = python-self.callPackage ./expressions/OCP {
-                  src = inputs.ocp;
-                  inherit (gccSet) stdenv gcc llvmPackages;
-                  opencascade-occt = packages.opencascade-occt; 
-                };
-                clang = python-self.callPackage ./expressions/clang.nix {
-                  src = inputs.llvm_src;
-                  llvmPackages = gccSet.llvmPackages;
-                };
-                cymbal = python-self.callPackage ./expressions/cymbal.nix { };
-                geomdl = python-self.callPackage ./expressions/geomdl.nix { };
-                ezdxf = python-self.callPackage ./expressions/ezdxf.nix { };
-                sphinx = python-self.callPackage ./expressions/sphinx.nix { };
-                nptyping = python-self.callPackage ./expressions/nptyping.nix { };
-                typish = python-self.callPackage ./expressions/typish.nix { };
-                sphinx-autodoc-typehints = python-self.callPackage ./expressions/sphinx-autodoc-typehints.nix { };
-                sphobjinv = python-self.callPackage ./expressions/sphobjinv.nix { };
-                stdio-mgr = python-self.callPackage ./expressions/stdio-mgr.nix { };
-                sphinx-issues = python-self.callPackage ./expressions/sphinx-issues.nix { };
-                sphinxcadquery = python-self.callPackage ./expressions/sphinxcadquery.nix { };
-                cq-kit = python-self.callPackage ./expressions/cq-kit.nix { };
-                black = python-self.callPackage ./expressions/black.nix { };
-                pybind11 = python-self.callPackage ./expressions/pybind11 { };
-                pywrap = python-self.callPackage ./expressions/pywrap {
-                  src = inputs.pywrap;
-                  inherit (gccSet) stdenv gcc llvmPackages;
-                  # clang is also pinned to 6.0.1 in the clang expression
-                };
-                ocp-stubs = python-self.callPackage ./expressions/OCP/stubs.nix {
-                  src = inputs.ocp-stubs;
-                };
-                pytest-flakefinder = python-self.callPackage ./expressions/pytest-flakefinder.nix { };
-                multimethod = python-self.callPackage ./expressions/multimethod.nix { };
-              };
-            };
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
               python3Packages = python.pkgs;
               src = inputs.cq-editor-src;
