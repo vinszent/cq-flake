@@ -39,11 +39,11 @@
 
   black = self.callPackage ./black.nix { };
 
-  pybind11 = self.callPackage ./pybind11 { };
+  # pybind11 = self.callPackage ./pybind11 { };
 
   pywrap = self.callPackage ./pywrap {
     src = pywrap-src;
-    inherit (gccSet) stdenv gcc llvmPackages;
+    inherit (gccSet) gcc llvmPackages;
     # clang is also pinned to 6.0.1 in the clang expression
   };
 

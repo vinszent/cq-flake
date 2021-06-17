@@ -1,9 +1,7 @@
 { 
-  stdenv
-  , lib
+  lib
   , buildPythonPackage
   , pythonOlder
-  , fetchFromGitHub
   , src
   , clang
   , pybind11
@@ -23,8 +21,6 @@
   , toposort
   , llvmPackages
   , gcc
-  , libglvnd
-  , xlibs
   , python
 }:
 
@@ -51,6 +47,7 @@ buildPythonPackage rec {
     tqdm
     toposort
     gcc
+    llvmPackages.libclang
   ];
 
   dontUseCmakeConfigure = true;
@@ -68,7 +65,7 @@ buildPythonPackage rec {
   pythonImportCheck = [ "bindgen" ];
 
   makeWrapperArgs = [
-    ''--add-flags "-l ${llvmPackages.libclang}/lib/libclang.so"''
+    ''--add-flags "-l ${llvmPackages.libclang.lib}/lib/libclang.so"''
   ];
 
   meta = with lib; {
