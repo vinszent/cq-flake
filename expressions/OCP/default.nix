@@ -2,16 +2,13 @@
   , stdenv
   , src
   , buildPythonPackage
-  , fetchFromGitHub
   , pythonOlder
   , cmake
   , ninja
   , opencascade-occt
   , llvmPackages
-  , libcxx
   , gcc
   , pybind11
-  # , glibc
   , libglvnd
   , xlibs
   , python
@@ -72,7 +69,6 @@ let
     ];
 
     nativeBuildInputs = [
-      llvmPackages.libcxx
       pywrap
       rapidjson
       ocp-dump-symbols
@@ -95,7 +91,8 @@ let
         "${xlibs.xorgproto}/include"
         "${xlibs.libX11.dev}/include"
         "${libglvnd.dev}/include"
-        "${llvmPackages.libcxx}/include/c++/v1"
+        "${gcc.cc}/include/c++/${gcc.version}"
+        "${gcc.cc}/include/c++/${gcc.version}/x86_64-unknown-linux-gnu"
         "${stdenv.glibc.dev}/include"
         "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include-fixed"
         "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include"
@@ -137,7 +134,6 @@ let
       pywrap
       pybind11
       python
-      libcxx
       rapidjson
     ];
     
