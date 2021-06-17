@@ -220,7 +220,6 @@ let
     
 in buildPythonPackage {
   pname = "OCP";
-  # version = lib.debug.traceSeqN 3 src.shortRev ("7.5.1-git-" + src.shortRev);
   inherit version;
   src = ocp-result;
 
