@@ -54,6 +54,7 @@ buildPythonPackage rec {
 
   patches = [
     ./less-warnings.patch
+    # ./003_log_dropped_methods.patch
   ];
 
   # do I need this at all?

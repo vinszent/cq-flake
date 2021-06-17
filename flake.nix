@@ -116,6 +116,7 @@
             cadquery-env = python.withPackages (
               ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder ]
             );
+            just-ocp = python.withPackages ( ps: with ps; [ ocp ] );
             # cadquery-dev-shell = packages.python38.withPackages (
             #   ps: with ps; ([ black mypy ocp-stubs ] 
             #   ++ cadquery.propagatedBuildInputs 
@@ -124,7 +125,7 @@
             #   ++ [ pytest ]
             #   ++ cadquery.nativeBuildInputs
             # ));
-            inherit python;
+            inherit python opencascade-occt;
           };
 
           defaultPackage = packages.cq-editor;

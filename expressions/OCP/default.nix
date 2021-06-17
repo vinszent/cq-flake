@@ -32,8 +32,13 @@ let
 
     phases = [
       "unpackPhase"
+      "patchPhase"
       "buildPhase"
       "installPhase"
+    ];
+
+    patches = [
+      # ./000_just_BRepTools.patch
     ];
 
     nativeBuildInputs = [
@@ -74,6 +79,7 @@ let
       echo "starting generate" && \
       pywrap -n $NIX_BUILD_CORES $pywrapFlags generate ocp.toml out_f.pkl && \
       echo "finished bindgen generate"
+      runHook postBuild
     '';
 
     installPhase = ''
