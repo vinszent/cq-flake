@@ -52,6 +52,7 @@
           py-overrides = import expressions/py-overrides.nix {
             inherit gccSet;
             inherit (inputs) llvm-src pywrap-src ocp-src ocp-stubs-src cadquery-src;
+            inherit (pkgs) fetchFromGitHub;
             occt = opencascade-occt;
           };
           python = pkgs.python38.override {

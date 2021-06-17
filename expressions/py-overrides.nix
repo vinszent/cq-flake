@@ -6,6 +6,7 @@
   , ocp-stubs-src
   , cadquery-src
   , occt
+  , fetchFromGitHub
 }: self: super: {
 
   clang = self.callPackage ./clang.nix {
@@ -67,5 +68,15 @@
     documentation = true;
     src = cadquery-src;
   };
+
+  pyls-black = super.pyls-black.overridePythonAttrs (old: rec {
+    version = "0.4.6";
+    src = fetchFromGitHub {
+      owner = "rupert";
+      repo = "pyls-black";
+      rev = "v${version}";
+      sha256 = "0cjf0mjn156qp0x6md6mncs31hdpzfim769c2lixaczhyzwywqnj";
+    };
+  });
 
 }
