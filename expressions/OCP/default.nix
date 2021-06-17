@@ -19,10 +19,45 @@
   , pywrap
   , vtk_9
   , rapidjson
+  , lief
+  , pathpy
 }:
 let
 
   version = "v7.5.1-git-" + src.shortRev;
+
+  ocp-dump-symbols = stdenv.mkDerivation rec {
+    pname = "ocp-dump-symbols";
+    inherit version src;
+
+    nativeBuildInputs = [
+      lief
+      pathpy
+      opencascade-occt
+    ];
+
+    phases = [
+      "unpackPhase"
+      "buildPhase"
+      "installPhase"
+      "installCheckPhase"
+    ];
+
+    dumpSymbols = ./dump_symbols.py;
+
+    buildPhase = ''
+      python $dumpSymbols ${opencascade-occt}
+    '';
+
+    installPhase = ''
+      mkdir -p $out
+      cp ./symbols_mangled_linux.dat $out
+      echo "Checking we did not install an empty file"
+      [ -s $out/symbols_mangled_linux.dat ]
+    '';
+
+  };
+
 
   # intermediate step, do pybind, cmake in the next step
   ocp-pybound = stdenv.mkDerivation rec {
@@ -40,7 +75,12 @@ let
       llvmPackages.libcxx
       pywrap
       rapidjson
+      ocp-dump-symbols
     ];
+
+    postPatch = ''
+      cp ${ocp-dump-symbols}/symbols_mangled_linux.dat ./
+    '';
 
     # should this actually be in pywrap?
     preBuild = ''
