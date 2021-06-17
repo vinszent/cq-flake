@@ -49,6 +49,7 @@ buildPythonPackage rec {
   pytestFlagsArray = [
     "-W ignore::FutureWarning"
     "-n $NIX_BUILD_CORES"
+    "-k 'not example'"
   ];
 
   meta = with lib; {
