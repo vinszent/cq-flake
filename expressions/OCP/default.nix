@@ -187,7 +187,9 @@ let
     '';
   };
 
-  # TODO: get rid of hardcoded python version in the following:
+  # the old hardcoded output name was:
+  #         package_data={
+  #             "": ["OCP.cpython-38-x86_64-linux-gnu.so"]
   setuppy = writeTextFile {
     name = "setup.py";
     text = ''
@@ -209,7 +211,7 @@ let
           packages=[""],
           package_dir={"": "."},
           package_data={
-              "": ["OCP.cpython-38-x86_64-linux-gnu.so"]
+              "": ["OCP.${python.implementation}-${python.sourceVersion.major}${python.sourceVersion.minor}-${stdenv.system}-gnu.so"]
           },
           cmdclass = {"build_py": BuildPyNoBuild}
       )
