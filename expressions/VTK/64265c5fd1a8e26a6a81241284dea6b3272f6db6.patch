@@ -1,0 +1,634 @@
+From 64265c5fd1a8e26a6a81241284dea6b3272f6db6 Mon Sep 17 00:00:00 2001
+From: Ben Boeckel <ben.boeckel@kitware.com>
+Date: Fri, 17 Apr 2020 15:02:04 -0400
+Subject: [PATCH] Qt: support QT_NO_KEYWORDS builds
+
+---
+ .../GUI/Qt/FourPaneViewer/QtVTKRenderWindows.h |  4 ++--
+ Examples/GUI/Qt/SimpleView/SimpleView.h        |  4 ++--
+ .../Cxx/CustomLinkView/CustomLinkView.h        |  6 +++---
+ Examples/Infovis/Cxx/EasyView/EasyView.h       |  4 ++--
+ Examples/Infovis/Cxx/StatsView/StatsView.h     |  4 ++--
+ GUISupport/Qt/QVTKApplication.cxx              |  2 +-
+ GUISupport/Qt/QVTKInteractorAdapter.cxx        |  4 ++--
+ GUISupport/Qt/QVTKOpenGLNativeWidget.h         |  2 +-
+ GUISupport/Qt/QVTKOpenGLWindow.cxx             |  2 +-
+ GUISupport/Qt/QVTKOpenGLWindow.h               |  4 ++--
+ GUISupport/Qt/QVTKRenderWindowAdapter.h        |  2 +-
+ GUISupport/Qt/vtkQtAbstractModelAdapter.h      |  2 +-
+ .../Qt/vtkQtAnnotationLayersModelAdapter.cxx   | 14 +++++++-------
+ GUISupport/Qt/vtkQtConnection.cxx              |  2 +-
+ GUISupport/Qt/vtkQtConnection.h                |  4 ++--
+ GUISupport/Qt/vtkQtDebugLeaksModel.cxx         |  4 ++--
+ GUISupport/Qt/vtkQtDebugLeaksModel.h           |  4 ++--
+ GUISupport/Qt/vtkQtDebugLeaksView.h            |  2 +-
+ GUISupport/Qt/vtkQtTableModelAdapter.cxx       | 18 +++++++++---------
+ GUISupport/Qt/vtkQtTableModelAdapter.h         |  2 +-
+ GUISupport/Qt/vtkQtTreeModelAdapter.cxx        |  6 +++---
+ GUISupport/Qt/vtkTDxQtUnixDevices.cxx          |  4 ++--
+ GUISupport/Qt/vtkTDxQtUnixDevices.h            |  2 +-
+ Views/Qt/vtkQtAnnotationView.h                 |  2 +-
+ Views/Qt/vtkQtListView.h                       |  2 +-
+ Views/Qt/vtkQtTableView.h                      |  2 +-
+ Views/Qt/vtkQtTreeView.cxx                     |  2 +-
+ Views/Qt/vtkQtTreeView.h                       |  4 ++--
+ 28 files changed, 57 insertions(+), 57 deletions(-)
+
+diff --git a/Examples/GUI/Qt/FourPaneViewer/QtVTKRenderWindows.h b/Examples/GUI/Qt/FourPaneViewer/QtVTKRenderWindows.h
+index 2bf7b225edb..9266493745f 100644
+--- a/Examples/GUI/Qt/FourPaneViewer/QtVTKRenderWindows.h
++++ b/Examples/GUI/Qt/FourPaneViewer/QtVTKRenderWindows.h
+@@ -19,7 +19,7 @@ class QtVTKRenderWindows : public QMainWindow
+   QtVTKRenderWindows(int argc, char* argv[]);
+   ~QtVTKRenderWindows() override {}
+ 
+-public slots:
++public Q_SLOTS:
+ 
+   virtual void slotExit();
+   virtual void resliceMode(int);
+@@ -39,7 +39,7 @@ public slots:
+   vtkSmartPointer<vtkDistanceWidget> DistanceWidget[3];
+   vtkSmartPointer<vtkResliceImageViewerMeasurements> ResliceMeasurements;
+ 
+-protected slots:
++protected Q_SLOTS:
+ 
+ private:
+   // Designer form
+diff --git a/Examples/GUI/Qt/SimpleView/SimpleView.h b/Examples/GUI/Qt/SimpleView/SimpleView.h
+index b7fab2d50fb..fd478fd733c 100644
+--- a/Examples/GUI/Qt/SimpleView/SimpleView.h
++++ b/Examples/GUI/Qt/SimpleView/SimpleView.h
+@@ -33,13 +33,13 @@ class SimpleView : public QMainWindow
+   SimpleView();
+   ~SimpleView() override;
+ 
+-public slots:
++public Q_SLOTS:
+ 
+   virtual void slotOpenFile();
+   virtual void slotExit();
+ 
+ protected:
+-protected slots:
++protected Q_SLOTS:
+ 
+ private:
+   vtkSmartPointer<vtkQtTableView> TableView;
+diff --git a/Examples/Infovis/Cxx/CustomLinkView/CustomLinkView.h b/Examples/Infovis/Cxx/CustomLinkView/CustomLinkView.h
+index 6d7c7a1d5e3..c105cd72cc6 100644
+--- a/Examples/Infovis/Cxx/CustomLinkView/CustomLinkView.h
++++ b/Examples/Infovis/Cxx/CustomLinkView/CustomLinkView.h
+@@ -54,15 +54,15 @@ class CustomLinkView : public QMainWindow
+   CustomLinkView();
+   ~CustomLinkView() override;
+ 
+-public slots:
++public Q_SLOTS:
+ 
+   virtual void slotOpenXMLFile();
+   virtual void slotExit();
+ 
+ protected:
+-protected slots:
++protected Q_SLOTS:
+ 
+-public slots:
++public Q_SLOTS:
+   // Qt signal (produced by vtkEventQtSlotConnect) will be connected to
+   // this slot.
+   // Full signature of the slot could be:
+diff --git a/Examples/Infovis/Cxx/EasyView/EasyView.h b/Examples/Infovis/Cxx/EasyView/EasyView.h
+index 0d5455677e2..77a551756b1 100644
+--- a/Examples/Infovis/Cxx/EasyView/EasyView.h
++++ b/Examples/Infovis/Cxx/EasyView/EasyView.h
+@@ -51,13 +51,13 @@ class EasyView : public QMainWindow
+   EasyView();
+   ~EasyView() override;
+ 
+-public slots:
++public Q_SLOTS:
+ 
+   virtual void slotOpenXMLFile();
+   virtual void slotExit();
+ 
+ protected:
+-protected slots:
++protected Q_SLOTS:
+ 
+ private:
+   // Methods
+diff --git a/Examples/Infovis/Cxx/StatsView/StatsView.h b/Examples/Infovis/Cxx/StatsView/StatsView.h
+index 2a1a04e8d50..c1211b85b82 100644
+--- a/Examples/Infovis/Cxx/StatsView/StatsView.h
++++ b/Examples/Infovis/Cxx/StatsView/StatsView.h
+@@ -35,12 +35,12 @@ class StatsView : public QMainWindow
+   StatsView();
+   ~StatsView() override;
+ 
+-public slots:
++public Q_SLOTS:
+ 
+   virtual void slotOpenSQLiteDB();
+ 
+ protected:
+-protected slots:
++protected Q_SLOTS:
+ 
+ private:
+   // Methods
+diff --git a/GUISupport/Qt/QVTKApplication.cxx b/GUISupport/Qt/QVTKApplication.cxx
+index d7ee4b779bf..5e035840f86 100644
+--- a/GUISupport/Qt/QVTKApplication.cxx
++++ b/GUISupport/Qt/QVTKApplication.cxx
+@@ -54,7 +54,7 @@ bool QVTKApplication::x11EventFilter(XEvent* event)
+ void QVTKApplication::setDevice(vtkTDxDevice* device)
+ {
+ #ifdef Q_WS_X11 || Q_OS_LINUX
+-  emit CreateDevice(device);
++  Q_EMIT CreateDevice(device);
+ #else
+   (void)device; // to avoid warnings.
+ #endif
+diff --git a/GUISupport/Qt/QVTKInteractorAdapter.cxx b/GUISupport/Qt/QVTKInteractorAdapter.cxx
+index a7f10248ffa..ea42243ce6c 100644
+--- a/GUISupport/Qt/QVTKInteractorAdapter.cxx
++++ b/GUISupport/Qt/QVTKInteractorAdapter.cxx
+@@ -179,7 +179,7 @@ bool QVTKInteractorAdapter::ProcessEvent(QEvent* e, vtkRenderWindowInteractor* i
+   if (t == QEvent::TouchBegin || t == QEvent::TouchUpdate || t == QEvent::TouchEnd)
+   {
+     QTouchEvent* e2 = dynamic_cast<QTouchEvent*>(e);
+-    foreach (const QTouchEvent::TouchPoint& point, e2->touchPoints())
++    Q_FOREACH (const QTouchEvent::TouchPoint& point, e2->touchPoints())
+     {
+       if (point.id() >= VTKI_MAX_POINTERS)
+       {
+@@ -192,7 +192,7 @@ bool QVTKInteractorAdapter::ProcessEvent(QEvent* e, vtkRenderWindowInteractor* i
+         (e2->modifiers() & Qt::ControlModifier) > 0 ? 1 : 0,
+         (e2->modifiers() & Qt::ShiftModifier) > 0 ? 1 : 0, 0, 0, nullptr, point.id());
+     }
+-    foreach (const QTouchEvent::TouchPoint& point, e2->touchPoints())
++    Q_FOREACH (const QTouchEvent::TouchPoint& point, e2->touchPoints())
+     {
+       if (point.id() >= VTKI_MAX_POINTERS)
+       {
+diff --git a/GUISupport/Qt/QVTKOpenGLNativeWidget.h b/GUISupport/Qt/QVTKOpenGLNativeWidget.h
+index 7c8da07fc67..3765d3914a9 100644
+--- a/GUISupport/Qt/QVTKOpenGLNativeWidget.h
++++ b/GUISupport/Qt/QVTKOpenGLNativeWidget.h
+@@ -217,7 +217,7 @@ class VTKGUISUPPORTQT_EXPORT QVTKOpenGLNativeWidget : public QOpenGLWidget
+    */
+   VTK_LEGACY(void setDefaultQVTKCursor(const QCursor& cursor));
+ 
+-protected slots:
++protected Q_SLOTS:
+   /**
+    * Called as a response to `QOpenGLContext::aboutToBeDestroyed`. This may be
+    * called anytime during the widget lifecycle. We need to release any OpenGL
+diff --git a/GUISupport/Qt/QVTKOpenGLWindow.cxx b/GUISupport/Qt/QVTKOpenGLWindow.cxx
+index 3bddc198090..451e1d78df8 100644
+--- a/GUISupport/Qt/QVTKOpenGLWindow.cxx
++++ b/GUISupport/Qt/QVTKOpenGLWindow.cxx
+@@ -276,7 +276,7 @@ bool QVTKOpenGLWindow::event(QEvent* evt)
+   // The containing widget should then forward back only the required events for
+   // this window (such as mouse events and resize events).
+   // Until this misbehavior is fixed, we have to handle forwarding of events.
+-  emit this->windowEvent(evt);
++  Q_EMIT this->windowEvent(evt);
+ 
+   if (this->RenderWindowAdapter)
+   {
+diff --git a/GUISupport/Qt/QVTKOpenGLWindow.h b/GUISupport/Qt/QVTKOpenGLWindow.h
+index 2397c332837..330ff209e19 100644
+--- a/GUISupport/Qt/QVTKOpenGLWindow.h
++++ b/GUISupport/Qt/QVTKOpenGLWindow.h
+@@ -168,14 +168,14 @@ class VTKGUISUPPORTQT_EXPORT QVTKOpenGLWindow : public QOpenGLWindow
+    */
+   VTK_LEGACY(void setDefaultQVTKCursor(const QCursor& cursor));
+ 
+-signals:
++Q_SIGNALS:
+   /**
+    * Signal emitted when any event has been receive, with the corresponding
+    * event as argument.
+    */
+   void windowEvent(QEvent* e);
+ 
+-protected slots:
++protected Q_SLOTS:
+   /**
+    * Called as a response to `QOpenGLContext::aboutToBeDestroyed`. This may be
+    * called anytime during the widget lifecycle. We need to release any OpenGL
+diff --git a/GUISupport/Qt/QVTKRenderWindowAdapter.h b/GUISupport/Qt/QVTKRenderWindowAdapter.h
+index e145316e57a..9ca665dc6b0 100644
+--- a/GUISupport/Qt/QVTKRenderWindowAdapter.h
++++ b/GUISupport/Qt/QVTKRenderWindowAdapter.h
+@@ -171,7 +171,7 @@ class VTKGUISUPPORTQT_EXPORT QVTKRenderWindowAdapter : public QObject
+   void setUnscaledDPI(int value);
+   //@}
+ 
+-private slots:
++private Q_SLOTS:
+   void contextAboutToBeDestroyed();
+ 
+ private:
+diff --git a/GUISupport/Qt/vtkQtAbstractModelAdapter.h b/GUISupport/Qt/vtkQtAbstractModelAdapter.h
+index 81df3bd1724..ae93ae11e3b 100644
+--- a/GUISupport/Qt/vtkQtAbstractModelAdapter.h
++++ b/GUISupport/Qt/vtkQtAbstractModelAdapter.h
+@@ -139,7 +139,7 @@ class VTKGUISUPPORTQT_EXPORT vtkQtAbstractModelAdapter : public QAbstractItemMod
+   void beginResetModel() { QAbstractItemModel::beginResetModel(); }
+   void endResetModel() { QAbstractItemModel::endResetModel(); }
+ 
+-signals:
++Q_SIGNALS:
+   void modelChanged();
+ 
+ protected:
+diff --git a/GUISupport/Qt/vtkQtAnnotationLayersModelAdapter.cxx b/GUISupport/Qt/vtkQtAnnotationLayersModelAdapter.cxx
+index d304c746386..d7cc051e2b1 100644
+--- a/GUISupport/Qt/vtkQtAnnotationLayersModelAdapter.cxx
++++ b/GUISupport/Qt/vtkQtAnnotationLayersModelAdapter.cxx
+@@ -130,7 +130,7 @@ void vtkQtAnnotationLayersModelAdapter::setAnnotationLayers(vtkAnnotationLayers*
+ 
+     // We will assume the table is totally
+     // new and any views should update completely
+-    emit this->reset();
++    Q_EMIT this->reset();
+   }
+ }
+ 
+@@ -317,7 +317,7 @@ bool vtkQtAnnotationLayersModelAdapter::setData(
+     if (role == Qt::DecorationRole)
+       {
+       this->Internal->IndexToDecoration[idx] = value;
+-      emit this->dataChanged(idx, idx);
++      Q_EMIT this->dataChanged(idx, idx);
+       return true;
+       }
+    */
+@@ -412,24 +412,24 @@ Qt::DropActions vtkQtAnnotationLayersModelAdapter::supportedDragActions() const
+ 
+ bool vtkQtAnnotationLayersModelAdapter::insertRows(int row, int count, const QModelIndex &p)
+ {
+-  emit this->beginInsertRows(p,row,row+count-1);
++  Q_EMIT this->beginInsertRows(p,row,row+count-1);
+   for(int i=0; i<count; ++i)
+     {
+     this->Annotations->InsertLayer(row);
+     }
+-  emit this->endInsertRows();
++  Q_EMIT this->endInsertRows();
+ 
+   return true;
+ }
+ 
+ bool vtkQtAnnotationLayersModelAdapter::removeRows(int row, int count, const QModelIndex &p)
+ {
+-  emit this->beginRemoveRows(p,row,row+count-1);
++  Q_EMIT this->beginRemoveRows(p,row,row+count-1);
+   for(int i=0; i<count; ++i)
+     {
+     this->Annotations->RemoveAnnotation(this->Annotations->GetAnnotation(row));
+     }
+-  emit this->endRemoveRows();
++  Q_EMIT this->endRemoveRows();
+ 
+   return true;
+ }
+@@ -463,7 +463,7 @@ QMimeData *vtkQtAnnotationLayersModelAdapter::mimeData(const QModelIndexList &in
+ 
+   QDataStream stream(&encodedData, QIODevice::WriteOnly);
+ 
+-  foreach (QModelIndex index, indexes) {
++  Q_FOREACH (QModelIndex index, indexes) {
+      if (index.isValid()) {
+          stream << data(index, Qt::DisplayRole).toByteArray();
+      }
+diff --git a/GUISupport/Qt/vtkQtConnection.cxx b/GUISupport/Qt/vtkQtConnection.cxx
+index 97c33e22077..31d68d106be 100644
+--- a/GUISupport/Qt/vtkQtConnection.cxx
++++ b/GUISupport/Qt/vtkQtConnection.cxx
+@@ -67,7 +67,7 @@ void vtkQtConnection::Execute(vtkObject* caller, unsigned long e, void* call_dat
+ {
+   if (e != vtkCommand::DeleteEvent || (this->VTKEvent == vtkCommand::DeleteEvent))
+   {
+-    emit EmitExecute(caller, e, ClientData, call_data, this->Callback);
++    Q_EMIT EmitExecute(caller, e, ClientData, call_data, this->Callback);
+   }
+ 
+   if (e == vtkCommand::DeleteEvent)
+diff --git a/GUISupport/Qt/vtkQtConnection.h b/GUISupport/Qt/vtkQtConnection.h
+index ab65c7aaab6..e95a58f9c4a 100644
+--- a/GUISupport/Qt/vtkQtConnection.h
++++ b/GUISupport/Qt/vtkQtConnection.h
+@@ -69,11 +69,11 @@ class vtkQtConnection : public QObject
+   static void DoCallback(
+     vtkObject* vtk_obj, unsigned long event, void* client_data, void* call_data);
+ 
+-signals:
++Q_SIGNALS:
+   // the qt signal for moc to take care of
+   void EmitExecute(vtkObject*, unsigned long, void* client_data, void* call_data, vtkCommand*);
+ 
+-protected slots:
++protected Q_SLOTS:
+   void deleteConnection();
+ 
+ protected:
+diff --git a/GUISupport/Qt/vtkQtDebugLeaksModel.cxx b/GUISupport/Qt/vtkQtDebugLeaksModel.cxx
+index 3301fc6da3c..7212b339e02 100644
+--- a/GUISupport/Qt/vtkQtDebugLeaksModel.cxx
++++ b/GUISupport/Qt/vtkQtDebugLeaksModel.cxx
+@@ -118,7 +118,7 @@ void vtkQtDebugLeaksModel::addObject(vtkObjectBase* object)
+ void vtkQtDebugLeaksModel::processPendingObjects()
+ {
+   this->Internal->ProcessPending = false;
+-  foreach (vtkObjectBase* object, this->Internal->ObjectsToProcess)
++  Q_FOREACH (vtkObjectBase* object, this->Internal->ObjectsToProcess)
+   {
+     this->registerObject(object);
+   }
+@@ -211,7 +211,7 @@ QStandardItemModel* vtkQtDebugLeaksModel::referenceCountModel(const QString& cla
+   {
+     model = new ReferenceCountModel(this);
+     this->Internal->ReferenceModels[className] = model;
+-    foreach (vtkObjectBase* obj, this->getObjects(className))
++    Q_FOREACH (vtkObjectBase* obj, this->getObjects(className))
+     {
+       model->addObject(obj);
+     }
+diff --git a/GUISupport/Qt/vtkQtDebugLeaksModel.h b/GUISupport/Qt/vtkQtDebugLeaksModel.h
+index a290f26fa56..8c6a76e9271 100644
+--- a/GUISupport/Qt/vtkQtDebugLeaksModel.h
++++ b/GUISupport/Qt/vtkQtDebugLeaksModel.h
+@@ -50,7 +50,7 @@ class VTKGUISUPPORTQT_EXPORT vtkQtDebugLeaksModel : public QStandardItemModel
+    */
+   QStandardItemModel* referenceCountModel(const QString& className);
+ 
+-protected slots:
++protected Q_SLOTS:
+ 
+   void addObject(vtkObjectBase* object);
+   void removeObject(vtkObjectBase* object);
+@@ -87,7 +87,7 @@ class ReferenceCountModel : public QStandardItemModel
+   // Inherited method from QAbstractItemModel
+   Qt::ItemFlags flags(const QModelIndex& index) const override;
+ 
+-protected slots:
++protected Q_SLOTS:
+   void updateReferenceCounts();
+ };
+ 
+diff --git a/GUISupport/Qt/vtkQtDebugLeaksView.h b/GUISupport/Qt/vtkQtDebugLeaksView.h
+index a7121a5df3a..269373e6302 100644
+--- a/GUISupport/Qt/vtkQtDebugLeaksView.h
++++ b/GUISupport/Qt/vtkQtDebugLeaksView.h
+@@ -67,7 +67,7 @@ class VTKGUISUPPORTQT_EXPORT vtkQtDebugLeaksView : public QWidget
+   virtual void onObjectDoubleClicked(vtkObjectBase* object);
+   virtual void onClassNameDoubleClicked(const QString& className);
+ 
+-protected slots:
++protected Q_SLOTS:
+ 
+   void onCurrentRowChanged(const QModelIndex& current);
+   void onRowDoubleClicked(const QModelIndex&);
+diff --git a/GUISupport/Qt/vtkQtTableModelAdapter.cxx b/GUISupport/Qt/vtkQtTableModelAdapter.cxx
+index 752432b01cc..7f444e966bf 100644
+--- a/GUISupport/Qt/vtkQtTableModelAdapter.cxx
++++ b/GUISupport/Qt/vtkQtTableModelAdapter.cxx
+@@ -115,7 +115,7 @@ void vtkQtTableModelAdapter::SetColorColumnName(const char* name)
+   {
+     this->ColorColumn = -1;
+     int color_index = 0;
+-    foreach (QString columnname, this->Internal->ModelColumnNames)
++    Q_FOREACH (QString columnname, this->Internal->ModelColumnNames)
+     {
+       if (columnname == name)
+       {
+@@ -139,7 +139,7 @@ void vtkQtTableModelAdapter::SetColorColumnName(const char* name)
+   }
+   if (this->ColorColumn != color_column)
+   {
+-    emit this->reset();
++    Q_EMIT this->reset();
+   }
+ }
+ 
+@@ -155,7 +155,7 @@ void vtkQtTableModelAdapter::SetIconIndexColumnName(const char* name)
+   {
+     this->IconIndexColumn = -1;
+     int color_index = 0;
+-    foreach (QString columnname, this->Internal->ModelColumnNames)
++    Q_FOREACH (QString columnname, this->Internal->ModelColumnNames)
+     {
+       if (columnname == name)
+       {
+@@ -179,7 +179,7 @@ void vtkQtTableModelAdapter::SetIconIndexColumnName(const char* name)
+   }
+   if (this->IconIndexColumn != color_column)
+   {
+-    emit this->reset();
++    Q_EMIT this->reset();
+   }
+ }
+ 
+@@ -195,7 +195,7 @@ void vtkQtTableModelAdapter::SetKeyColumnName(const char* name)
+   {
+     this->KeyColumn = -1;
+     int key_index = 0;
+-    foreach (QString columnname, this->Internal->ModelColumnNames)
++    Q_FOREACH (QString columnname, this->Internal->ModelColumnNames)
+     {
+       if (columnname == name)
+       {
+@@ -219,7 +219,7 @@ void vtkQtTableModelAdapter::SetKeyColumnName(const char* name)
+   }
+   if (this->KeyColumn != key_column)
+   {
+-    emit this->reset();
++    Q_EMIT this->reset();
+   }
+ }
+ 
+@@ -347,7 +347,7 @@ void vtkQtTableModelAdapter::setTable(vtkTable* t)
+ 
+     // We will assume the table is totally
+     // new and any views should update completely
+-    emit this->reset();
++    Q_EMIT this->reset();
+   }
+ }
+ 
+@@ -522,7 +522,7 @@ bool vtkQtTableModelAdapter::setData(const QModelIndex& idx, const QVariant& val
+   if (role == Qt::DecorationRole)
+   {
+     this->Internal->IndexToDecoration[idx] = value;
+-    emit this->dataChanged(idx, idx);
++    Q_EMIT this->dataChanged(idx, idx);
+     return true;
+   }
+   return false;
+@@ -736,7 +736,7 @@ bool vtkQtTableModelAdapter::dropMimeData(const QMimeData* d, Qt::DropAction act
+   buffer >> temp;
+   vtkSelection* s = reinterpret_cast<vtkSelection*>(temp);
+ 
+-  emit this->selectionDropped(s);
++  Q_EMIT this->selectionDropped(s);
+ 
+   return true;
+ }
+diff --git a/GUISupport/Qt/vtkQtTableModelAdapter.h b/GUISupport/Qt/vtkQtTableModelAdapter.h
+index 48ec5f75fc4..1546ea8ea7d 100644
+--- a/GUISupport/Qt/vtkQtTableModelAdapter.h
++++ b/GUISupport/Qt/vtkQtTableModelAdapter.h
+@@ -126,7 +126,7 @@ class VTKGUISUPPORTQT_EXPORT vtkQtTableModelAdapter : public vtkQtAbstractModelA
+   void SetIconSize(int w, int h);
+   void SetIconSheetSize(int w, int h);
+ 
+-signals:
++Q_SIGNALS:
+   void selectionDropped(vtkSelection*);
+ 
+ private:
+diff --git a/GUISupport/Qt/vtkQtTreeModelAdapter.cxx b/GUISupport/Qt/vtkQtTreeModelAdapter.cxx
+index 0e4cde9c364..f689273b52a 100644
+--- a/GUISupport/Qt/vtkQtTreeModelAdapter.cxx
++++ b/GUISupport/Qt/vtkQtTreeModelAdapter.cxx
+@@ -151,7 +151,7 @@ void vtkQtTreeModelAdapter::setTree(vtkTree* t)
+     {
+       tempSGMacroVar->UnRegister(nullptr);
+     }
+-    emit reset();
++    Q_EMIT reset();
+   }
+ 
+   // Okay it's the same pointer but the contents
+@@ -173,7 +173,7 @@ void vtkQtTreeModelAdapter::treeModified()
+     this->GenerateVTKIndexToQtModelIndex(root, this->createIndex(0, 0, static_cast<int>(root)));
+   }
+   this->TreeMTime = this->Tree->GetMTime();
+-  emit reset();
++  Q_EMIT reset();
+ }
+ 
+ // Description:
+@@ -362,7 +362,7 @@ bool vtkQtTreeModelAdapter::setData(const QModelIndex& idx, const QVariant& valu
+   if (role == Qt::DecorationRole)
+   {
+     this->IndexToDecoration[idx] = value;
+-    emit this->dataChanged(idx, idx);
++    Q_EMIT this->dataChanged(idx, idx);
+     return true;
+   }
+   return false;
+diff --git a/GUISupport/Qt/vtkTDxQtUnixDevices.cxx b/GUISupport/Qt/vtkTDxQtUnixDevices.cxx
+index 37fcef23587..4659cbb5d5c 100644
+--- a/GUISupport/Qt/vtkTDxQtUnixDevices.cxx
++++ b/GUISupport/Qt/vtkTDxQtUnixDevices.cxx
+@@ -58,7 +58,7 @@ void vtkTDxQtUnixDevices::ProcessEvent(vtkTDxUnixDeviceXEvent* e)
+   // Find the real X11 window id.
+   QWidgetList l = static_cast<QApplication*>(QApplication::instance())->topLevelWidgets();
+   int winIdLast = 0;
+-  foreach (QWidget* w, l)
++  Q_FOREACH (QWidget* w, l)
+   {
+     if (!w->isHidden())
+     {
+@@ -92,7 +92,7 @@ void vtkTDxQtUnixDevices::ProcessEvent(vtkTDxUnixDeviceXEvent* e)
+       else
+       {
+         cout << "device initialized on window" << winId << hex << winId << dec;
+-        emit CreateDevice(device);
++        Q_EMIT CreateDevice(device);
+       }
+     }
+     else
+diff --git a/GUISupport/Qt/vtkTDxQtUnixDevices.h b/GUISupport/Qt/vtkTDxQtUnixDevices.h
+index 74844961018..7d33a7b4403 100644
+--- a/GUISupport/Qt/vtkTDxQtUnixDevices.h
++++ b/GUISupport/Qt/vtkTDxQtUnixDevices.h
+@@ -47,7 +47,7 @@ class VTKGUISUPPORTQT_EXPORT vtkTDxQtUnixDevices : public QObject
+    */
+   void ProcessEvent(vtkTDxUnixDeviceXEvent* e);
+ 
+-signals:
++Q_SIGNALS:
+   /**
+    * This signal should be connected to a slot in the QApplication.
+    * The slot in the QApplication is supposed to remit this signal.
+diff --git a/Views/Qt/vtkQtAnnotationView.h b/Views/Qt/vtkQtAnnotationView.h
+index c865405733c..57b3db0a9c1 100644
+--- a/Views/Qt/vtkQtAnnotationView.h
++++ b/Views/Qt/vtkQtAnnotationView.h
+@@ -67,7 +67,7 @@ class VTKVIEWSQT_EXPORT vtkQtAnnotationView : public vtkQtView
+   vtkQtAnnotationView();
+   ~vtkQtAnnotationView() override;
+ 
+-private slots:
++private Q_SLOTS:
+   void slotQtSelectionChanged(const QItemSelection&, const QItemSelection&);
+ 
+ private:
+diff --git a/Views/Qt/vtkQtListView.h b/Views/Qt/vtkQtListView.h
+index d13f842de24..a3c9343438a 100644
+--- a/Views/Qt/vtkQtListView.h
++++ b/Views/Qt/vtkQtListView.h
+@@ -151,7 +151,7 @@ class VTKVIEWSQT_EXPORT vtkQtListView : public vtkQtView
+   void AddRepresentationInternal(vtkDataRepresentation* rep) override;
+   void RemoveRepresentationInternal(vtkDataRepresentation* rep) override;
+ 
+-private slots:
++private Q_SLOTS:
+   void slotQtSelectionChanged(const QItemSelection&, const QItemSelection&);
+ 
+ private:
+diff --git a/Views/Qt/vtkQtTableView.h b/Views/Qt/vtkQtTableView.h
+index 55ae50a8f1d..9e8af435744 100644
+--- a/Views/Qt/vtkQtTableView.h
++++ b/Views/Qt/vtkQtTableView.h
+@@ -219,7 +219,7 @@ class VTKVIEWSQT_EXPORT vtkQtTableView : public vtkQtView
+   void AddRepresentationInternal(vtkDataRepresentation* rep) override;
+   void RemoveRepresentationInternal(vtkDataRepresentation* rep) override;
+ 
+-private slots:
++private Q_SLOTS:
+   void slotQtSelectionChanged(const QItemSelection&, const QItemSelection&);
+ 
+ private:
+diff --git a/Views/Qt/vtkQtTreeView.cxx b/Views/Qt/vtkQtTreeView.cxx
+index 67c0df505a7..5bc22b47cf3 100644
+--- a/Views/Qt/vtkQtTreeView.cxx
++++ b/Views/Qt/vtkQtTreeView.cxx
+@@ -459,7 +459,7 @@ void vtkQtTreeView::Update()
+ 
+   // Re-hide the hidden columns
+   int col = 0;
+-  foreach (col, this->HiddenColumns)
++  Q_FOREACH (col, this->HiddenColumns)
+   {
+     this->TreeView->hideColumn(col);
+   }
+diff --git a/Views/Qt/vtkQtTreeView.h b/Views/Qt/vtkQtTreeView.h
+index 33cf7691e19..f5a6c2fbdcf 100644
+--- a/Views/Qt/vtkQtTreeView.h
++++ b/Views/Qt/vtkQtTreeView.h
+@@ -55,7 +55,7 @@ class VTKVIEWSQT_EXPORT vtkQtTreeView : public vtkQtView
+ {
+   Q_OBJECT
+ 
+-signals:
++Q_SIGNALS:
+   void expanded(const QModelIndex&);
+   void collapsed(const QModelIndex&);
+   void updatePreviewWidget(const QModelIndex&);
+@@ -196,7 +196,7 @@ class VTKVIEWSQT_EXPORT vtkQtTreeView : public vtkQtView
+   void AddRepresentationInternal(vtkDataRepresentation* rep) override;
+   void RemoveRepresentationInternal(vtkDataRepresentation* rep) override;
+ 
+-private slots:
++private Q_SLOTS:
+   void slotQtSelectionChanged(const QItemSelection&, const QItemSelection&);
+ 
+ private:

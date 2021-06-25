@@ -7,7 +7,8 @@
   , cadquery-src
   , occt
   , fetchFromGitHub
-}: self: super: {
+  , vtk_9_nonpython
+}: self: super: rec {
 
   clang = self.callPackage ./clang.nix {
     src = llvm-src;
@@ -44,15 +45,14 @@
 
   pywrap = self.callPackage ./pywrap {
     src = pywrap-src;
-    inherit (gccSet) gcc llvmPackages;
-    # clang is also pinned to 6.0.1 in the clang expression
+    inherit (gccSet) llvmPackages;
   };
 
   pytest-flakefinder = self.callPackage ./pytest-flakefinder.nix { };
 
   ocp = self.callPackage ./OCP {
     src = ocp-src;
-    inherit (gccSet) stdenv gcc llvmPackages;
+    inherit (gccSet) stdenv llvmPackages;
     opencascade-occt = occt; 
   };
 
@@ -78,5 +78,7 @@
       sha256 = "0cjf0mjn156qp0x6md6mncs31hdpzfim769c2lixaczhyzwywqnj";
     };
   });
+
+  vtk_9 = self.toPythonModule vtk_9_nonpython;
 
 }

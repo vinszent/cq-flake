@@ -20,6 +20,7 @@
   , fontconfig
   , tbb
   , rapidjson
+  , glew
 }:
 stdenv.mkDerivation rec {
   pname = "opencascade-occt";
@@ -48,10 +49,10 @@ stdenv.mkDerivation rec {
     fontconfig
     tbb
     rapidjson
-  ];
+    glew
+  ] ++ vtk_9.buildInputs;
 
-  # there are two more patches that I haven't bothered to apply, they don't seem important for a flake.
-  # patches = [
+  patches = [
   #   (fetchpatch {
   #     url = "https://github.com/conda-forge/occt-feedstock/raw/429f53c9bcc1fc8c1ef00d31875d284b6b6b692f/recipe/fix-brepblend.patch";
   #     sha256 = "sha256-Lfip+LseXmYlXbpoS6/HwqahjmrBHEoUbOD8V13G8cE=";
@@ -64,7 +65,19 @@ stdenv.mkDerivation rec {
   #     url = "https://raw.githubusercontent.com/conda-forge/occt-feedstock/4c0508cf97179058e9ddc6bd9e8693c29537cd20/recipe/fix-private-linking.patch";
   #     sha256 = "sha256-+2ejlbSnmoP52+O8aiJE3915vYk6FhRd+8uUJAovssI=";
   #   })
-  # ];
+    (fetchpatch {
+      url = "https://raw.githubusercontent.com/conda-forge/occt-feedstock/4febc64557e813d4f1dbae34ca38468308cb0efb/recipe/ShapeUpgrade.patch";
+      sha256 = "sha256-fBgkNjP3cuXOtwfIHwiSMfvMYNdog1Oz/aiRVh/PAvE=";
+    })
+    (fetchpatch {
+      url = "https://raw.githubusercontent.com/conda-forge/occt-feedstock/4febc64557e813d4f1dbae34ca38468308cb0efb/recipe/no-xmu.patch";
+      sha256 = "sha256-YRNZbkFuqIoKm73Y7zx+X4PKO1Ba0mAl7YzjOkvWc+M=";
+    })
+    (fetchpatch {
+      url = "https://raw.githubusercontent.com/conda-forge/occt-feedstock/4febc64557e813d4f1dbae34ca38468308cb0efb/recipe/error-checking.patch";
+      sha256 = "sha256-5D9P9QaZDllzcnRJQvE+YECSeMyNC9yYyLAsoeE6Dyc=";
+    })
+  ];
 
   # I've removed the 3RDPARTY_DIR flag, not really sure if it's needed or not
   cmakeFlags = [
@@ -77,7 +90,10 @@ stdenv.mkDerivation rec {
     "-D VTK_RENDERING_BACKEND:STRING=\"OpenGL2\""
     "-D USE_FREEIMAGE:BOOL=ON"
     "-D USE_RAPIDJSON:BOOL=ON"
+    "-DBUILD_LIBRARY_TYPE:STRING=Shared"
   ];
+
+  seperateDebugInfo = true;
 
   meta = with lib; {
     description = "Open CASCADE Technology, libraries for 3D modeling and numerical simulation";

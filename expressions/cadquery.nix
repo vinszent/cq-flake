@@ -15,6 +15,7 @@
   , src
   , scipy
   , nptyping
+  , vtk_9
 }:
 
 buildPythonPackage rec {
@@ -30,6 +31,7 @@ buildPythonPackage rec {
     typing-extensions 
     scipy
     nptyping
+    vtk_9
   ];
 
   # If the user wants extra fonts, probably have to add them here
@@ -47,6 +49,7 @@ buildPythonPackage rec {
   pytestFlagsArray = [
     "-W ignore::FutureWarning"
     "-n $NIX_BUILD_CORES"
+    "-k 'not example'"
   ];
 
   meta = with lib; {

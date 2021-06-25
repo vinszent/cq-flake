@@ -1,5 +1,5 @@
 { lib
-  , buildPythonPackage
+  , stdenv
   , isPy3k
   , pythonOlder
   , fetchFromGitHub
@@ -23,7 +23,7 @@ let
     });
   version = if (builtins.hasAttr "rev" src) then (builtins.substring 0 7 src.rev) else "local-dev";
 
-in buildPythonPackage rec {
+in stdenv.mkDerivation rec {
   pname = "cq-docs";
   inherit src version;
 
@@ -43,14 +43,14 @@ in buildPythonPackage rec {
 
   buildPhase = ''
     echo "Building CadQuery docs"
-    PYTHONPATH=$PYTHONPATH:$(pwd) ./build-docs.sh
+    export PYTHONPATH=$PYTHONPATH:$(pwd)
+    cd doc
+    sphinx-build -b html . _build/html
   '';
-
-  doCheck = false;
 
   installPhase = ''
     mkdir -p $out/share/doc
-    cp -r target/docs/* $out/share/doc
+    cp -r _build/html/* $out/share/doc/
   '';
 
   meta = with lib; {

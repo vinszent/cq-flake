@@ -7,7 +7,6 @@
   , ninja
   , opencascade-occt
   , llvmPackages
-  , gcc
   , pybind11
   , libglvnd
   , xlibs
@@ -59,7 +58,6 @@ let
   # intermediate step, do pybind, cmake in the next step
   ocp-pybound = stdenv.mkDerivation rec {
     pname = "pybound-ocp";
-    # version = "git-" + builtins.substring 0 7 src.rev;
     inherit version src;
 
     phases = [
@@ -91,26 +89,26 @@ let
         "${xlibs.xorgproto}/include"
         "${xlibs.libX11.dev}/include"
         "${libglvnd.dev}/include"
-        "${gcc.cc}/include/c++/${gcc.version}"
-        "${gcc.cc}/include/c++/${gcc.version}/x86_64-unknown-linux-gnu"
+        "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}"
+        "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}/x86_64-unknown-linux-gnu"
         "${stdenv.glibc.dev}/include"
-        "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include-fixed"
-        "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include"
+        "${stdenv.cc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${stdenv.cc.version}/include-fixed"
+        "${stdenv.cc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${stdenv.cc.version}/include"
     ]);
 
     buildPhase = ''
       runHook preBuild
-      echo "pywrapFlags are:"
-      echo $pywrapFlags
+      echo "pywrapFlags are: ${pywrapFlags}"
       echo "starting bindgen parse"
-      pywrap -n $NIX_BUILD_CORES $pywrapFlags parse ocp.toml out.pkl && \
+      pywrap -n $NIX_BUILD_CORES ${pywrapFlags} parse ocp.toml out.pkl && \
       echo "finished bindgen parse" && \
       echo "starting transform" && \
-      pywrap -n $NIX_BUILD_CORES $pywrapFlags transform ocp.toml out.pkl out_f.pkl && \
+      pywrap -n $NIX_BUILD_CORES ${pywrapFlags} transform ocp.toml out.pkl out_f.pkl && \
       echo "finished bindgen transform" && \
       echo "starting generate" && \
-      pywrap -n $NIX_BUILD_CORES $pywrapFlags generate ocp.toml out_f.pkl && \
+      pywrap -n $NIX_BUILD_CORES ${pywrapFlags} generate ocp.toml out_f.pkl && \
       echo "finished bindgen generate"
+      runHook postBuild
     '';
 
     installPhase = ''
@@ -121,13 +119,14 @@ let
 
   ocp-result = stdenv.mkDerivation rec {
     pname = "ocp-result";
-    # version = "7.5.1-git-" + src.shortRev;
     inherit version;
 
     src = ocp-pybound;
 
     disabled = pythonOlder "3.6";
     
+    # do not put glibc.dev in here https://discourse.nixos.org/t/how-to-get-this-basic-c-build-to-work-in-a-nix-shell/12262/3
+    # https://github.com/NixOS/nixpkgs/pull/28748
     nativeBuildInputs = [
       cmake
       ninja
@@ -141,19 +140,21 @@ let
       libglvnd.dev
       xlibs.libX11.dev
       xlibs.xorgproto
-      gcc.cc
       vtk_9
-    ] ++ opencascade-occt.buildInputs ++ opencascade-occt.propagatedBuildInputs; 
+    ] ++ opencascade-occt.buildInputs ++ vtk_9.buildInputs;
 
     preConfigure = ''
       export CMAKE_PREFIX_PATH=${pybind11}/share/cmake/pybind11:$CMAKE_PREFIX_PATH
       export PYBIND11_USE_CMAKE=1
-      cp -v ./*.pkl ./OCP/
+      export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:${stdenv.glibc.dev}/include
+      echo "CMAKE_INCLUDE_PATH is:"
+      echo $CMAKE_INCLUDE_PATH
+      export NIX_CFLAGS_COMPILE="$NIX_CFLAGS_COMPILE -Wno-deprecated-declarations"
+      echo "NIX_CFLAGS_COMPILE: $NIX_CFLAGS_COMPILE"
     '';
 
-    preBuild = ''
-      export NIX_CFLAGS_COMPILE="$NIX_CFLAGS_COMPILE -Wno-deprecated-declarations"
-    '';
+    # I don't think I need this, but keep it here incase I notice multithread problems later:
+    # NIX_CFLAGS_LINK = "-lpthread -ldl";
 
     propagatedBuildInputs = [
       opencascade-occt
@@ -163,10 +164,13 @@ let
       "-S ../OCP"
       "-DPYTHON_EXECUTABLE=${python}/bin/python"
       "-DOPENCASCADE_INCLUDE_DIR=${src}/opencascade"
-      # "-DCMAKE_CXX_STANDARD_LIBRARIES=${vtk_9}/lib/libtkWrappingPythonCore-9.0.so.9.0.1"
-      # "-DCMAKE_CXX_FLAGS=-I\ ${vtk_9}/include/vtk-9.0"
-      # "-DVTK_DIR=${vtk_9}/lib/cmake/vtk-9.0/"
+      "-DCMAKE_CXX_STANDARD_LIBRARIES=${vtk_9}/lib/libvtkWrappingPythonCore-9.0.so"
+      # "-DCMAKE_CXX_FLAGS='"-I\ ${vtk_9}/include/vtk-9.0'""
+      "-DVTK_DIR=${vtk_9}/lib/cmake/vtk-9.0/"
+      "-Wno-dev"
     ];
+
+    seperateDebugInfo = true;
 
     checkPhase = ''
       pushd .

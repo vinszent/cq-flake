@@ -19,9 +19,9 @@ buildPythonPackage rec {
     fetchSubmodules = true;
   };
 
-  propagatedBuildInputs = [
-    attrs
-  ];
+  # propagatedBuildInputs = [
+  #   attrs
+  # ];
 
   checkInputs = [
     pytestCheckHook

@@ -20,7 +20,6 @@
   , tqdm
   , toposort
   , llvmPackages
-  , gcc
   , python
 }:
 
@@ -46,7 +45,6 @@ buildPythonPackage rec {
     schema
     tqdm
     toposort
-    gcc
     llvmPackages.libclang
   ];
 
