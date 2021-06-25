@@ -175,6 +175,8 @@ let
       "-Wno-dev"
     ];
 
+    seperateDebugInfo = true;
+
     checkPhase = ''
       pushd .
       cd build
