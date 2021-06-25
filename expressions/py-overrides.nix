@@ -70,7 +70,7 @@
     src = cadquery-src;
   };
 
-  pyls-black = super.pyls-black.overridePythonAttrs (old: rec {
+  pyls-black = self.pyls-black.overridePythonAttrs (old: rec {
     version = "0.4.6";
     src = fetchFromGitHub {
       owner = "rupert";
