@@ -58,7 +58,6 @@ let
   # intermediate step, do pybind, cmake in the next step
   ocp-pybound = stdenv.mkDerivation rec {
     pname = "pybound-ocp";
-    # version = "git-" + builtins.substring 0 7 src.rev;
     inherit version src;
 
     phases = [
@@ -125,13 +124,14 @@ let
 
   ocp-result = stdenv.mkDerivation rec {
     pname = "ocp-result";
-    # version = "7.5.1-git-" + src.shortRev;
     inherit version;
 
     src = ocp-pybound;
 
     disabled = pythonOlder "3.6";
     
+    # do not put glibc.dev in here https://discourse.nixos.org/t/how-to-get-this-basic-c-build-to-work-in-a-nix-shell/12262/3
+    # https://github.com/NixOS/nixpkgs/pull/28748
     nativeBuildInputs = [
       cmake
       ninja
@@ -157,6 +157,9 @@ let
       export NIX_CFLAGS_COMPILE="$NIX_CFLAGS_COMPILE -Wno-deprecated-declarations"
       echo "NIX_CFLAGS_COMPILE: $NIX_CFLAGS_COMPILE"
     '';
+
+    # I don't think I need this, but keep it here incase I notice multithread problems later:
+    # NIX_CFLAGS_LINK = "-lpthread -ldl";
 
     propagatedBuildInputs = [
       opencascade-occt
