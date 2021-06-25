@@ -126,6 +126,10 @@
             vtk_9_nonpython = new_vtk_9;
             occt = opencascade-occt;
           };
+          # python = pkgs.enableDebugging ((pkgs.python38.override {
+          #   packageOverrides = py-overrides;
+          #   self = python;
+          # }).overrideAttrs (oldAttrs: { disallowedReferences = []; }));
           python = pkgs.python38.override {
             packageOverrides = py-overrides;
             self = python;
