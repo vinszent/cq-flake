@@ -146,7 +146,7 @@ let
       xlibs.libX11.dev
       xlibs.xorgproto
       vtk_9
-    ] ++ opencascade-occt.buildInputs ++ opencascade-occt.propagatedBuildInputs; 
+    ] ++ opencascade-occt.buildInputs ++ vtk_9.buildInputs;
 
     preConfigure = ''
       export CMAKE_PREFIX_PATH=${pybind11}/share/cmake/pybind11:$CMAKE_PREFIX_PATH
@@ -166,9 +166,10 @@ let
       "-S ../OCP"
       "-DPYTHON_EXECUTABLE=${python}/bin/python"
       "-DOPENCASCADE_INCLUDE_DIR=${src}/opencascade"
-      # "-DCMAKE_CXX_STANDARD_LIBRARIES=${vtk_9}/lib/libtkWrappingPythonCore-9.0.so.9.0.1"
-      # "-DCMAKE_CXX_FLAGS=-I\ ${vtk_9}/include/vtk-9.0"
-      # "-DVTK_DIR=${vtk_9}/lib/cmake/vtk-9.0/"
+      "-DCMAKE_CXX_STANDARD_LIBRARIES=${vtk_9}/lib/libvtkWrappingPythonCore-9.0.so"
+      # "-DCMAKE_CXX_FLAGS='"-I\ ${vtk_9}/include/vtk-9.0'""
+      "-DVTK_DIR=${vtk_9}/lib/cmake/vtk-9.0/"
+      "-Wno-dev"
     ];
 
     checkPhase = ''
