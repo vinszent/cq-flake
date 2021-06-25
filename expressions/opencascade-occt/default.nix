@@ -93,6 +93,8 @@ stdenv.mkDerivation rec {
     "-DBUILD_LIBRARY_TYPE:STRING=Shared"
   ];
 
+  seperateDebugInfo = true;
+
   meta = with lib; {
     description = "Open CASCADE Technology, libraries for 3D modeling and numerical simulation";
     homepage = "https://www.opencascade.org/";
