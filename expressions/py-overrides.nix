@@ -7,7 +7,8 @@
   , cadquery-src
   , occt
   , fetchFromGitHub
-}: self: super: {
+  , vtk_9_nonpython
+}: self: super: rec {
 
   clang = self.callPackage ./clang.nix {
     src = llvm-src;
@@ -78,5 +79,7 @@
       sha256 = "0cjf0mjn156qp0x6md6mncs31hdpzfim769c2lixaczhyzwywqnj";
     };
   });
+
+  vtk_9 = self.toPythonModule vtk_9_nonpython;
 
 }
