@@ -45,15 +45,14 @@
 
   pywrap = self.callPackage ./pywrap {
     src = pywrap-src;
-    inherit (gccSet) gcc llvmPackages;
-    # clang is also pinned to 6.0.1 in the clang expression
+    inherit (gccSet) llvmPackages;
   };
 
   pytest-flakefinder = self.callPackage ./pytest-flakefinder.nix { };
 
   ocp = self.callPackage ./OCP {
     src = ocp-src;
-    inherit (gccSet) stdenv gcc llvmPackages;
+    inherit (gccSet) stdenv llvmPackages;
     opencascade-occt = occt; 
   };
 

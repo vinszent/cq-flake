@@ -7,7 +7,6 @@
   , ninja
   , opencascade-occt
   , llvmPackages
-  , gcc
   , pybind11
   , libglvnd
   , xlibs
@@ -96,25 +95,24 @@ let
         "${xlibs.xorgproto}/include"
         "${xlibs.libX11.dev}/include"
         "${libglvnd.dev}/include"
-        "${gcc.cc}/include/c++/${gcc.version}"
-        "${gcc.cc}/include/c++/${gcc.version}/x86_64-unknown-linux-gnu"
+        "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}"
+        "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}/x86_64-unknown-linux-gnu"
         "${stdenv.glibc.dev}/include"
-        "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include-fixed"
-        "${gcc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${gcc.version}/include"
+        "${stdenv.cc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${stdenv.cc.version}/include-fixed"
+        "${stdenv.cc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${stdenv.cc.version}/include"
     ]);
 
     buildPhase = ''
       runHook preBuild
-      echo "pywrapFlags are:"
-      echo $pywrapFlags
+      echo "pywrapFlags are: ${pywrapFlags}"
       echo "starting bindgen parse"
-      pywrap -n $NIX_BUILD_CORES $pywrapFlags parse ocp.toml out.pkl && \
+      pywrap -n $NIX_BUILD_CORES ${pywrapFlags} parse ocp.toml out.pkl && \
       echo "finished bindgen parse" && \
       echo "starting transform" && \
-      pywrap -n $NIX_BUILD_CORES $pywrapFlags transform ocp.toml out.pkl out_f.pkl && \
+      pywrap -n $NIX_BUILD_CORES ${pywrapFlags} transform ocp.toml out.pkl out_f.pkl && \
       echo "finished bindgen transform" && \
       echo "starting generate" && \
-      pywrap -n $NIX_BUILD_CORES $pywrapFlags generate ocp.toml out_f.pkl && \
+      pywrap -n $NIX_BUILD_CORES ${pywrapFlags} generate ocp.toml out_f.pkl && \
       echo "finished bindgen generate"
       runHook postBuild
     '';
@@ -147,18 +145,17 @@ let
       libglvnd.dev
       xlibs.libX11.dev
       xlibs.xorgproto
-      gcc.cc
       vtk_9
     ] ++ opencascade-occt.buildInputs ++ opencascade-occt.propagatedBuildInputs; 
 
     preConfigure = ''
       export CMAKE_PREFIX_PATH=${pybind11}/share/cmake/pybind11:$CMAKE_PREFIX_PATH
       export PYBIND11_USE_CMAKE=1
-      cp -v ./*.pkl ./OCP/
-    '';
-
-    preBuild = ''
+      export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:${stdenv.glibc.dev}/include
+      echo "CMAKE_INCLUDE_PATH is:"
+      echo $CMAKE_INCLUDE_PATH
       export NIX_CFLAGS_COMPILE="$NIX_CFLAGS_COMPILE -Wno-deprecated-declarations"
+      echo "NIX_CFLAGS_COMPILE: $NIX_CFLAGS_COMPILE"
     '';
 
     propagatedBuildInputs = [
