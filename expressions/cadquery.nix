@@ -16,6 +16,7 @@
   , scipy
   , nptyping
   , vtk_9
+  , nlopt
 }:
 
 buildPythonPackage rec {
@@ -32,6 +33,7 @@ buildPythonPackage rec {
     scipy
     nptyping
     vtk_9
+    nlopt
   ];
 
   # If the user wants extra fonts, probably have to add them here
