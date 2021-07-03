@@ -161,6 +161,11 @@
             #   ++ cadquery.nativeBuildInputs
             # ));
             inherit python opencascade-occt;
+            cq-editor-dev-shell = python.withPackages ( ps: with ps; [
+              cadquery
+              pytest
+              pytest-qt
+            ] );  # where the fuck is cq-editor?
           };
 
           defaultPackage = packages.cq-editor;
