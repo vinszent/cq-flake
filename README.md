@@ -19,6 +19,8 @@ This means that you can create a model in CadQuery and note down the commit to t
 
 ## Commands
 
+(You probably want to read "Build times" below before you run any of these commands)
+
 To run CQ-editor:
 
 ```sh
@@ -39,9 +41,9 @@ nix run github:marcus7070/cq-flake/14d05cee591dccf5d64fa0e502e6e381a531c718
 
 You can also generate the docs with:
 ```
-nix build github:marcus7070/cq-flake#cadquery-docs
+nix build github:marcus7070/cq-flake#cq-docs
 ```
-which will leave a symlink called `result` pointing to the HTML docs. Note that the [online docs at readthedocs.io](https://cadquery.readthedocs.io/en/latest/intro.html) can be behind (or possibly in front) of the version you are using.
+which will leave a symlink called `result` pointing to the HTML docs.
 
 ## Build times
 
