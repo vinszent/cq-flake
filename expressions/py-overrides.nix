@@ -8,6 +8,7 @@
   , occt
   , fetchFromGitHub
   , vtk_9_nonpython
+  , nlopt_nonpython
 }: self: super: rec {
 
   clang = self.callPackage ./clang.nix {
@@ -80,5 +81,7 @@
   });
 
   vtk_9 = self.toPythonModule vtk_9_nonpython;
+
+  nlopt = self.toPythonModule nlopt_nonpython;
 
 }

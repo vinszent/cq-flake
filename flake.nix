@@ -117,12 +117,17 @@
             inherit (gccSet) stdenv;
             vtk_9 = new_vtk_9;
           };
+          nlopt = pkgs.callPackage ./expressions/nlopt.nix {
+            inherit python;
+            pythonPackages = python.pkgs;
+          };
           py-overrides = import expressions/py-overrides.nix {
             inherit gccSet;
             inherit (inputs) llvm-src pywrap-src ocp-src ocp-stubs-src cadquery-src;
             inherit (pkgs) fetchFromGitHub;
             vtk_9_nonpython = new_vtk_9;
             occt = opencascade-occt;
+            nlopt_nonpython = nlopt;
           };
           # python = pkgs.enableDebugging ((pkgs.python38.override {
           #   packageOverrides = py-overrides;
