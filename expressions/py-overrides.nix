@@ -9,6 +9,7 @@
   , fetchFromGitHub
   , vtk_9_nonpython
   , nlopt_nonpython
+  , pybind11-stubgen-src
 }: self: super: rec {
 
   clang = self.callPackage ./clang.nix {
@@ -83,5 +84,9 @@
   vtk_9 = self.toPythonModule vtk_9_nonpython;
 
   nlopt = self.toPythonModule nlopt_nonpython;
+
+  pybind11-stubgen = self.callPackage ./OCP/pybind11-stubgen.nix {
+    src = pybind11-stubgen-src;
+  };
 
 }

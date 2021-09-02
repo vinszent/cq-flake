@@ -24,13 +24,13 @@
 }:
 stdenv.mkDerivation rec {
   pname = "opencascade-occt";
-  version = "7.5.1";
+  version = "7.5.2";
   commit = "V${builtins.replaceStrings ["."] ["_"] version}";
 
   src = fetchurl {
     name = "occt-${commit}.tar.gz";
     url = "https://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=${commit};sf=tgz";
-    sha256 = "sha256-1whKU+7AMVYabfs15x8MabohKonn5oM54ZEtxF93wAo=";
+    sha256 = "sha256-NHEbCuyEoNzfZQ7ZD98fi5O0FBxhu22YVolUU23VTn0=";
   };
 
   nativeBuildInputs = [ cmake ninja ];

@@ -3,7 +3,7 @@
     "cadquery-src": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-BxGMX29QJKrBtkcIVar6OawI8JXhazTbzuOiqROrLkE=",
+        "narHash": "sha256-/QQcT0x74srG1ZxqWtklQQC+XVVJQoeLNSRgpjBMOKE=",
         "path": "/home/marcus/tempbuild/cadquery",
         "type": "path"
       },
@@ -58,11 +58,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1623324058,
-        "narHash": "sha256-Jm9GUTXdjXz56gWDKy++EpFfjrBaxqXlLvTLfgEi8lo=",
+        "lastModified": 1627391865,
+        "narHash": "sha256-tPoWBO9Nzu3wuX37WcnctzL6LoDCErJLnfLGqqmXCm4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "432fc2d9a67f92e05438dff5fdc2b39d33f77997",
+        "rev": "8ecc61c91a596df7d3293603a9c2384190c1b89a",
         "type": "github"
       },
       "original": {
@@ -75,11 +75,11 @@
     "ocp-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1621853250,
-        "narHash": "sha256-vZDed+3EsHrwpZqMh5evQeYkcyTQNUS2rKRQqAhetnQ=",
+        "lastModified": 1627405129,
+        "narHash": "sha256-Th8PMUq7fnpAC9kEYVh8Jw1Pgu+cabmpcn39do/tDwA=",
         "owner": "cadquery",
         "repo": "ocp",
-        "rev": "b058865f1f041941564637addf47c547119d8284",
+        "rev": "856c86f1bc3a795dda29b8a78ebd08f9845c43d6",
         "type": "github"
       },
       "original": {
@@ -104,14 +104,30 @@
         "type": "github"
       }
     },
+    "pybind11-stubgen-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1614498937,
+        "narHash": "sha256-AR/LQcuUswP426ZgNeLBODRVtfP+XhWdXg9idd5BrLU=",
+        "owner": "CadQuery",
+        "repo": "pybind11-stubgen",
+        "rev": "18da5410b35b775a25f15a7a68210f2e4818be43",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CadQuery",
+        "repo": "pybind11-stubgen",
+        "type": "github"
+      }
+    },
     "pywrap-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1622043941,
-        "narHash": "sha256-qxDY5qkOEmaG+ssgQnaVvP/hMP05pkSZRvZaZ3/I4K0=",
+        "lastModified": 1627367804,
+        "narHash": "sha256-gSM7ZDD4RlZdbI0/yyryfYpHFJXSd0DpdsxYn7Wre+s=",
         "owner": "CadQuery",
         "repo": "pywrap",
-        "rev": "f8869e5a47fd3e3e1d31e7ab89b46c158f7487bf",
+        "rev": "fb3df57fe02db655ad90d799c4c0dadee63be2a2",
         "type": "github"
       },
       "original": {
@@ -129,6 +145,7 @@
         "nixpkgs": "nixpkgs",
         "ocp-src": "ocp-src",
         "ocp-stubs-src": "ocp-stubs-src",
+        "pybind11-stubgen-src": "pybind11-stubgen-src",
         "pywrap-src": "pywrap-src"
       }
     }
