@@ -17,6 +17,8 @@ This means that you can create a model in CadQuery and note down the commit to t
 * nixpkgs dropping support for Sphinx ~~2.4~~ 3.0.2 or whatever other version it gets pinned to next
 * etc., you get the idea, breaking changes anywhere in the chain of packages.
 
+Now also includes [cq-kit](https://github.com/michaelgale/cq-kit).
+
 ## Commands
 
 (You probably want to read "Build times" below before you run any of these commands)

@@ -1,0 +1,67 @@
+diff --git a/bindgen/__init__.py b/bindgen/__init__.py
+index e955685..b42c073 100644
+--- a/bindgen/__init__.py
++++ b/bindgen/__init__.py
+@@ -67,6 +67,13 @@ def remove_undefined_mangled(m,sym):
+         c.static_methods_byref = [el for el in c.static_methods_byref if sym.name.str.endswith(el.mangled_name).any() or el.inline]
+         c.constructors = [el for el in c.constructors if sym.name.str.endswith(el.mangled_name).any() or el.inline or el.pure_virtual or el.virtual]
+ 
++        if c.name == "BRepTools":
++            dropped_methods = (
++                (set(c.static_methods_unfiltered) - set(c.static_methods))
++                | (set(c.static_methods_byref_unfiltered) - set(c.static_methods_byref))
++            )
++            logzero.logger.debug("Dropped methods: " + ", ".join([meth.mangled_name for meth in dropped_methods]))
++
+     #exclude functions
+     m.functions = [f for f in m.functions if sym.name.str.startswith(f.mangled_name).any() or f.inline]
+ 
+@@ -108,6 +115,26 @@ def is_byref(met,byref_types):
+ 
+     return rv
+ 
++def check_class(c, s):
++    if c.name == "BRepTools":
++        # the lists that are used in template_sub.j2 and wind up in the output
++        methods = [meth for meth in (
++            c.methods + c.methods_byref + c.static_methods + c.static_methods_byref
++        ) if not meth.pointer_by_ref]
++        write_methods = [
++            meth.full_name for meth in methods if "Write" in meth.full_name
++        ]
++        logzero.logger.debug(s)
++        logzero.logger.debug(
++            "BRepTools class currently has write methods: "
++            + ", ".join(write_methods)
++        )
++
++def check_module(m, s):
++    if m.name == "BRepTools":
++        c = next(c for c in m.classes if c.name == "BRepTools")
++        check_class(c, s)
++
+ def _exclude_methods(classes, exclusions):
+ 
+     for pat in exclusions:
+@@ -173,7 +200,6 @@ def transform_module(m,
+             for met in c.static_methods_byref:
+                 c.static_methods.remove(met)
+ 
+-
+     #collect exceptions
+     for c in m.classes:
+         if any([match(pat,c.name) for pat in settings['exceptions']]):
+@@ -187,9 +213,13 @@ def transform_module(m,
+     for ex in m.exceptions:
+         m.classes.remove(ex)
+ 
++    check_module(m, "pre remove undefined symbols")
++
+     # remove undefined symbols
+     remove_undefined_mangled(m,sym)
+ 
++    check_module(m, "end of transform_module")
++
+ def split_into_modules(names,files):
+ 
+     rv = {}

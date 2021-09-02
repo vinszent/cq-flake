@@ -20,7 +20,8 @@
 }:
 let
 
-  version = "v7.5.1-git-" + src.shortRev;
+  version = "v7.5.2-git-" + src.shortRev;
+  # remember to change version number in dump_symbols.py as well
 
   ocp-dump-symbols = stdenv.mkDerivation rec {
     pname = "ocp-dump-symbols";
@@ -62,8 +63,13 @@ let
 
     phases = [
       "unpackPhase"
+      "patchPhase"
       "buildPhase"
       "installPhase"
+    ];
+
+    patches = [
+      # ./000_just_BRepTools.patch
     ];
 
     nativeBuildInputs = [

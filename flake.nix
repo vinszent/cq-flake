@@ -28,6 +28,10 @@
       url = "github:llvm/llvm-project/llvmorg-10.0.1";
       flake = false;
     };
+    pybind11-stubgen-src = {
+      url = "github:CadQuery/pybind11-stubgen";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... } @ inputs:
@@ -123,7 +127,7 @@
           };
           py-overrides = import expressions/py-overrides.nix {
             inherit gccSet;
-            inherit (inputs) llvm-src pywrap-src ocp-src ocp-stubs-src cadquery-src;
+            inherit (inputs) llvm-src pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src;
             inherit (pkgs) fetchFromGitHub;
             vtk_9_nonpython = new_vtk_9;
             occt = opencascade-occt;
@@ -148,7 +152,7 @@
               src = inputs.cadquery-src;
             };
             cadquery-env = python.withPackages (
-              ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder ]
+              ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder pybind11-stubgen ]
             );
             just-ocp = python.withPackages ( ps: with ps; [ ocp ] );
             # cadquery-dev-shell = packages.python38.withPackages (

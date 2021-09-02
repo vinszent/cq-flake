@@ -1,0 +1,13 @@
+diff --git a/setup.py b/setup.py
+index 34777fa..32f9240 100755
+--- a/setup.py
++++ b/setup.py
+@@ -16,7 +16,7 @@ setup(
+         'pandas',
+         'joblib',
+         'tqdm',
+-        'jinja2==2.11.3',
++        'jinja2',
+         'toposort',
+         'pyparsing',
+         'pybind11',
