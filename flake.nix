@@ -170,6 +170,30 @@
               pytest
               pytest-qt
             ] );  # where the fuck is cq-editor?
+            pip-install-env = pkgs.mkShell rec {
+              name = "pipInstallEnv";
+              dir = "/tmp/cq-pip";
+              venvDir = dir + "/.venv";
+              buildInputs = with python.pkgs; [
+                # python
+                venvShellHook
+                cadquery
+                python-language-server
+                black
+                mypy
+                ocp-stubs
+                pytest
+                pytest-xdist
+                pytest-cov
+                pytest-flakefinder
+                wheel
+              ];
+              postShellHook = ''
+                # allow pip to install wheels
+                unset SOURCE_DATE_EPOCH
+                cd ${dir}
+              '';
+            };
           };
 
           defaultPackage = packages.cq-editor;
