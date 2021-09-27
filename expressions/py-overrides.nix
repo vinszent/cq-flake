@@ -89,4 +89,6 @@
     src = pybind11-stubgen-src;
   };
 
+  multimethod = self.callPackage ./multimethod.nix { };
+
 }
