@@ -6,15 +6,17 @@
 }:
 buildPythonPackage rec {
   pname = "multimethod";
-  rev = "aa99df03e0d5254f2bfee440477aeed6621e50bb";
+  rev = "fd95a144d5bccea0831a931b1cc2f29c29f74c61";
   version = "git-" + builtins.substring 0 7 rev;
 
   src = fetchFromGitHub {
     owner = "coady";
     repo = pname;
     inherit rev;
-    sha256 = "sha256-lEfJo9s3OrX6hqeuuyTajXbMWUHb9K/eYAzFzQdjEhM=";
+    sha256 = "KAMkhRSjonYegEGb/WXFoqEV0zq9VKrPLwHer6lNyIg=";
   };
+
+  format = "pyproject";
 
   checkInputs = [
     pytestCheckHook
