@@ -5,7 +5,7 @@
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
     flake-utils.url = "github:numtide/flake-utils";
     cadquery-src = {
-      url = "github:CadQuery/cadquery";
+      url = "github:CadQuery/cadquery/sketch";
       flake = false;
     };
     cq-editor-src = {
