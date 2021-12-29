@@ -41,7 +41,7 @@
 
   sphinxcadquery = self.callPackage ./sphinxcadquery.nix { };
 
-  black = self.callPackage ./black.nix { };
+  # black = self.callPackage ./black.nix { };
 
   # pybind11 = self.callPackage ./pybind11 { };
 
@@ -55,7 +55,7 @@
   ocp = self.callPackage ./OCP {
     src = ocp-src;
     inherit (gccSet) stdenv llvmPackages;
-    opencascade-occt = occt; 
+    opencascade-occt = occt;
   };
 
   ocp-stubs = self.callPackage ./OCP/stubs.nix {
@@ -71,16 +71,6 @@
     src = cadquery-src;
   };
 
-  pyls-black = super.pyls-black.overridePythonAttrs (old: rec {
-    version = "0.4.6";
-    src = fetchFromGitHub {
-      owner = "rupert";
-      repo = "pyls-black";
-      rev = "v${version}";
-      sha256 = "0cjf0mjn156qp0x6md6mncs31hdpzfim769c2lixaczhyzwywqnj";
-    };
-  });
-
   vtk_9 = self.toPythonModule vtk_9_nonpython;
 
   nlopt = self.toPythonModule nlopt_nonpython;
@@ -89,4 +79,31 @@
     src = pybind11-stubgen-src;
   };
 
+  python-lsp-black = self.callPackage ./python-lsp-black.nix { };
+
+  python-lsp-server = self.callPackage ./python-lsp-server.nix { };
+
+  python-lsp-jsonrpc = self.callPackage ./python-lsp-jsonrpc.nix { };
+
+  qdarkstyle = (super.qdarkstyle.overrideAttrs (oldAttrs: rec {
+    version = "3.0.2";
+    src = self.fetchPypi {
+      inherit version;
+      pname = "QDarkStyle";
+      sha256 = "sha256-VdFJz19A7ilzl/GBjgkRGM77hVpKnFw4VmxHrNLYx64=";
+    };
+  }));
+
+  spyder = (super.spyder.overrideAttrs (oldAttrs: {
+    propagatedBuildInputs = with self; oldAttrs.propagatedBuildInputs ++ [
+      cookiecutter rtree qstylizer jellyfish
+    ];
+  })).override {
+    python-language-server = python-lsp-server;
+    pyls-black = python-lsp-black;
+  };
+
+  rtree = self.callPackage ./rtree.nix { };
+
+  qstylizer = self.callPackage ./qstylizer.nix { };
 }
