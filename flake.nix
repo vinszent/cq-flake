@@ -40,8 +40,10 @@
       systems = [ "x86_64-linux" ];
     in
       flake-utils.lib.eachSystem systems ( system:
-        let 
-          pkgs = nixpkgs.legacyPackages.${system};
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+          };
           # keep gcc, llvm and stdenv versions in sync
           gccSet = {
             # have to use gcc9 because freeimage complains with gcc8, could probably build freeimage with gcc8 if I have to, but this is easier.
@@ -156,8 +158,8 @@
             );
             just-ocp = python.withPackages ( ps: with ps; [ ocp ] );
             # cadquery-dev-shell = packages.python38.withPackages (
-            #   ps: with ps; ([ black mypy ocp-stubs ] 
-            #   ++ cadquery.propagatedBuildInputs 
+            #   ps: with ps; ([ black mypy ocp-stubs ]
+            #   ++ cadquery.propagatedBuildInputs
             #   # I have no idea why, but I can't access checkInputs
             #   # ++ cadquery.checkInputs
             #   ++ [ pytest ]
