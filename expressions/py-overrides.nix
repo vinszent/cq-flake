@@ -106,4 +106,15 @@
   rtree = self.callPackage ./rtree.nix { };
 
   qstylizer = self.callPackage ./qstylizer.nix { };
+
+  python-language-server = super.python-language-server.overrideAttrs (oldAttrs: { 
+    # TODO: diagnose what's going on here and if I can replace python-language-server since:
+    # https://github.com/palantir/python-language-server/pull/918#issuecomment-817361554
+    meta.broken = false;
+    disabledTests = oldAttrs.disabledTests ++ [
+      "test_lint_free_pylint"
+      "test_per_file_caching"
+    ];
+  });
+
 }
