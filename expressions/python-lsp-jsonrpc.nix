@@ -20,10 +20,10 @@ buildPythonPackage rec {
   checkInputs = [ pytestCheckHook pylint pycodestyle pyflakes pytest-cov coverage ];
 
   meta = with lib; {
-    description = "The uncompromising Python code formatter";
-    homepage    = "https://github.com/psf/black";
+    description = "Fork of the python-jsonrpc-server project, maintained by the Spyder IDE team and the community.";
+    homepage    = "https://github.com/python-lsp/python-lsp-jsonrpc";
     license     = licenses.mit;
-    maintainers = with maintainers; [ sveitser ];
+    maintainers = with maintainers; [ ];
   };
 
 }
