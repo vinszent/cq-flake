@@ -52,7 +52,6 @@ buildPythonPackage rec {
 
   patches = [
     ./less-warnings.patch
-    # ./unpin-jinja.patch
     # ./003_log_dropped_methods.patch
   ];
 
