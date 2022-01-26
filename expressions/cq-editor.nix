@@ -20,6 +20,7 @@ mkDerivationWith python3Packages.buildPythonApplication {
     pyqt5
     pyparsing
     pyqtgraph
+    cq-kit
     # spyder_3
     spyder
     pathpy
