@@ -143,18 +143,19 @@
             packageOverrides = py-overrides;
             self = python;
           };
+          cq-kit = python.pkgs.callPackage ./expressions/cq-kit.nix {};
 
         in rec {
           packages = {
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
-              python3Packages = python.pkgs;
+              python3Packages = python.pkgs // { inherit cq-kit; };
               src = inputs.cq-editor-src;
             };
             cq-docs = python.pkgs.callPackage ./expressions/cq-docs.nix {
               src = inputs.cadquery-src;
             };
             cadquery-env = python.withPackages (
-              ps: with ps; [ cadquery python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder pybind11-stubgen ]
+              ps: with ps; [ cadquery cq-kit python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder pybind11-stubgen ]
             );
             just-ocp = python.withPackages ( ps: with ps; [ ocp ] );
             # cadquery-dev-shell = packages.python38.withPackages (
