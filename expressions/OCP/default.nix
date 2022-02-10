@@ -23,6 +23,8 @@ let
   version = "v7.5.2-git-" + src.shortRev;
   # remember to change version number in dump_symbols.py as well
 
+  vtk_main_version = lib.versions.majorMinor vtk_9.version;
+
   ocp-dump-symbols = stdenv.mkDerivation rec {
     pname = "ocp-dump-symbols";
     inherit version src;
@@ -91,7 +93,7 @@ let
     pywrapFlags =  builtins.concatStringsSep " " (
       map (p: ''-i '' + p) [
         "${rapidjson}/include"
-        "${vtk_9}/include/vtk-9.0/"
+        "${vtk_9}/include/vtk-${vtk_main_version}/"
         "${xlibs.xorgproto}/include"
         "${xlibs.libX11.dev}/include"
         "${libglvnd.dev}/include"
@@ -170,9 +172,8 @@ let
       "-S ../OCP"
       "-DPYTHON_EXECUTABLE=${python}/bin/python"
       "-DOPENCASCADE_INCLUDE_DIR=${src}/opencascade"
-      "-DCMAKE_CXX_STANDARD_LIBRARIES=${vtk_9}/lib/libvtkWrappingPythonCore-9.0.so"
-      # "-DCMAKE_CXX_FLAGS='"-I\ ${vtk_9}/include/vtk-9.0'""
-      "-DVTK_DIR=${vtk_9}/lib/cmake/vtk-9.0/"
+      "-DCMAKE_CXX_STANDARD_LIBRARIES=${vtk_9}/lib/libvtkWrappingPythonCore-${vtk_main_version}.so"
+      "-DVTK_DIR=${vtk_9}/lib/cmake/vtk-${vtk_main_version}/"
       "-Wno-dev"
     ];
 
