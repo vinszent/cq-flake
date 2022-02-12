@@ -7,7 +7,7 @@
 }:
 
 buildPythonPackage rec {
-  version = "1.7.0";
+  version = "1.9.3";
   pname = "typish";
 
   disabled = pythonOlder "3.4";
@@ -15,8 +15,8 @@ buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "ramonhagenaars";
     repo = "typish";
-    rev = version;
-    sha256 = "sha256-CYovcyRe2YnbwE04DDQ6ebOIP81PtOVNiOK3o+Vfwto=";
+    rev = "v" + version;
+    sha256 = "sha256-LnOg1dVs6lXgPTwRYg7uJ3LCdExYrCxS47UEJxKHhVU=";
     fetchSubmodules = true;
   };
 

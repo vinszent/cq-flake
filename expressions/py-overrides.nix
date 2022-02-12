@@ -27,7 +27,7 @@
 
   sphinx = self.callPackage ./sphinx.nix { };
 
-  nptyping = self.callPackage ./nptyping.nix { };
+  nptyping = self.callPackage ./nptyping { };
 
   typish = self.callPackage ./typish.nix { };
 

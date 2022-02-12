@@ -9,14 +9,10 @@
   , matplotlib
   , plotly
   , typish
-  , pycodestyle
-  , pylint
-  , coverage
-  , codecov
 }:
 
 buildPythonPackage rec {
-  version = "1.3.0";
+  version = "1.4.4";
   pname = "nptyping";
 
   disabled = pythonOlder "3.4";
@@ -25,16 +21,16 @@ buildPythonPackage rec {
     owner = "ramonhagenaars";
     repo = "nptyping";
     rev = "v" + version;
-    sha256 = "sha256-/5tYBrJ8rzERhRG4HWqM32/TzbxizEcV+u9RXo9wuNg=";
+    sha256 = "sha256-c9Qoufn9m3H03Pc8XhGzTBeixnl/elkalv50OrW4gJY=";
     fetchSubmodules = true;
   };
 
+  patches = [
+    ./remove-codestyle-deps.patch
+  ];
+
   checkInputs = [
-    pycodestyle
-    pylint
     pytest
-    coverage
-    codecov
   ];
 
   propagatedBuildInputs = [
