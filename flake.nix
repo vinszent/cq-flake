@@ -51,7 +51,11 @@
             stdenv = pkgs.gcc9Stdenv;
           };
           # I'm quite worried about how I handle this VTK. Python -> VTK (for Python bindings) -> OCCT -> Python(OCP)
-          new_vtk_9 = (pkgs.vtk_9.overrideAttrs ( oldAttrs: rec {
+          new_vtk_9 = pkgs.libsForQt5.callPackage ./expressions/VTK { enablePython = true; pythonInterpreter = python; };
+          was_called_new_vtk_9 = (pkgs.vtk_9.overrideAttrs ( oldAttrs: rec {
+            majorVersion = "9.1";
+            minorVersion = "0";
+            sourceSha256 = pkgs.lib.fakeSha256;
             patches = [
               # ./expressions/VTK/3edc0de2b04ae1e100c229e592d6b9fa94f2915a.patch
               ./expressions/VTK/64265c5fd1a8e26a6a81241284dea6b3272f6db6.patch
