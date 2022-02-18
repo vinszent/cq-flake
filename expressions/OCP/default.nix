@@ -172,7 +172,7 @@ let
       "-S ../OCP"
       "-DPYTHON_EXECUTABLE=${python}/bin/python"
       "-DOPENCASCADE_INCLUDE_DIR=${src}/opencascade"
-      "-DCMAKE_CXX_STANDARD_LIBRARIES=${vtk_9}/lib/libvtkWrappingPythonCore-${vtk_main_version}.so"
+      "-DCMAKE_CXX_STANDARD_LIBRARIES=${vtk_9}/lib/libvtkWrappingPythonCore${lib.versions.majorMinor python.version}-${vtk_main_version}.so"
       "-DVTK_DIR=${vtk_9}/lib/cmake/vtk-${vtk_main_version}/"
       "-Wno-dev"
     ];
