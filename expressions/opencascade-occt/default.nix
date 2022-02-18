@@ -22,7 +22,10 @@
   , rapidjson
   , glew
 }:
-stdenv.mkDerivation rec {
+let
+  vtk_version = lib.versions.majorMinor vtk_9.version;
+in
+  stdenv.mkDerivation rec {
   pname = "opencascade-occt";
   version = "7.5.2";
   commit = "V${builtins.replaceStrings ["."] ["_"] version}";
@@ -86,7 +89,7 @@ stdenv.mkDerivation rec {
     "-D BUILD_RELEASE_DISABLE_EXCEPTIONS=OFF"
     "-D USE_VTK:BOOL=ON"
     "-D 3RDPARTY_VTK_LIBRARY_DIR:FILEPATH=${vtk_9}/lib"
-    "-D 3RDPARTY_VTK_INCLUDE_DIR:FILEPATH=${vtk_9}/include/vtk-9.0"
+    "-D 3RDPARTY_VTK_INCLUDE_DIR:FILEPATH=${vtk_9}/include/vtk-${vtk_version}"
     "-D VTK_RENDERING_BACKEND:STRING=\"OpenGL2\""
     "-D USE_FREEIMAGE:BOOL=ON"
     "-D USE_RAPIDJSON:BOOL=ON"
