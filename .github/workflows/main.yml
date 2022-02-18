@@ -28,6 +28,8 @@ jobs:
         name: marcus7070
         # Signing key secret retrieved after creating binary cache on https://cachix.org
         signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+        # a little github runner will never build anything significant, so
+        skipPush: true
     - name: list flake
       run: nix flake show
       continue-on-error: true
