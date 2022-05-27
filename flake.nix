@@ -103,10 +103,7 @@
           };
 
           defaultPackage = packages.cq-editor;
-          defaultApp = {
-            type = "app";
-            program = defaultPackage + "/bin/cq-editor";
-          };
+          apps.default = flake-utils.lib.mkApp { drv = defaultPackage; }; 
           overlays = { inherit py-overrides; };
           # TODO: add dev env for cadquery
           # devShell = packages.cadquery-dev-shell;
