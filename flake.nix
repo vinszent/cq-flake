@@ -25,7 +25,7 @@
       flake = false;
     };
     llvm-src = {
-      url = "github:llvm/llvm-project/llvmorg-10.0.1";
+      url = "github:llvm/llvm-project/llvmorg-11.1.0";
       flake = false;
     };
     pybind11-stubgen-src = {
@@ -44,16 +44,9 @@
           pkgs = import nixpkgs {
             inherit system;
           };
-          # keep gcc, llvm and stdenv versions in sync
-          gccSet = {
-            # have to use gcc9 because freeimage complains with gcc8, could probably build freeimage with gcc8 if I have to, but this is easier.
-            llvmPackages = pkgs.llvmPackages_10; # canonical now builds with llvm10: https://github.com/CadQuery/OCP/commit/2ecc243e2011e1ea5c57023dee22e562dacefcdd
-            stdenv = pkgs.gcc9Stdenv;
-          };
           # I'm quite worried about how I handle this VTK. Python -> VTK (for Python bindings) -> OCCT -> Python(OCP)
           new_vtk_9 = pkgs.libsForQt5.callPackage ./expressions/VTK { enablePython = true; pythonInterpreter = python; };
           opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt {
-            inherit (gccSet) stdenv;
             vtk_9 = new_vtk_9;
           };
           nlopt = pkgs.callPackage ./expressions/nlopt.nix {
@@ -61,22 +54,24 @@
             pythonPackages = python.pkgs;
           };
           py-overrides = import expressions/py-overrides.nix {
-            inherit gccSet;
             inherit (inputs) llvm-src pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src;
             inherit (pkgs) fetchFromGitHub;
             vtk_9_nonpython = new_vtk_9;
             occt = opencascade-occt;
             nlopt_nonpython = nlopt;
+            llvmPackages = pkgs.llvmPackages;
+            pkg-config_nonpython = pkgs.pkg-config;
           };
           # python = pkgs.enableDebugging ((pkgs.python38.override {
           #   packageOverrides = py-overrides;
           #   self = python;
           # }).overrideAttrs (oldAttrs: { disallowedReferences = []; }));
-          python = pkgs.python38.override {
+          python = pkgs.python3.override {
             packageOverrides = py-overrides;
             self = python;
           };
           cq-kit = python.pkgs.callPackage ./expressions/cq-kit.nix {};
+          pathpy = python.pkgs.callPackage ./expressions/pathpy.nix {};
 
         in rec {
           packages = {
@@ -84,11 +79,11 @@
               python3Packages = python.pkgs // { inherit cq-kit; };
               src = inputs.cq-editor-src;
             };
-            cq-docs = python.pkgs.callPackage ./expressions/cq-docs.nix {
-              src = inputs.cadquery-src;
-            };
+            # cq-docs = python.pkgs.callPackage ./expressions/cq-docs.nix {
+            #   src = inputs.cadquery-src;
+            # };
             cadquery-env = python.withPackages (
-              ps: with ps; [ cadquery cq-kit python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder pybind11-stubgen ]
+              ps: with ps; [ cadquery cq-kit black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder pybind11-stubgen ]
             );
             just-ocp = python.withPackages ( ps: with ps; [ ocp ] );
             # cadquery-dev-shell = packages.python38.withPackages (

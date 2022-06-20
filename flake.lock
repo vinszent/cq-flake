@@ -3,11 +3,11 @@
     "cadquery-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1647771248,
-        "narHash": "sha256-DaBcck4426D/MJL3+TC0LtpObqrTG2czGPUar88GSgg=",
+        "lastModified": 1655429840,
+        "narHash": "sha256-3MPkeQzTJCNBnxuqpiNSrs7ZwIY0G84Z54AcZ5yXjbA=",
         "owner": "CadQuery",
         "repo": "cadquery",
-        "rev": "3efb08034ac72e8ccdb2c59431acf6da9c88a829",
+        "rev": "c9d3f1e693d8d3b59054c8f10027c46a55342b22",
         "type": "github"
       },
       "original": {
@@ -34,11 +34,11 @@
     },
     "flake-utils": {
       "locked": {
-        "lastModified": 1638122382,
-        "narHash": "sha256-sQzZzAbvKEqN9s0bzWuYmRaA03v40gaJ4+iL1LXjaeI=",
+        "lastModified": 1653893745,
+        "narHash": "sha256-0jntwV3Z8//YwuOjzhV2sgJJPt+HY6KhU7VZUL0fKZQ=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "74f7e4319258e287b0f9cb95426c9853b282730b",
+        "rev": "1ed9fb1935d260de5fe1c2f7ee0ebaae17ed2fa1",
         "type": "github"
       },
       "original": {
@@ -50,27 +50,27 @@
     "llvm-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1594138897,
-        "narHash": "sha256-YOVIaKo/DJ4ugHOk9l5y8YLDmhtZD7WWOBbEbexjYqs=",
+        "lastModified": 1612389070,
+        "narHash": "sha256-6LPXPHVtUgOYmqOhD3KbwD+WIalRWxptmAUJbqbH/y0=",
         "owner": "llvm",
         "repo": "llvm-project",
-        "rev": "ef32c611aa214dea855364efd7ba451ec5ec3f74",
+        "rev": "1fdec59bffc11ae37eb51a1b9869f0696bfd5312",
         "type": "github"
       },
       "original": {
         "owner": "llvm",
-        "ref": "llvmorg-10.0.1",
+        "ref": "llvmorg-11.1.0",
         "repo": "llvm-project",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1641230035,
-        "narHash": "sha256-hFyqihERaTbLxCOlugy/rpp22VLtLh8SPRnA2uu3F/8=",
+        "lastModified": 1655567057,
+        "narHash": "sha256-Cc5hQSMsTzOHmZnYm8OSJ5RNUp22bd5NADWLHorULWQ=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "78cd22c1b8604de423546cd49bfe264b786eca13",
+        "rev": "e0a42267f73ea52adc061a64650fddc59906fc99",
         "type": "github"
       },
       "original": {
@@ -83,11 +83,11 @@
     "ocp-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1640273405,
-        "narHash": "sha256-wk+ct4sHu2cLDA+3rz09rJR3D3XFF9383wWQPiqoul8=",
+        "lastModified": 1653501702,
+        "narHash": "sha256-jaZVsbMWSuLNnLlRzDp4ZEKqZLXC8OAp+i8/jKbMRJg=",
         "owner": "cadquery",
         "repo": "ocp",
-        "rev": "787d6cb7a43626b845a9c1fffa09042493591ea2",
+        "rev": "257c90a912e9477d4f97004fc8bc4cdfa752993c",
         "type": "github"
       },
       "original": {
@@ -131,11 +131,11 @@
     "pywrap-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1637947456,
-        "narHash": "sha256-ktyIDnmF+gGLtBquGJ4wgxU2bjPe85Yv6na99ZIUC7k=",
+        "lastModified": 1642094205,
+        "narHash": "sha256-yHZSgqieVGRBpY7m/2H7MeYFmvUSayHVv7SV2y1857I=",
         "owner": "CadQuery",
         "repo": "pywrap",
-        "rev": "07f85fc5d1c05a56d4121c9daa369e842b1c5ac3",
+        "rev": "66e7376d3a27444393fc99acbdbef40bbc7031ae",
         "type": "github"
       },
       "original": {

@@ -1,6 +1,7 @@
 { lib
   , buildPythonPackage
-  , isPy3k
+  , setuptools_scm
+  , isPy3k 
   , pythonOlder
   , fetchFromGitHub
   , pyparsing
@@ -8,6 +9,7 @@
   , freefont_ttf
   , pytestCheckHook
   , pytest-xdist
+  , casadi
   , ocp
   , ezdxf
   , ipython
@@ -15,6 +17,7 @@
   , src
   , scipy
   , nptyping
+  , typish
   , vtk_9
   , nlopt
   , multimethod
@@ -25,11 +28,23 @@ buildPythonPackage rec {
   version = if (builtins.hasAttr "rev" src) then (builtins.substring 0 7 src.rev) else "local-dev";
   inherit src;
 
+  SETUPTOOLS_SCM_PRETEND_VERSION = "${version}";
+  nativeBuildInputs = [ setuptools_scm ];
+
+  patchPhase = ''
+    substituteInPlace setup.py \
+      --replace "cadquery-ocp" "ocp"
+  '';
+
+  doCheck = false;
+
   propagatedBuildInputs = [
     pyparsing
+    casadi
     ocp
     ezdxf
     ipython
+    typish
     typing-extensions
     scipy
     nptyping
@@ -43,7 +58,7 @@ buildPythonPackage rec {
     fontDirectories = [ freefont_ttf ];
   };
 
-  disabled = !(isPy3k && (pythonOlder "3.9"));
+  # disabled = !(isPy3k && (pythonOlder "3.9"));
 
   checkInputs = [
     pytestCheckHook

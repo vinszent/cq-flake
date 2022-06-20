@@ -10,13 +10,13 @@
 
 buildPythonPackage rec {
   pname = "python-lsp-black";
-  version = "1.0.1";
+  version = "1.2.1";
 
   src = fetchFromGitHub {
     owner = "python-lsp";
     repo = "python-lsp-black";
     rev = "v${version}";
-    sha256 = "sha256-fDCHH+9C5dX6POdGGx9nTX8+04TdJyO5yt9hJ0kVYw4=";
+    sha256 = "sha256-qNA6Bj1VI0YEtRuvcMQZGWakQNNrJ2PqhozrLmQHPAg=";
   };
 
   disabled = !isPy3k;

@@ -1,5 +1,5 @@
 {
-  gccSet
+  llvmPackages
   , llvm-src
   , pywrap-src
   , ocp-src
@@ -9,12 +9,20 @@
   , fetchFromGitHub
   , vtk_9_nonpython
   , nlopt_nonpython
+  , pkg-config_nonpython
   , pybind11-stubgen-src
 }: self: super: rec {
 
   clang = self.callPackage ./clang.nix {
     src = llvm-src;
-    llvmPackages = gccSet.llvmPackages;
+    llvmPackages = llvmPackages;
+  };
+
+  casadi = self.callPackage ./casadi/casadi.nix {
+    pkg-config = pkg-config_nonpython;
+  };
+
+  mumps = self.callPackage ./mumps.nix {
   };
 
   cymbal = self.callPackage ./cymbal.nix { };
@@ -25,9 +33,11 @@
 
   ezdxf = self.callPackage ./ezdxf.nix { };
 
-  sphinx = self.callPackage ./sphinx.nix { };
+  # sphinx = self.callPackage ./sphinx.nix { };
 
-  nptyping = self.callPackage ./nptyping { };
+  typing = self.callPackage ./nptyping.nix { };
+
+  nptyping = self.callPackage ./nptyping.nix { };
 
   typish = self.callPackage ./typish.nix { };
 
@@ -41,20 +51,22 @@
 
   sphinxcadquery = self.callPackage ./sphinxcadquery.nix { };
 
+  path = self.callPackage ./path.nix { };
+
+  pathpy = self.callPackage ./pathpy.nix { };
+
   # black = self.callPackage ./black.nix { };
 
   # pybind11 = self.callPackage ./pybind11 { };
 
   pywrap = self.callPackage ./pywrap {
     src = pywrap-src;
-    inherit (gccSet) llvmPackages;
   };
 
   pytest-flakefinder = self.callPackage ./pytest-flakefinder.nix { };
 
   ocp = self.callPackage ./OCP {
     src = ocp-src;
-    inherit (gccSet) stdenv llvmPackages;
     opencascade-occt = occt;
   };
 
@@ -94,27 +106,8 @@
     };
   }));
 
-  spyder = (super.spyder.overrideAttrs (oldAttrs: {
-    propagatedBuildInputs = with self; oldAttrs.propagatedBuildInputs ++ [
-      cookiecutter rtree qstylizer jellyfish
-    ];
-  })).override {
-    python-language-server = python-lsp-server;
-    pyls-black = python-lsp-black;
-  };
-
   rtree = self.callPackage ./rtree.nix { };
 
   qstylizer = self.callPackage ./qstylizer.nix { };
-
-  python-language-server = super.python-language-server.overrideAttrs (oldAttrs: { 
-    # TODO: diagnose what's going on here and if I can replace python-language-server since:
-    # https://github.com/palantir/python-language-server/pull/918#issuecomment-817361554
-    meta.broken = false;
-    disabledTests = oldAttrs.disabledTests ++ [
-      "test_lint_free_pylint"
-      "test_per_file_caching"
-    ];
-  });
 
 }

@@ -67,7 +67,7 @@ mkDerivationWith python3Packages.buildPythonApplication {
       desktopName = "CadQuery";
       icon = "cadquery";
       exec = "cq-editor %f";
-      categories = "Graphics;3DGraphics;Engineering;";
+      categories = [ "Graphics" "3DGraphics" "Engineering" ];
       type = "Application";
       comment = "CadQuery GUI editor based on PyQT";
     })

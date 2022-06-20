@@ -14,6 +14,7 @@
   , jinja2
   , logzero
   , pandas
+  , path
   , pathpy
   , pyparsing
   , schema
@@ -40,6 +41,7 @@ buildPythonPackage rec {
     jinja2
     logzero
     pandas
+    path
     pathpy
     pyparsing
     schema
