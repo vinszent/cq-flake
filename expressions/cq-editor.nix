@@ -61,17 +61,17 @@ mkDerivationWith python3Packages.buildPythonApplication {
   # requires X server
   doCheck = false;
 
-  desktopItems = [
-    (makeDesktopItem {
-      name = "com.cadquery.CadQuery";
-      desktopName = "CadQuery";
-      icon = "cadquery";
-      exec = "cq-editor %f";
-      categories = "Graphics;3DGraphics;Engineering;";
-      type = "Application";
-      comment = "CadQuery GUI editor based on PyQT";
-    })
-  ];
+  # desktopItems = [
+  #   (makeDesktopItem {
+  #     name = "com.cadquery.CadQuery";
+  #     desktopName = "CadQuery";
+  #     icon = "cadquery";
+  #     exec = "cq-editor %f";
+  #     categories = "Graphics;3DGraphics;Engineering;";
+  #     type = "Application";
+  #     comment = "CadQuery GUI editor based on PyQT";
+  #   })
+  # ];
 
   meta = with lib; {
     description = "CadQuery GUI editor based on PyQT";

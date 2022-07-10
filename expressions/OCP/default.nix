@@ -9,7 +9,7 @@
   , llvmPackages
   , pybind11
   , libglvnd
-  , xlibs
+  , xorg
   , python
   , writeTextFile
   , pywrap
@@ -94,8 +94,8 @@ let
       map (p: ''-i '' + p) [
         "${rapidjson}/include"
         "${vtk_9}/include/vtk-${vtk_main_version}/"
-        "${xlibs.xorgproto}/include"
-        "${xlibs.libX11.dev}/include"
+        "${xorg.xorgproto}/include"
+        "${xorg.libX11.dev}/include"
         "${libglvnd.dev}/include"
         "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}"
         "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}/x86_64-unknown-linux-gnu"
@@ -146,8 +146,8 @@ let
     
     buildInputs = [
       libglvnd.dev
-      xlibs.libX11.dev
-      xlibs.xorgproto
+      xorg.libX11.dev
+      xorg.xorgproto
       vtk_9
     ] ++ opencascade-occt.buildInputs ++ vtk_9.buildInputs;
 

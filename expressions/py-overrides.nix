@@ -94,14 +94,11 @@
     };
   }));
 
-  spyder = (super.spyder.overrideAttrs (oldAttrs: {
+  spyder = super.spyder.overrideAttrs (oldAttrs: {
     propagatedBuildInputs = with self; oldAttrs.propagatedBuildInputs ++ [
       cookiecutter rtree qstylizer jellyfish
     ];
-  })).override {
-    python-language-server = python-lsp-server;
-    pyls-black = python-lsp-black;
-  };
+  });
 
   rtree = self.callPackage ./rtree.nix { };
 
