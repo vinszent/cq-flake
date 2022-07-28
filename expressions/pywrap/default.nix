@@ -14,7 +14,7 @@
   , jinja2
   , logzero
   , pandas
-  , pathpy
+  , path
   , pyparsing
   , schema
   , tqdm
@@ -40,7 +40,7 @@ buildPythonPackage rec {
     jinja2
     logzero
     pandas
-    pathpy
+    path
     pyparsing
     schema
     tqdm
@@ -58,7 +58,6 @@ buildPythonPackage rec {
   # do I need this at all?
   postPatch = ''
     substituteInPlace bindgen/CMakeLists.j2 --replace '$ENV{CONDA_PREFIX}/bin/python' ${python}
-    substituteInPlace setup.py --replace "'path'" "'path.py'"
   '';
 
   pythonImportCheck = [ "bindgen" ];
