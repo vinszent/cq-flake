@@ -5,18 +5,19 @@
   , pythonOlder
   , cmake
   , ninja
+  , glibc
   , opencascade-occt
   , llvmPackages
   , pybind11
   , libglvnd
-  , xlibs
+  , xorg
   , python
   , writeTextFile
   , pywrap
   , vtk_9
   , rapidjson
   , lief
-  , pathpy
+  , path
 }:
 let
 
@@ -31,7 +32,7 @@ let
 
     nativeBuildInputs = [
       lief
-      pathpy
+      path
       opencascade-occt
     ];
 
@@ -94,12 +95,12 @@ let
       map (p: ''-i '' + p) [
         "${rapidjson}/include"
         "${vtk_9}/include/vtk-${vtk_main_version}/"
-        "${xlibs.xorgproto}/include"
-        "${xlibs.libX11.dev}/include"
+        "${xorg.xorgproto}/include"
+        "${xorg.libX11.dev}/include"
         "${libglvnd.dev}/include"
         "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}"
         "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}/x86_64-unknown-linux-gnu"
-        "${stdenv.glibc.dev}/include"
+        "${glibc.dev}/include"
         "${stdenv.cc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${stdenv.cc.version}/include-fixed"
         "${stdenv.cc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${stdenv.cc.version}/include"
     ]);
@@ -146,15 +147,15 @@ let
     
     buildInputs = [
       libglvnd.dev
-      xlibs.libX11.dev
-      xlibs.xorgproto
+      xorg.libX11.dev
+      xorg.xorgproto
       vtk_9
     ] ++ opencascade-occt.buildInputs ++ vtk_9.buildInputs;
 
     preConfigure = ''
       export CMAKE_PREFIX_PATH=${pybind11}/share/cmake/pybind11:$CMAKE_PREFIX_PATH
       export PYBIND11_USE_CMAKE=1
-      export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:${stdenv.glibc.dev}/include
+      export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:${glibc.dev}/include
       echo "CMAKE_INCLUDE_PATH is:"
       echo $CMAKE_INCLUDE_PATH
       export NIX_CFLAGS_COMPILE="$NIX_CFLAGS_COMPILE -Wno-deprecated-declarations"

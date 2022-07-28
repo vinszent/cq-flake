@@ -5,11 +5,11 @@
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
     flake-utils.url = "github:numtide/flake-utils";
     cadquery-src = {
-      url = "github:CadQuery/cadquery";
+      url = "github:CadQuery/cadquery/803a05e78c233fdb537a8604c3f2b56a52179bbe";
       flake = false;
     };
     cq-editor-src = {
-      url = "github:CadQuery/CQ-editor";
+      url = "github:CadQuery/CQ-editor/4b461fe195d0a4e99b9a6c43b7e1fe0cb4c5e77d";
       flake = false;
     };
     ocp-src = {
@@ -48,7 +48,7 @@
           gccSet = {
             # have to use gcc9 because freeimage complains with gcc8, could probably build freeimage with gcc8 if I have to, but this is easier.
             llvmPackages = pkgs.llvmPackages_10; # canonical now builds with llvm10: https://github.com/CadQuery/OCP/commit/2ecc243e2011e1ea5c57023dee22e562dacefcdd
-            stdenv = pkgs.gcc9Stdenv;
+            stdenv = pkgs.stdenv; # not currently used, can probably be removed unless I have to control GCC version again in the future
           };
           # I'm quite worried about how I handle this VTK. Python -> VTK (for Python bindings) -> OCCT -> Python(OCP)
           new_vtk_9 = pkgs.libsForQt5.callPackage ./expressions/VTK { enablePython = true; pythonInterpreter = python; };
