@@ -10,6 +10,7 @@
   , pytestCheckHook
   , pytest-xdist
   , ocp
+  , casadi
   , ezdxf
   , ipython
   , typing-extensions
@@ -39,6 +40,7 @@ buildPythonPackage rec {
     pyparsing
     ocp
     ezdxf
+    casadi
     ipython
     typing-extensions
     scipy
