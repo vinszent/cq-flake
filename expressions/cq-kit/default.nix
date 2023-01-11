@@ -17,6 +17,14 @@ buildPythonPackage rec {
     fetchSubmodules = true;
   };
 
+  patches = [
+    # https://github.com/michaelgale/cq-kit/pull/4
+    # fix for building in python 3.10
+    ./fix-version-check.patch
+    # fix for OCP upgrade
+    ./update-ocp-usage.patch
+  ];
+
   propagatedBuildInputs = [ cadquery ];
 
   checkInputs = [ pytestCheckHook ];

@@ -5,11 +5,11 @@
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
     flake-utils.url = "github:numtide/flake-utils";
     cadquery-src = {
-      url = "github:CadQuery/cadquery/803a05e78c233fdb537a8604c3f2b56a52179bbe";
+      url = "github:CadQuery/cadquery/23560289f1b76c25e2f06a0bbc9c17ebfebd5824";
       flake = false;
     };
     cq-editor-src = {
-      url = "github:CadQuery/CQ-editor/4b461fe195d0a4e99b9a6c43b7e1fe0cb4c5e77d";
+      url = "github:CadQuery/CQ-editor/adf11592c96c2d8490e1e8d332d1a9bb63f5c112";
       flake = false;
     };
     ocp-src = {
@@ -60,6 +60,14 @@
             inherit python;
             pythonPackages = python.pkgs;
           };
+          scotch = pkgs.scotch.overrideAttrs (oldAttrs: {
+            buildFlags = ["scotch ptscotch esmumps ptesmumps"];
+            installFlags = ["prefix=\${out} scotch ptscotch esmumps ptesmumps" ];
+          } );
+          mumps = pkgs.callPackage ./expressions/mumps.nix { inherit scotch; };
+          casadi = pkgs.callPackage ./expressions/casadi.nix {
+            inherit python mumps scotch;
+          };
           py-overrides = import expressions/py-overrides.nix {
             inherit gccSet;
             inherit (inputs) llvm-src pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src;
@@ -67,19 +75,20 @@
             vtk_9_nonpython = new_vtk_9;
             occt = opencascade-occt;
             nlopt_nonpython = nlopt;
+            casadi_nonpython = casadi;
           };
           # python = pkgs.enableDebugging ((pkgs.python38.override {
           #   packageOverrides = py-overrides;
           #   self = python;
           # }).overrideAttrs (oldAttrs: { disallowedReferences = []; }));
-          python = pkgs.python38.override {
+          python = pkgs.python310.override {
             packageOverrides = py-overrides;
             self = python;
           };
-          cq-kit = python.pkgs.callPackage ./expressions/cq-kit.nix {};
-
+          cq-kit = python.pkgs.callPackage ./expressions/cq-kit {};
         in rec {
           packages = {
+            inherit mumps;
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
               python3Packages = python.pkgs // { inherit cq-kit; };
               src = inputs.cq-editor-src;

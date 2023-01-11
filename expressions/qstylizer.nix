@@ -11,14 +11,14 @@
 }:
 
 buildPythonPackage rec {
-  version = "0.2.1";
+  version = "0.2.2";
   pname = "qstylizer";
 
   src = fetchFromGitHub {
     owner = "blambright";
     repo = "qstylizer";
     rev = version;
-    sha256 = "sha256-iEMxBpS9gOPubd9O8zpVmR5B7+UZJFkPuOtikO1a9v0=";
+    sha256 = "sha256-QJ4xhaAoVO4/VncXKzI8Q5f/rPfctJ8CvfedkQVgZgQ=";
   };
 
   checkInputs = [ pytestCheckHook pytest-mock ];

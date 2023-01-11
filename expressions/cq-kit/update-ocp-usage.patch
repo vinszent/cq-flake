@@ -1,0 +1,27 @@
+diff --git a/cqkit/cq_discrete.py b/cqkit/cq_discrete.py
+index e212c07..61f1e13 100644
+--- a/cqkit/cq_discrete.py
++++ b/cqkit/cq_discrete.py
+@@ -134,7 +134,6 @@ def triangle_mesh_solid(solid, lin_tol=1e-2, ang_tol=0.5):
+             facing = bt.Triangulation(face, location)
+             tri = facing.Triangles()
+             num_tri = facing.NbTriangles()
+-            vtx = facing.Nodes()
+             txf = face.Location().Transformation()
+             rev = (
+                 True
+@@ -145,10 +144,11 @@ def triangle_mesh_solid(solid, lin_tol=1e-2, ang_tol=0.5):
+                 idx = list(tri.Value(i).Get())
+                 ci = [0, 2, 1] if rev else [0, 1, 2]
+                 for j in ci:
++                    vtx = facing.Node(idx[j]).Transformed(txf)
+                     pt = [
+-                        vtx.Value(idx[j]).Transformed(txf).X(),
+-                        vtx.Value(idx[j]).Transformed(txf).Y(),
+-                        vtx.Value(idx[j]).Transformed(txf).Z(),
++                        vtx.X(),
++                        vtx.Y(),
++                        vtx.Z(),
+                     ]
+                     if pt not in vertices:
+                         vertices.append(pt)

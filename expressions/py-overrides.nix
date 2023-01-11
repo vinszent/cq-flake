@@ -9,15 +9,17 @@
   , fetchFromGitHub
   , vtk_9_nonpython
   , nlopt_nonpython
+  , casadi_nonpython
   , pybind11-stubgen-src
 }: self: super: rec {
-
   clang = self.callPackage ./clang.nix {
     src = llvm-src;
     llvmPackages = gccSet.llvmPackages;
   };
 
   cymbal = self.callPackage ./cymbal.nix { };
+
+  casadi = self.toPythonModule casadi_nonpython;
 
   dictdiffer = self.callPackage ./dictdiffer.nix { };
 
@@ -105,13 +107,7 @@
     ];
   });
 
-  multimethod = super.multimethod.overrideAttrs (oldAttrs: rec {
-    version = "1.8";
-    src = oldAttrs.src // {
-      rev = "v${version}";
-      sha256 = "sha256-JuP1qGlrSffoQ6rRnf896K8PwqHEHiskmH8rd53qcdc=";
-    };
-  });
+  multimethod = self.callPackage ./multimethod.nix { };
 
   numpydoc = super.numpydoc.overridePythonAttrs (oldAttrs: rec {
   #   # doCheck = false;

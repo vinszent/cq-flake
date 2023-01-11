@@ -20,9 +20,11 @@
   , path
 }:
 let
-
-  version = "v7.5.2-git-" + src.shortRev;
+  # We need to use an unmodified version number for the dist-utils version so
+  # that the version check in cadquery works
   # remember to change version number in dump_symbols.py as well
+  base-version = "7.6.3";
+  version = "v${base-version}-git-${src.shortRev}";
 
   vtk_main_version = lib.versions.majorMinor vtk_9.version;
 
@@ -211,7 +213,7 @@ let
 
       setup(
           name='OCP',
-          version=getenv("version"),
+          version=getenv("SETUPTOOLS_SCM_PRETEND_VERSION"),
           description="Python wrapper for OCCT",
           license="Apache License 2.0",
           packages=[""],
@@ -228,6 +230,8 @@ in buildPythonPackage {
   pname = "OCP";
   inherit version;
   src = ocp-result;
+
+  SETUPTOOLS_SCM_PRETEND_VERSION="${base-version}";
 
   prePatch = ''
     cp ${setuppy} ./setup.py
