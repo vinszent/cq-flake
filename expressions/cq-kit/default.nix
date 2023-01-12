@@ -7,23 +7,15 @@
 }:
 buildPythonPackage rec {
   pname = "cq-kit";
-  rev = "b7212f0cbdf4ce5353330cc96917088615bcb0dc";
-  version = "git-" + builtins.substring 0 7 rev;
+  rev = "1c9883abab29f86798ff9b4dca28c5b19cfb852b";
+  version = "0.5.0";
   src = fetchFromGitHub {
     owner = "michaelgale";
     repo = pname;
     inherit rev;
-    sha256 = "sha256-AnvlmbOQrCLFRhndCnp6gTpmpA8w0X6Ze657W4BmAdo=";
+    sha256 = "sha256-IkmwS2+OkvX8V8NtD2O4+kcRfU+YtPpWCMSymLFOlLE=";
     fetchSubmodules = true;
   };
-
-  patches = [
-    # https://github.com/michaelgale/cq-kit/pull/4
-    # fix for building in python 3.10
-    ./fix-version-check.patch
-    # fix for OCP upgrade
-    ./update-ocp-usage.patch
-  ];
 
   propagatedBuildInputs = [ cadquery ];
 
