@@ -97,7 +97,20 @@
               src = inputs.cadquery-src;
             };
             cadquery-env = python.withPackages (
-              ps: with ps; [ cadquery cq-kit python-language-server black mypy ocp-stubs pytest pytest-xdist pytest-cov pytest-flakefinder pybind11-stubgen ]
+              ps: with ps; [
+                cadquery
+                cq-kit
+                python-lsp-server
+                black
+                mypy
+                # ocp-stubs currently uses parser module, which is not in Py3.10
+                # ocp-stubs
+                # pybind11-stubgen
+                pytest
+                pytest-xdist
+                pytest-cov
+                pytest-flakefinder
+              ]
             );
             just-ocp = python.withPackages ( ps: with ps; [ ocp ] );
             # cadquery-dev-shell = packages.python38.withPackages (
