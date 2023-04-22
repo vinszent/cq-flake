@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "build123d-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1682021925,
+        "narHash": "sha256-JexdOUsUN90rW6cKfEs2fW4lHE4A/01xRv2kcz1n3gk=",
+        "owner": "gumyr",
+        "repo": "build123d",
+        "rev": "dcb5278843f5801edd6796824dae6bbc2496104e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gumyr",
+        "repo": "build123d",
+        "type": "github"
+      }
+    },
     "cadquery-src": {
       "flake": false,
       "locked": {
@@ -150,6 +166,7 @@
     },
     "root": {
       "inputs": {
+        "build123d-src": "build123d-src",
         "cadquery-src": "cadquery-src",
         "cq-editor-src": "cq-editor-src",
         "flake-utils": "flake-utils",

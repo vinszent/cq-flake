@@ -32,6 +32,10 @@
       url = "github:CadQuery/pybind11-stubgen";
       flake = false;
     };
+    build123d-src = {
+      url = "github:gumyr/build123d";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... } @ inputs:
@@ -70,7 +74,7 @@
           };
           py-overrides = import expressions/py-overrides.nix {
             inherit gccSet;
-            inherit (inputs) llvm-src pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src;
+            inherit (inputs) llvm-src pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src build123d-src;
             inherit (pkgs) fetchFromGitHub;
             vtk_9_nonpython = new_vtk_9;
             occt = opencascade-occt;
@@ -121,6 +125,7 @@
             #   ++ [ pytest ]
             #   ++ cadquery.nativeBuildInputs
             # ));
+            build123d = python.withPackages ( ps: with ps; [ build123d ]);
             inherit python opencascade-occt;
           };
 

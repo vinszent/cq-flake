@@ -11,6 +11,7 @@
   , nlopt_nonpython
   , casadi_nonpython
   , pybind11-stubgen-src
+  , build123d-src
 }: self: super: rec {
   clang = self.callPackage ./clang.nix {
     src = llvm-src;
@@ -133,4 +134,18 @@
       sha256 = "611bb273cd68f3b993fabdc4064fc858c5b47a973cb5aa7999ec1ba405c87cd7";
     };
   });
+
+  svgpathtools = super.buildPythonPackage rec {
+    pname = "svgpathtools";
+    version = "1.6.0";
+    src = super.python.pkgs.fetchPypi {
+      inherit pname version;
+      hash = "sha256-wLk07tKayusJmIr7TRXFmENmhHI24huAwHnY7bWsDE4=";
+    };
+    propagatedBuildInputs = with super.python.pkgs; [ numpy scipy svgwrite ];
+  };
+
+  build123d = self.callPackage ./build123d.nix {
+    src = build123d-src;
+  };
 }
