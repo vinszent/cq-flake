@@ -13,11 +13,11 @@
       flake = false;
     };
     ocp-src = {
-      url = "github:cadquery/ocp";
+      url = "github:cadquery/ocp/7.7.0.0";
       flake = false;
     };
     ocp-stubs-src = {
-      url = "github:cadquery/ocp-stubs";
+      url = "github:cadquery/ocp-stubs/7.7.0";
       flake = false;
     };
     pywrap-src = {
@@ -51,7 +51,7 @@
             stdenv = pkgs.stdenv; # not currently used, can probably be removed unless I have to control GCC version again in the future
           };
           # I'm quite worried about how I handle this VTK. Python -> VTK (for Python bindings) -> OCCT -> Python(OCP)
-          new_vtk_9 = pkgs.libsForQt5.callPackage ./expressions/VTK { enablePython = true; pythonInterpreter = python; };
+          new_vtk_9 = pkgs.libsForQt5.callPackage ./expressions/VTK { enablePython = true; pythonInterpreter = python; ffmpeg = pkgs.ffmpeg_4; };
           opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt {
             inherit (gccSet) stdenv;
             vtk_9 = new_vtk_9;
