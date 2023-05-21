@@ -21,8 +21,6 @@ Now also includes [cq-kit](https://github.com/michaelgale/cq-kit).
 
 ## Commands
 
-(You probably want to read "Build times" below before you run any of these commands)
-
 To run CQ-editor:
 
 ```sh
@@ -46,17 +44,6 @@ You can also generate the docs with:
 nix build github:marcus7070/cq-flake#cq-docs
 ```
 which will leave a symlink called `result` pointing to the HTML docs.
-
-## Build times
-
-`OCP` is a huge build. It takes me about an hour on a beefy desktop. Also, now `opencascade-occt` has to be rebuilt with the correct flags for CadQuery, adding another 30 mins to the build time. 
-
-I'm publishing my builds on Cachix, under the `marcus7070` cache. [Here are the usage instructions](https://app.cachix.org/cache/marcus7070).
-
-Once you have CQ on one machine, you can also push the runtime closure to other machines with the command:
-```sh
-nix copy --to ssh://192.168.1.XXX /nix/store/xxxxxxx-hashymchashyface-xxxxxxx-cq-editor
-```
 
 ## Local dev
 
