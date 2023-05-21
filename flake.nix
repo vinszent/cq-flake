@@ -1,6 +1,12 @@
 {
   description = "CQ-editor and CadQuery";
 
+  nixConfig = {
+    extra-experimental-features = "nix-command flakes";
+    extra-substituters = "https://marcus7070.cachix.org";
+    extra-trusted-public-keys = "marcus7070.cachix.org-1:JawxHSgnYsgNYJmNqZwvLjI4NcOwrcEZDToWlT3WwXw=";
+  };
+
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
     flake-utils.url = "github:numtide/flake-utils";
@@ -125,7 +131,7 @@
           };
 
           defaultPackage = packages.cq-editor;
-          apps.default = flake-utils.lib.mkApp { drv = defaultPackage; }; 
+          apps.default = flake-utils.lib.mkApp { drv = defaultPackage; };
           overlays = { inherit py-overrides; };
           # TODO: add dev env for cadquery
           # devShell = packages.cadquery-dev-shell;
