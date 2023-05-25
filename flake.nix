@@ -34,6 +34,11 @@
     };
   };
 
+  nixConfig = {
+    extra-substituters = [ "https://marcus7070.cachix.org" ];
+    extra-trusted-public-keys = [ "marcus7070.cachix.org-1:JawxHSgnYsgNYJmNqZwvLjI4NcOwrcEZDToWlT3WwXw=" ];
+  };
+
   outputs = { self, nixpkgs, flake-utils, ... } @ inputs:
     let
       # someone else who can do the testing might want to extend this to other systems
