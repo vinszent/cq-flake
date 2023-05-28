@@ -7,6 +7,7 @@ Concepts:
 1. [nix package manager](https://nixos.org/guides/nix-pills/why-you-should-give-it-a-try.html) and [the NixOS Linux distribution](https://nixos.org/)
 2. [nix flakes](https://www.tweag.io/blog/2020-05-25-flakes/)
 3. [CadQuery and CQ-editor](https://cadquery.readthedocs.io/en/latest/intro.html)
+4. [Cachix](https://docs.cachix.org/)
 
 This repo is a nix flake that allows you to reproduce a CadQuery and CQ-editor installation anywhere that has nix. Well, a version of nix with flake support, which is currently only in unstable but should be merged soon. Also, it probably won't work outside of NixOS, because graphic drivers are super difficult to make reproducible. But anyway.
 
@@ -16,6 +17,8 @@ This means that you can create a model in CadQuery and note down the commit to t
 * new Python versions
 * nixpkgs dropping support for Sphinx ~~2.4~~ 3.0.2 or whatever other version it gets pinned to next
 * etc., you get the idea, breaking changes anywhere in the chain of packages.
+
+While nix is a source based package manager, I publish binaries to to [Cachix](https://docs.cachix.org/). This flake now includes the configuration required to automatically download binaries from my Cachix (thanks [thomaslepoix](https://github.com/thomaslepoix) and [EdenEast](https://github.com/EdenEast)).
 
 Now also includes [cq-kit](https://github.com/michaelgale/cq-kit).
 
