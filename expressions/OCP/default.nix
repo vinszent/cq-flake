@@ -14,7 +14,7 @@
   , python
   , writeTextFile
   , pywrap
-  , vtk_9
+  , vtk
   , rapidjson
   , lief
   , path
@@ -23,10 +23,10 @@ let
   # We need to use an unmodified version number for the dist-utils version so
   # that the version check in cadquery works
   # remember to change version number in dump_symbols.py as well
-  base-version = "7.6.3";
+  base-version = "7.7.0";
   version = "v${base-version}-git-${src.shortRev}";
 
-  vtk_main_version = lib.versions.majorMinor vtk_9.version;
+  vtk_main_version = lib.versions.majorMinor vtk.version;
 
   ocp-dump-symbols = stdenv.mkDerivation rec {
     pname = "ocp-dump-symbols";
@@ -96,7 +96,7 @@ let
     pywrapFlags =  builtins.concatStringsSep " " (
       map (p: ''-i '' + p) [
         "${rapidjson}/include"
-        "${vtk_9}/include/vtk-${vtk_main_version}/"
+        "${vtk}/include/vtk/"
         "${xorg.xorgproto}/include"
         "${xorg.libX11.dev}/include"
         "${libglvnd.dev}/include"
@@ -109,16 +109,7 @@ let
 
     buildPhase = ''
       runHook preBuild
-      echo "pywrapFlags are: ${pywrapFlags}"
-      echo "starting bindgen parse"
-      pywrap -n $NIX_BUILD_CORES ${pywrapFlags} parse ocp.toml out.pkl && \
-      echo "finished bindgen parse" && \
-      echo "starting transform" && \
-      pywrap -n $NIX_BUILD_CORES ${pywrapFlags} transform ocp.toml out.pkl out_f.pkl && \
-      echo "finished bindgen transform" && \
-      echo "starting generate" && \
-      pywrap -n $NIX_BUILD_CORES ${pywrapFlags} generate ocp.toml out_f.pkl && \
-      echo "finished bindgen generate"
+      pywrap -n $NIX_BUILD_CORES ${pywrapFlags} all ocp.toml
       runHook postBuild
     '';
 
@@ -135,7 +126,7 @@ let
     src = ocp-pybound;
 
     disabled = pythonOlder "3.6";
-    
+
     # do not put glibc.dev in here https://discourse.nixos.org/t/how-to-get-this-basic-c-build-to-work-in-a-nix-shell/12262/3
     # https://github.com/NixOS/nixpkgs/pull/28748
     nativeBuildInputs = [
@@ -146,13 +137,13 @@ let
       python
       rapidjson
     ];
-    
+
     buildInputs = [
       libglvnd.dev
       xorg.libX11.dev
       xorg.xorgproto
-      vtk_9
-    ] ++ opencascade-occt.buildInputs ++ vtk_9.buildInputs;
+      vtk
+    ] ++ opencascade-occt.buildInputs ++ vtk.buildInputs;
 
     preConfigure = ''
       export CMAKE_PREFIX_PATH=${pybind11}/share/cmake/pybind11:$CMAKE_PREFIX_PATH
@@ -174,9 +165,8 @@ let
     cmakeFlags = [
       "-S ../OCP"
       "-DPYTHON_EXECUTABLE=${python}/bin/python"
-      "-DOPENCASCADE_INCLUDE_DIR=${src}/opencascade"
-      "-DCMAKE_CXX_STANDARD_LIBRARIES=${vtk_9}/lib/libvtkWrappingPythonCore${lib.versions.majorMinor python.version}-${vtk_main_version}.so"
-      "-DVTK_DIR=${vtk_9}/lib/cmake/vtk-${vtk_main_version}/"
+      "-DOpenCASCADE_INCLUDE_DIR=${src}/opencascade"
+      "-DVTK_DIR=${vtk}/lib/cmake/vtk/"
       "-Wno-dev"
     ];
 
@@ -225,7 +215,7 @@ let
       )
     '';
   };
-    
+
 in buildPythonPackage {
   pname = "OCP";
   inherit version;

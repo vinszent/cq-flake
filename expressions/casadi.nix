@@ -39,10 +39,10 @@ stdenv.mkDerivation rec {
   };
 
   patches = [
-   (fetchpatch {
-    url = "https://raw.githubusercontent.com/conda-forge/casadi-feedstock/cdafbcd533cd64e0453e5ac9489f4acc4d53ed1e/recipe/2878.patch";
-    sha256 = "sha256-kt0CyosfjPI8UvxCcJZLl5FluDSfJ6CcgsDQ8HeiwoI=";
-   })
+    (fetchpatch {
+      url = "https://raw.githubusercontent.com/conda-forge/casadi-feedstock/cdafbcd533cd64e0453e5ac9489f4acc4d53ed1e/recipe/2878.patch";
+      sha256 = "sha256-kt0CyosfjPI8UvxCcJZLl5FluDSfJ6CcgsDQ8HeiwoI=";
+    })
   ];
 
   nativeBuildInputs = [

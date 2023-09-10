@@ -16,12 +16,13 @@ mkDerivationWith python3Packages.buildPythonApplication {
 
   propagatedBuildInputs = with python3Packages; [
     cadquery
-    Logbook
+    logbook
     nlopt
     pyqt5
     pyparsing
     pyqtgraph
     cq-kit
+    cq-warehouse
     # spyder_3
     spyder
     pathpy

@@ -21,6 +21,7 @@
   , toposort
   , llvmPackages
   , python
+  , fetchpatch
 }:
 
 buildPythonPackage rec {
@@ -52,6 +53,7 @@ buildPythonPackage rec {
 
   patches = [
     ./less-warnings.patch
+    ./new-pandas-read-csv.patch
     # ./003_log_dropped_methods.patch
   ];
 
