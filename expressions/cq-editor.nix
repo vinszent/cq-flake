@@ -28,6 +28,9 @@ mkDerivationWith python3Packages.buildPythonApplication {
     pathpy
     qtconsole
     requests
+
+    hy
+    hyrule
   ];
 
   build-system = [ python3Packages.setuptools ];
