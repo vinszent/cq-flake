@@ -29,6 +29,9 @@ mkDerivationWith python3Packages.buildPythonApplication {
     pathpy
     qtconsole
     requests
+
+    hy
+    hyrule
   ];
 
   postPatch = ''
