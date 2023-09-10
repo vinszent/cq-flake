@@ -6,9 +6,8 @@
   , llvmPackages
   , writeTextFile
   , setuptools
-  , src
 }:
-let 
+let
   setuppy = writeTextFile {
     name = "setup.py";
     text = ''
@@ -26,9 +25,16 @@ let
       )
     '';};
 
-in buildPythonPackage {
+in buildPythonPackage rec {
   pname = "clang";
   version = llvmPackages.clang-unwrapped.version;
+
+  src = fetchFromGitHub {
+    owner = "llvm";
+    repo = "llvm-project";
+    rev = "llvmorg-${version}";
+    sha256 = "sha256-vffu4HilvYwtzwgq+NlS26m65DGbp6OSSne2aje1yJE=";
+  };
 
   unpackPhase = ''
     export sourceRoot=$PWD/source

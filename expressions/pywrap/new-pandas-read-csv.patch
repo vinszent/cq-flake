@@ -1,0 +1,13 @@
+diff --git a/bindgen/__init__.py b/bindgen/__init__.py
+index e08bed9..0772486 100644
+--- a/bindgen/__init__.py
++++ b/bindgen/__init__.py
+@@ -46,7 +46,7 @@ def read_symbols(p):
+     '''
+
+     sym = pd.read_csv(p,header=None,names=['name'],delim_whitespace=True,
+-                      error_bad_lines=False).dropna()
++                      on_bad_lines='skip').dropna()
+     return sym
+
+ def remove_undefined_mangled(m,sym):

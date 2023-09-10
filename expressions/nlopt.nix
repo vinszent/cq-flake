@@ -2,9 +2,8 @@
   , stdenv
   , fetchFromGitHub
   , cmake
-  , octave ? null 
+  , octave ? null
   , python
-  , pythonPackages
   , swig
 }:
 
@@ -30,7 +29,7 @@ stdenv.mkDerivation rec {
   ];
 
   propagatedBuildInputs = [
-    pythonPackages.numpy
+    python.pkgs.numpy
   ];
 
   # touch a metadata file at the place nix expects it

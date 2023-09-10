@@ -17,9 +17,11 @@
   , src
   , scipy
   , nptyping
-  , vtk_9
+  , typish
+  , vtk
   , nlopt
   , multimethod
+  , docutils
 }:
 
 buildPythonPackage rec {
@@ -45,7 +47,8 @@ buildPythonPackage rec {
     typing-extensions
     scipy
     nptyping
-    vtk_9
+    typish
+    vtk
     nlopt
     multimethod
   ];
@@ -60,6 +63,7 @@ buildPythonPackage rec {
   checkInputs = [
     pytestCheckHook
     pytest-xdist
+    docutils
   ];
 
   pytestFlagsArray = [
