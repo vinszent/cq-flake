@@ -3,7 +3,7 @@
 , openblas
 , cmake
 , stdenv
-, pkgconfig
+, pkg-config
 , python
 , fetchFromGitHub
 , fetchpatch
@@ -47,7 +47,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     cmake
-    pkgconfig
+    pkg-config
     swig
   ];
 
