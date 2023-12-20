@@ -4,7 +4,6 @@
   , isPy3k
   , pythonOlder
   , fetchFromGitHub
-  , pyparsing
   , makeFontsConf
   , freefont_ttf
   , pytestCheckHook
@@ -13,9 +12,7 @@
   , casadi
   , ezdxf
   , ipython
-  , typing-extensions
   , src
-  , scipy
   , nptyping
   , typish
   , vtk
@@ -39,13 +36,10 @@ buildPythonPackage rec {
   '';
 
   propagatedBuildInputs = [
-    pyparsing
     ocp
     ezdxf
     casadi
     ipython
-    typing-extensions
-    scipy
     nptyping
     typish
     vtk

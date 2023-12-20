@@ -10,7 +10,6 @@
   , cmake
   , ninja
   , click
-  , cymbal
   , jinja2
   , logzero
   , pandas
@@ -37,7 +36,6 @@ buildPythonPackage rec {
     cmake
     ninja
     click
-    cymbal
     jinja2
     logzero
     pandas
