@@ -5,7 +5,7 @@ from path import Path
 prefix = sys.argv[1]
 
 prefix_linux = Path(prefix).expand()
-libs = prefix_linux.glob('**/libTK*.so.7.7.0')
+libs = prefix_linux.glob('**/libTK*.so.7.7.2')
 
 exported_symbols = []
 

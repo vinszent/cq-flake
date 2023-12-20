@@ -33,7 +33,7 @@ in buildPythonPackage rec {
     owner = "llvm";
     repo = "llvm-project";
     rev = "llvmorg-${version}";
-    sha256 = "sha256-vffu4HilvYwtzwgq+NlS26m65DGbp6OSSne2aje1yJE=";
+    sha256 = "sha256-wjuZQyXQ/jsmvy6y1aksCcEDXGBjuhpgngF3XQJ/T4s=";
   };
 
   unpackPhase = ''

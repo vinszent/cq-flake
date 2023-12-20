@@ -23,7 +23,7 @@ let
   # We need to use an unmodified version number for the dist-utils version so
   # that the version check in cadquery works
   # remember to change version number in dump_symbols.py as well
-  base-version = "7.7.0";
+  base-version = "7.7.2";
   version = "v${base-version}-git-${src.shortRev}";
 
   vtk_main_version = lib.versions.majorMinor vtk.version;
@@ -232,7 +232,7 @@ in buildPythonPackage {
   pythonImportsCheck = [ "OCP" "OCP.gp" ];
 
   meta = with lib; {
-    description = "Python wrapper for Opencascade Technology 7.5.1 generated using pywrap";
+    description = "Python wrapper for Opencascade Technology ${version} generated using pywrap";
     homepage = "https://github.com/CadQuery/OCP";
     license = licenses.asl20;
     maintainers = with maintainers; [ marcus7070 ];

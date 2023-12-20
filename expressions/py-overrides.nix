@@ -18,10 +18,12 @@
   casadi = self.toPythonModule casadi_nonpython;
 
   pywrap = self.callPackage ./pywrap {
+    inherit llvmPackages;
     src = pywrap-src;
   };
 
   ocp = self.callPackage ./OCP {
+    llvmPackages = llvmPackages;
     src = ocp-src;
     opencascade-occt = occt;
   };
