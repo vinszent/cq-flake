@@ -48,4 +48,6 @@
   spyder-kernels = self.callPackage ./spyder-kernels.nix {};
 
   spyder = self.callPackage ./spyder {};
+
+  svgpathtools = self.callPackage ./svgpathtools.nix {};
 }
