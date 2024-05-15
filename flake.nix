@@ -57,6 +57,7 @@
             python = pkgs.python311;
           };
           opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt { };
+          lib3mf-231 = pkgs.callPackage ./expressions/lib3mf.nix {};
           py-overrides = import expressions/py-overrides.nix {
             inherit (inputs) pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src;
             inherit (pkgs) fetchFromGitHub;
@@ -65,6 +66,7 @@
             occt = opencascade-occt;
             nlopt_nonpython = nlopt;
             casadi_nonpython = casadi;
+            lib3mf = lib3mf-231;
           };
           python = pkgs.python311.override {
             packageOverrides = py-overrides;
@@ -74,7 +76,7 @@
           cq-warehouse = python.pkgs.callPackage ./expressions/cq-warehouse.nix { };
         in rec {
           packages = {
-            inherit (python.pkgs) cadquery;
+            inherit (python.pkgs) cadquery build123d;
             inherit cq-kit cq-warehouse;
 
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
