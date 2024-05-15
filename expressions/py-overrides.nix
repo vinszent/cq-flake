@@ -9,6 +9,7 @@
   , nlopt_nonpython
   , casadi_nonpython
   , pybind11-stubgen-src
+  , lib3mf
 }: self: super: rec {
 
   clang = self.callPackage ./clang.nix {
@@ -41,4 +42,23 @@
   pybind11-stubgen = self.callPackage ./OCP/pybind11-stubgen.nix {
     src = pybind11-stubgen-src;
   };
+
+  svgpathtools = self.callPackage ./svgpathtools.nix {};
+
+  ocpsvg = self.callPackage ./ocpsvg.nix {};
+
+  py-lib3mf = self.callPackage ./py-lib3mf.nix {inherit lib3mf;};
+
+  trianglesolver = self.callPackage ./trianglesolver.nix {};
+
+  ezdxf = self.callPackage ./ezdxf.nix {};
+
+  build123d = self.callPackage ./build123d.nix {};
+
+  # TODO: (erooke) this is packaged in nixpkgs now, updating nixpkgs broke
+  # things and I wasnt in the mood to fix them so we just yoinked their
+  # definitions. This should probably be removed at some point...
+  pygltflib = self.callPackage ./pygltflib.nix {};
+
+  yacv-server = self.callPackage ./yacv-server.nix {};
 }
