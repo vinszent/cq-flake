@@ -19,6 +19,7 @@
   , nlopt
   , multimethod
   , docutils
+  , path
 }:
 
 buildPythonPackage rec {
@@ -58,6 +59,7 @@ buildPythonPackage rec {
     pytestCheckHook
     pytest-xdist
     docutils
+    path
   ];
 
   pytestFlagsArray = [
