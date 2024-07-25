@@ -8,7 +8,7 @@
   };
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     cadquery-src = {
       url = "github:CadQuery/cadquery/245b6f39e597d324cbe8652b385a2130cdce545b";
@@ -45,6 +45,9 @@
         let
           pkgs = import nixpkgs {
             inherit system;
+            config.permittedInsecurePackages = [
+              "freeimage-unstable-2021-11-01"
+            ];
           };
           nlopt = pkgs.callPackage ./expressions/nlopt.nix { python = pkgs.python311; };
           scotch = pkgs.scotch.overrideAttrs (oldAttrs: {

@@ -30,6 +30,8 @@ mkDerivationWith python3Packages.buildPythonApplication {
     requests
   ];
 
+  build-system = [ python3Packages.setuptools ];
+
   nativeBuildInputs = [
     copyDesktopItems
   ];

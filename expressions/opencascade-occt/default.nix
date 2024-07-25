@@ -18,7 +18,7 @@
   , freetype
   , freeimage
   , fontconfig
-  , tbb_2021_8
+  , tbb_2021_11
   , rapidjson
   , glew
 }:
@@ -50,7 +50,7 @@ in
     freetype
     freeimage
     fontconfig
-    tbb_2021_8
+    tbb_2021_11
     rapidjson
     glew
   ] ++ vtk.buildInputs;

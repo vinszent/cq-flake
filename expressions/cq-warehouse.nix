@@ -4,6 +4,7 @@
   , buildPythonPackage
   , fetchFromGitHub
   , cadquery
+  , setuptools
 }:
 buildPythonPackage rec {
   pname = "cq-warehouse";
@@ -15,6 +16,8 @@ buildPythonPackage rec {
     inherit rev;
     sha256 = "sha256-RHiQqmQ5+1IRd9gqlBsgBErmKy6Eo5XHrvRyNf+1m/4=";
   };
+
+  build-system = [ setuptools ];
 
   format = "pyproject";
 
