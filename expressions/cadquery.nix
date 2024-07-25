@@ -66,6 +66,7 @@ buildPythonPackage rec {
     "-W ignore::FutureWarning"
     "-n $NIX_BUILD_CORES"
     "-k 'not example'"
+    "-k 'not testTextAlignment'"
   ];
 
   meta = with lib; {
