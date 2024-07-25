@@ -40,4 +40,8 @@
   pybind11-stubgen = self.callPackage ./OCP/pybind11-stubgen.nix {
     src = pybind11-stubgen-src;
   };
+
+  cq-kit = self.callPackage ./cq-kit {};
+
+  cq-warehouse = self.callPackage ./cq-warehouse.nix { };
 }

@@ -72,15 +72,13 @@
             packageOverrides = py-overrides;
             self = python;
           };
-          cq-kit = python.pkgs.callPackage ./expressions/cq-kit {};
-          cq-warehouse = python.pkgs.callPackage ./expressions/cq-warehouse.nix { };
         in rec {
           packages = {
-            inherit (python.pkgs) cadquery;
-            inherit cq-kit cq-warehouse;
+            inherit (python.pkgs) cadquery cq-kit cq-warehouse;
+            inherit python;
 
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
-              python3Packages = python.pkgs // { inherit cq-kit cq-warehouse; };
+              python3Packages = python.pkgs;
               src = inputs.cq-editor-src;
             };
           };
