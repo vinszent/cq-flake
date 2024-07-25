@@ -56,8 +56,7 @@
           } );
           mumps = pkgs.callPackage ./expressions/mumps.nix { inherit scotch; };
           casadi = pkgs.callPackage ./expressions/casadi.nix {
-            inherit mumps scotch;
-            python = pkgs.python311;
+            inherit mumps scotch python;
           };
           opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt { };
           py-overrides = import expressions/py-overrides.nix {
