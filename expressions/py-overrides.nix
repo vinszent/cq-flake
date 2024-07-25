@@ -6,7 +6,6 @@
   , cadquery-src
   , occt
   , fetchFromGitHub
-  , nlopt_nonpython
   , casadi_nonpython
   , pybind11-stubgen-src
 }: self: super: rec {
@@ -36,7 +35,7 @@
     src = cadquery-src;
   };
 
-  nlopt = self.toPythonModule nlopt_nonpython;
+  nlopt = self.callPackage ./nlopt.nix { };
 
   pybind11-stubgen = self.callPackage ./OCP/pybind11-stubgen.nix {
     src = pybind11-stubgen-src;

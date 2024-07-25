@@ -49,7 +49,7 @@
               "freeimage-unstable-2021-11-01"
             ];
           };
-          nlopt = pkgs.callPackage ./expressions/nlopt.nix { python = pkgs.python311; };
+
           scotch = pkgs.scotch.overrideAttrs (oldAttrs: {
             buildFlags = ["scotch ptscotch esmumps ptesmumps"];
             installFlags = ["prefix=\${out} scotch ptscotch esmumps ptesmumps" ];
@@ -66,7 +66,6 @@
             # NOTE(vinszent): Latest dev env uses LLVM 15 (https://github.com/CadQuery/OCP/blob/master/environment.devenv.yml)
             llvmPackages = pkgs.llvmPackages_15;
             occt = opencascade-occt;
-            nlopt_nonpython = nlopt;
             casadi_nonpython = casadi;
           };
           python = pkgs.python311.override {
