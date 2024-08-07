@@ -8,10 +8,10 @@
   };
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     cadquery-src = {
-      url = "github:CadQuery/cadquery/245b6f39e597d324cbe8652b385a2130cdce545b";
+      url = "github:CadQuery/cadquery/2.4.0";
       flake = false;
     };
     cq-editor-src = {
@@ -45,16 +45,18 @@
         let
           pkgs = import nixpkgs {
             inherit system;
+            config.permittedInsecurePackages = [
+              "freeimage-unstable-2021-11-01"
+            ];
           };
-          nlopt = pkgs.callPackage ./expressions/nlopt.nix { python = pkgs.python311; };
+
           scotch = pkgs.scotch.overrideAttrs (oldAttrs: {
             buildFlags = ["scotch ptscotch esmumps ptesmumps"];
             installFlags = ["prefix=\${out} scotch ptscotch esmumps ptesmumps" ];
           } );
           mumps = pkgs.callPackage ./expressions/mumps.nix { inherit scotch; };
           casadi = pkgs.callPackage ./expressions/casadi.nix {
-            inherit mumps scotch;
-            python = pkgs.python311;
+            inherit mumps scotch python;
           };
           opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt { };
           py-overrides = import expressions/py-overrides.nix {
@@ -63,22 +65,19 @@
             # NOTE(vinszent): Latest dev env uses LLVM 15 (https://github.com/CadQuery/OCP/blob/master/environment.devenv.yml)
             llvmPackages = pkgs.llvmPackages_15;
             occt = opencascade-occt;
-            nlopt_nonpython = nlopt;
             casadi_nonpython = casadi;
           };
           python = pkgs.python311.override {
             packageOverrides = py-overrides;
             self = python;
           };
-          cq-kit = python.pkgs.callPackage ./expressions/cq-kit {};
-          cq-warehouse = python.pkgs.callPackage ./expressions/cq-warehouse.nix { };
         in rec {
           packages = {
-            inherit (python.pkgs) cadquery;
-            inherit cq-kit cq-warehouse;
+            inherit (python.pkgs) cadquery cq-kit cq-warehouse;
+            inherit python;
 
             cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
-              python3Packages = python.pkgs // { inherit cq-kit cq-warehouse; };
+              python3Packages = python.pkgs;
               src = inputs.cq-editor-src;
             };
           };
