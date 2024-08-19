@@ -4,30 +4,21 @@
   , fetchFromGitHub
   , cadquery
   , pytestCheckHook
+  , rich
 }:
 buildPythonPackage rec {
   pname = "cq-kit";
-  rev = "1c9883abab29f86798ff9b4dca28c5b19cfb852b";
-  version = "0.5.0";
+  rev = "ad1e12b919911f1145262d85adf329995f2ed59e";
+  version = "0.5.8";
   src = fetchFromGitHub {
     owner = "michaelgale";
     repo = pname;
     inherit rev;
-    sha256 = "sha256-IkmwS2+OkvX8V8NtD2O4+kcRfU+YtPpWCMSymLFOlLE=";
+    sha256 = "sha256-opk2eESaZoel9Oc8UYi7DsDnMJf623twQ77DHHLzfHo=";
     fetchSubmodules = true;
   };
 
   propagatedBuildInputs = [ cadquery ];
 
-  checkInputs = [ pytestCheckHook ];
-
-  preCheck = ''
-    pushd .
-    cd tests
-  '';
-
-  postCheck = ''
-    popd
-  '';
-
+  checkInputs = [ pytestCheckHook rich ];
 }
