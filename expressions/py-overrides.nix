@@ -57,4 +57,6 @@
   py-lib3mf = self.callPackage ./py-lib3mf.nix {inherit lib3mf;};
 
   trianglesolver = self.callPackage ./trianglesolver.nix {};
+
+  build123d = self.callPackage ./build123d.nix {};
 }
