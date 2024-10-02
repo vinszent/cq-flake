@@ -50,4 +50,6 @@
   spyder = self.callPackage ./spyder {};
 
   svgpathtools = self.callPackage ./svgpathtools.nix {};
+
+  ocpsvg = self.callPackage ./ocpsvg.nix {};
 }
