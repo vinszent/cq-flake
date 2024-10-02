@@ -42,4 +42,6 @@
   cq-kit = self.callPackage ./cq-kit {};
 
   cq-warehouse = self.callPackage ./cq-warehouse.nix { };
+
+  qtconsole = self.callPackage ./qtconsole.nix {};
 }
