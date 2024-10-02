@@ -79,6 +79,7 @@
               src = inputs.cq-editor-src;
             };
             yacv-env = python.withPackages (pkgs: [pkgs.yacv-server]);
+            yacv-frontend = pkgs.callPackage ./expressions/yacv/frontend.nix {};
           };
 
           defaultPackage = packages.cq-editor;
