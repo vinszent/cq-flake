@@ -6,15 +6,13 @@
   , cadquery-src
   , occt
   , fetchFromGitHub
-  , casadi_nonpython
+  , casadi
   , pybind11-stubgen-src
 }: self: super: rec {
 
   clang = self.callPackage ./clang.nix {
     inherit llvmPackages;
   };
-
-  casadi = self.toPythonModule casadi_nonpython;
 
   pywrap = self.callPackage ./pywrap {
     inherit llvmPackages;

@@ -54,9 +54,6 @@
             buildFlags = ["scotch ptscotch esmumps ptesmumps"];
             installFlags = ["prefix=\${out} scotch ptscotch esmumps ptesmumps" ];
           } );
-          casadi = pkgs.callPackage ./expressions/casadi.nix {
-            inherit scotch python;
-          };
           opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt { };
           py-overrides = import expressions/py-overrides.nix {
             inherit (inputs) pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src;
@@ -64,7 +61,7 @@
             # NOTE(vinszent): Latest dev env uses LLVM 15 (https://github.com/CadQuery/OCP/blob/master/environment.devenv.yml)
             llvmPackages = pkgs.llvmPackages_15;
             occt = opencascade-occt;
-            casadi_nonpython = casadi;
+            casadi = pkgs.casadi.override { pythonSupport=true; };
           };
           python = pkgs.python311.override {
             packageOverrides = py-overrides;
