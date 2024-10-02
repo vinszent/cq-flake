@@ -55,6 +55,7 @@
             installFlags = ["prefix=\${out} scotch ptscotch esmumps ptesmumps" ];
           } );
           opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt { };
+          lib3mf-231 = pkgs.callPackage ./expressions/lib3mf.nix {};
           py-overrides = import expressions/py-overrides.nix {
             inherit (inputs) pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src;
             inherit (pkgs) fetchFromGitHub;
@@ -62,6 +63,7 @@
             llvmPackages = pkgs.llvmPackages_15;
             occt = opencascade-occt;
             casadi = pkgs.casadi.override { pythonSupport=true; };
+            lib3mf = lib3mf-231;
           };
           python = pkgs.python311.override {
             packageOverrides = py-overrides;
