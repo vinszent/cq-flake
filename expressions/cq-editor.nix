@@ -1,7 +1,7 @@
 { lib
 , mkDerivationWith
 , python3Packages
-# , fetchFromGitHub
+  # , fetchFromGitHub
 , makeDesktopItem
 , copyDesktopItems
 , src
@@ -23,6 +23,7 @@ mkDerivationWith python3Packages.buildPythonApplication {
     pyqtgraph
     cq-kit
     cq-warehouse
+    build123d
     # spyder_3
     spyder
     pathpy
