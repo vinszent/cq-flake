@@ -78,6 +78,7 @@
               python3Packages = python.pkgs;
               src = inputs.cq-editor-src;
             };
+            yacv-env = python.withPackages (pkgs: [pkgs.yacv-server]);
           };
 
           defaultPackage = packages.cq-editor;

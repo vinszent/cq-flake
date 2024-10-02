@@ -59,4 +59,6 @@
   trianglesolver = self.callPackage ./trianglesolver.nix {};
 
   build123d = self.callPackage ./build123d.nix {};
+
+  yacv-server = self.callPackage ./yacv/server.nix {};
 }

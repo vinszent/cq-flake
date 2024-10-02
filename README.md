@@ -37,6 +37,14 @@ To create an environment with CadQuery and python-language-server (where hopeful
 nix shell github:marcus7070/cq-flake#cadquery-env
 ```
 
+To create an environment with [yacv-server](https://github.com/yeicor-3d/yet-another-cad-viewer):
+```sh
+nix shell github:marcus7070/cq-flake#yacv-env
+```
+This does not include the front end, follow the official
+[example](https://github.com/yeicor-3d/yet-another-cad-viewer/tree/master/example)
+for how to use it.
+
 To get the most out of this flake you should specify a commit along with those commands and note it down so you are always using the same CadQuery, eg.
 ```sh
 nix run github:marcus7070/cq-flake/14d05cee591dccf5d64fa0e502e6e381a531c718
