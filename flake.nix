@@ -54,9 +54,8 @@
             buildFlags = ["scotch ptscotch esmumps ptesmumps"];
             installFlags = ["prefix=\${out} scotch ptscotch esmumps ptesmumps" ];
           } );
-          mumps = pkgs.callPackage ./expressions/mumps.nix { inherit scotch; };
           casadi = pkgs.callPackage ./expressions/casadi.nix {
-            inherit mumps scotch python;
+            inherit scotch python;
           };
           opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt { };
           py-overrides = import expressions/py-overrides.nix {
