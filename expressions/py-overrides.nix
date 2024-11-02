@@ -6,15 +6,14 @@
   , cadquery-src
   , occt
   , fetchFromGitHub
-  , casadi_nonpython
+  , casadi
   , pybind11-stubgen-src
+  , lib3mf
 }: self: super: rec {
 
   clang = self.callPackage ./clang.nix {
     inherit llvmPackages;
   };
-
-  casadi = self.toPythonModule casadi_nonpython;
 
   pywrap = self.callPackage ./pywrap {
     inherit llvmPackages;
@@ -44,4 +43,22 @@
   cq-kit = self.callPackage ./cq-kit {};
 
   cq-warehouse = self.callPackage ./cq-warehouse.nix { };
+
+  qtconsole = self.callPackage ./qtconsole.nix {};
+
+  spyder-kernels = self.callPackage ./spyder-kernels.nix {};
+
+  spyder = self.callPackage ./spyder {};
+
+  svgpathtools = self.callPackage ./svgpathtools.nix {};
+
+  ocpsvg = self.callPackage ./ocpsvg.nix {};
+
+  py-lib3mf = self.callPackage ./py-lib3mf.nix {inherit lib3mf;};
+
+  trianglesolver = self.callPackage ./trianglesolver.nix {};
+
+  build123d = self.callPackage ./build123d.nix {};
+
+  yacv-server = self.callPackage ./yacv/server.nix {};
 }
