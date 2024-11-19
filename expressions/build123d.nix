@@ -25,7 +25,7 @@
     repo = pname;
     rev = "v${version}";
     deepClone = true;
-    hash = "sha256-2mAOrNyvi7KGzc98hDXgG6I7s+JBNxVIVIvHbO6jtyE=";
+    hash = "sha256-H17SB9nSlSRKBYDWhLIRXv/ya3iutnltF8RxA9PXPpg=";
   };
 in
   buildPythonPackage {
