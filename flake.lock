@@ -39,11 +39,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1701680307,
-        "narHash": "sha256-kAuep2h5ajznlPMD9rnQyffWG8EM/C73lejGofXvdM8=",
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "4022d587cbbfd70fe950c1e2083a02621806a725",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
         "type": "github"
       },
       "original": {
@@ -54,11 +54,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1727634051,
-        "narHash": "sha256-S5kVU7U82LfpEukbn/ihcyNt2+EvG7Z5unsKW9H/yFA=",
+        "lastModified": 1732837521,
+        "narHash": "sha256-jNRNr49UiuIwaarqijgdTR2qLPifxsVhlJrKzQ8XUIE=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "06cf0e1da4208d3766d898b7fdab6513366d45b9",
+        "rev": "970e93b9f82e2a0f3675757eb0bfc73297cc6370",
         "type": "github"
       },
       "original": {
@@ -120,11 +120,11 @@
     "pywrap-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1676015766,
-        "narHash": "sha256-QhAvJHV5tFq9bjKOzEpcudZNnmUmNVrJ+BLCZJhO31g=",
+        "lastModified": 1725727761,
+        "narHash": "sha256-2uamlqYflZ3nuiaWVcZCwgwoLy7dLN7FXJWAijuNq3A=",
         "owner": "CadQuery",
         "repo": "pywrap",
-        "rev": "f3bcde70fd66a2d884fa60a7a9d9f6aa7c3b6e16",
+        "rev": "6cbeb64e9695703c56bb6309a8351886accdeeb0",
         "type": "github"
       },
       "original": {

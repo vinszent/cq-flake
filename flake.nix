@@ -3,8 +3,6 @@
 
   nixConfig = {
     extra-experimental-features = "nix-command flakes";
-    extra-substituters = "https://marcus7070.cachix.org";
-    extra-trusted-public-keys = "marcus7070.cachix.org-1:JawxHSgnYsgNYJmNqZwvLjI4NcOwrcEZDToWlT3WwXw=";
   };
 
   inputs = {

@@ -73,10 +73,6 @@ let
       "installPhase"
     ];
 
-    patches = [
-      # ./000_just_BRepTools.patch
-    ];
-
     nativeBuildInputs = [
       pywrap
       rapidjson
