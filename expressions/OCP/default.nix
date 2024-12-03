@@ -89,7 +89,14 @@ let
     '';
 
   # the order of the following includes is critical, but makes utterly zero sense to me. Order discovered by trial and error and hulk smashing the keyboard.
-    pywrapFlags =  builtins.concatStringsSep " " (
+    pywrapFlags = 
+    let
+      system = stdenv.hostPlatform.system;
+      compiler = if system == "x86_64-linux" then "x86_64-unknown-linux-gnu"
+                 else if system == "aarch64-linux" then "aarch64-unknown-linux-gnu"
+                 else (throw "unsupported system ${system}");
+
+    in builtins.concatStringsSep " " (
       map (p: ''-i '' + p) [
         "${rapidjson}/include"
         "${vtk}/include/vtk/"
@@ -97,10 +104,10 @@ let
         "${xorg.libX11.dev}/include"
         "${libglvnd.dev}/include"
         "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}"
-        "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}/x86_64-unknown-linux-gnu"
+        "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}/${compiler}"
         "${glibc.dev}/include"
-        "${stdenv.cc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${stdenv.cc.version}/include-fixed"
-        "${stdenv.cc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${stdenv.cc.version}/include"
+        "${stdenv.cc.cc}/lib/gcc/${compiler}/${stdenv.cc.version}/include-fixed"
+        "${stdenv.cc.cc}/lib/gcc/${compiler}/${stdenv.cc.version}/include"
     ]);
 
     buildPhase = ''

@@ -37,7 +37,7 @@
   outputs = { self, nixpkgs, flake-utils, ... } @ inputs:
     let
       # someone else who can do the testing might want to extend this to other systems
-      systems = [ "x86_64-linux" ];
+      systems = [ "aarch64-linux" "x86_64-linux" ];
     in
       flake-utils.lib.eachSystem systems ( system:
         let
