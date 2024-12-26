@@ -9,12 +9,12 @@
   pillow,
 }: let
   pname = "yacv-server";
-  version = "0.8.11";
+  version = "0.9.2";
   src = fetchFromGitHub {
     owner = "yeicor-3d";
     repo = "yet-another-cad-viewer";
     rev = "v${version}";
-    hash = "sha256-p0sxd2NGZplNRYpy82BF5ulGV3OmHiVSOK4AZD5c8zA=";
+    hash = "sha256-4rNwYXjpf462zLf96QgMwPDPwoEyT5QrdUgZ7Run1fU=";
   };
 in
   buildPythonPackage {
