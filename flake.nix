@@ -17,7 +17,7 @@
       flake = false;
     };
     ocp-src = {
-      url = "github:cadquery/ocp/4b98a5dc79fa900f7429975708f6a8c2e41cecd1";
+      url = "github:cadquery/ocp/7.8.1.2";
       flake = false;
     };
     ocp-stubs-src = {

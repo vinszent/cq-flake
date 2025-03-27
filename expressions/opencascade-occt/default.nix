@@ -27,13 +27,13 @@ let
 in
   stdenv.mkDerivation rec {
   pname = "opencascade-occt";
-  version = "7.7.2";
+  version = "7.8.1";
   commit = "V${builtins.replaceStrings ["."] ["_"] version}";
 
   src = fetchurl {
     name = "occt-${commit}.tar.gz";
     url = "https://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=${commit};sf=tgz";
-    sha256 = "sha256-M0G/pJuxsJu5gRk0rIgC173/XxI1ERpmCtWjgr/0dyY=";
+    sha256 = "sha256-AGMZqTLLjXbzJFW/RSTsohAGV8sMxlUmdU/Y2oOzkk8=";
   };
 
   nativeBuildInputs = [ cmake ninja ];
@@ -57,8 +57,8 @@ in
 
   patches = [
     (fetchpatch {
-      url = "https://raw.githubusercontent.com/conda-forge/occt-feedstock/00ff0f68644d9582a4c30c01220e7de0f934d427/recipe/patches/blobfish.patch";
-      sha256 = "sha256-5tqkx7W7VBw7qaseFgwBENKbGQ0iUYEL6SJHwGI9L/g=";
+      url = "https://raw.githubusercontent.com/conda-forge/occt-feedstock/b0960c3ec14c6213fbaef5f1c5d9d8f1d8e7c1ba/recipe/patches/blobfish.patch";
+      sha256 = "sha256-wbBPJLO4amPXsIk8Nn9NQv8aypq0ndv/A7OcAfnYqfk=";
     })
     (fetchpatch {
       url = "https://github.com/Open-Cascade-SAS/OCCT/commit/7236e83dcc1e7284e66dc61e612154617ef715d6.patch";

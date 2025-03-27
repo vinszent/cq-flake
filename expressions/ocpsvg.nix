@@ -12,10 +12,10 @@
 }:
 let
   pname = "ocpsvg";
-  version = "0.2.0";
+  version = "0.5.0";
   src = fetchPypi {
     inherit pname version;
-    hash = "sha256-61ZLN/Yk0ncPNtiSkE4V9mG+iqhEjzth19ceBHKyl60=";
+    hash = "sha256-XNjb7Iv1kNNzqCquvqskGDgYWqsE7ihZ8zudeVa7+6Y=";
   };
 in
 buildPythonPackage {

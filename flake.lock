@@ -71,17 +71,17 @@
     "ocp-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1701196143,
-        "narHash": "sha256-PMkMYEVBHt0i7ahgqF8jLhHHp7IRS7hd+JyydovNJ4A=",
+        "lastModified": 1739132137,
+        "narHash": "sha256-vWAqCGgs7YnwHRhPAXkBQqCs+Y3zk4BMu1boZo3PLGA=",
         "owner": "cadquery",
         "repo": "ocp",
-        "rev": "4b98a5dc79fa900f7429975708f6a8c2e41cecd1",
+        "rev": "01055e099a3b1a34da38bb1f5457f06a2d4c7a18",
         "type": "github"
       },
       "original": {
         "owner": "cadquery",
+        "ref": "7.8.1.2",
         "repo": "ocp",
-        "rev": "4b98a5dc79fa900f7429975708f6a8c2e41cecd1",
         "type": "github"
       }
     },

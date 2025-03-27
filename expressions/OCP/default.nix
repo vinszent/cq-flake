@@ -23,7 +23,7 @@ let
   # We need to use an unmodified version number for the dist-utils version so
   # that the version check in cadquery works
   # remember to change version number in dump_symbols.py as well
-  base-version = "7.7.2";
+  base-version = "7.8.1.2";
   version = "v${base-version}-git-${src.shortRev}";
 
   vtk_main_version = lib.versions.majorMinor vtk.version;
