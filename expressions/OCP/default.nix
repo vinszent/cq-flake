@@ -106,8 +106,9 @@ let
         "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}"
         "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}/${compiler}"
         "${glibc.dev}/include"
-        "${stdenv.cc.cc}/lib/gcc/${compiler}/${stdenv.cc.version}/include-fixed"
-        "${stdenv.cc.cc}/lib/gcc/${compiler}/${stdenv.cc.version}/include"
+        # gcc-14-20241116 has its include files in lib/gcc/x86_64-unknown-linux-gnu/14.2.1/
+        "${stdenv.cc.cc}/lib/gcc/${compiler}/*/include-fixed"
+        "${stdenv.cc.cc}/lib/gcc/${compiler}/*/include"
     ]);
 
     buildPhase = ''

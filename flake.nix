@@ -58,7 +58,6 @@
           }
         )];
         cq-editor = final.libsForQt5.callPackage ./expressions/cq-editor.nix {
-          python3Packages = final.python311.pkgs;
           src = inputs.cq-editor-src;
         };
         yacv-env = final.python3.withPackages (pkgs: [pkgs.yacv-server]);
@@ -72,15 +71,17 @@
             inherit system;
             overlays = [overlay];
             config.permittedInsecurePackages = [
-              "freeimage-unstable-2021-11-01"
+              "freeimage-3.18.0-unstable-2024-04-18"
             ];
           };
         in rec {
           packages = {
-            inherit (pkgs.python311.pkgs) cadquery cq-kit cq-warehouse build123d;
+            inherit (pkgs.python3.pkgs) cadquery cq-kit cq-warehouse build123d;
             inherit (pkgs) python3 cq-editor yacv-env yacv-frontend;
             python = pkgs.python3;
           };
+
+          legacyPackages = pkgs;
 
           defaultPackage = packages.cq-editor;
           apps.default = flake-utils.lib.mkApp { drv = defaultPackage; };
