@@ -38,46 +38,48 @@
     let
       # someone else who can do the testing might want to extend this to other systems
       systems = [ "aarch64-linux" "x86_64-linux" ];
-    in
-      flake-utils.lib.eachSystem systems ( system:
+      overlay = final: prev: {
+        # TODO: This was here but not actually referenced by anything.
+        # scotch = prev.scotch.overrideAttrs (oldAttrs: {
+        #   buildFlags = ["scotch ptscotch esmumps ptesmumps"];
+        #   installFlags = ["prefix=\${out} scotch ptscotch esmumps ptesmumps" ];
+        # } );
+        opencascade-occt = final.callPackage ./expressions/opencascade-occt { };
+        lib3mf-231 = final.callPackage ./expressions/lib3mf.nix {};
+        pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [(
+          import expressions/py-overrides.nix {
+            inherit (inputs) pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src;
+            inherit (final) fetchFromGitHub;
+            # NOTE(vinszent): Latest dev env uses LLVM 15 (https://github.com/CadQuery/OCP/blob/master/environment.devenv.yml)
+            llvmPackages = final.llvmPackages_15;
+            occt = final.opencascade-occt;
+            casadi = prev.casadi.override { pythonSupport=true; };
+            lib3mf = final.lib3mf-231;
+          }
+        )];
+        cq-editor = final.libsForQt5.callPackage ./expressions/cq-editor.nix {
+          python3Packages = final.python311.pkgs;
+          src = inputs.cq-editor-src;
+        };
+        yacv-env = final.python3.withPackages (pkgs: [pkgs.yacv-server]);
+        yacv-frontend = final.callPackage ./expressions/yacv/frontend.nix {};
+      };
+    in {
+      overlays.default = overlay;
+    } // flake-utils.lib.eachSystem systems ( system:
         let
           pkgs = import nixpkgs {
             inherit system;
+            overlays = [overlay];
             config.permittedInsecurePackages = [
               "freeimage-unstable-2021-11-01"
             ];
           };
-
-          scotch = pkgs.scotch.overrideAttrs (oldAttrs: {
-            buildFlags = ["scotch ptscotch esmumps ptesmumps"];
-            installFlags = ["prefix=\${out} scotch ptscotch esmumps ptesmumps" ];
-          } );
-          opencascade-occt = pkgs.callPackage ./expressions/opencascade-occt { };
-          lib3mf-231 = pkgs.callPackage ./expressions/lib3mf.nix {};
-          py-overrides = import expressions/py-overrides.nix {
-            inherit (inputs) pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src;
-            inherit (pkgs) fetchFromGitHub;
-            # NOTE(vinszent): Latest dev env uses LLVM 15 (https://github.com/CadQuery/OCP/blob/master/environment.devenv.yml)
-            llvmPackages = pkgs.llvmPackages_15;
-            occt = opencascade-occt;
-            casadi = pkgs.casadi.override { pythonSupport=true; };
-            lib3mf = lib3mf-231;
-          };
-          python = pkgs.python311.override {
-            packageOverrides = py-overrides;
-            self = python;
-          };
         in rec {
           packages = {
-            inherit (python.pkgs) cadquery cq-kit cq-warehouse build123d;
-            inherit python;
-
-            cq-editor = pkgs.libsForQt5.callPackage ./expressions/cq-editor.nix {
-              python3Packages = python.pkgs;
-              src = inputs.cq-editor-src;
-            };
-            yacv-env = python.withPackages (pkgs: [pkgs.yacv-server]);
-            yacv-frontend = pkgs.callPackage ./expressions/yacv/frontend.nix {};
+            inherit (pkgs.python311.pkgs) cadquery cq-kit cq-warehouse build123d;
+            inherit (pkgs) python3 cq-editor yacv-env yacv-frontend;
+            python = pkgs.python3;
           };
 
           defaultPackage = packages.cq-editor;
