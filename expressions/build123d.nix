@@ -19,13 +19,13 @@
   vtk,
 }: let
   pname = "build123d";
-  version = "0.7.0";
+  version = "0.9.1";
   src = fetchFromGitHub {
     owner = "gumyr";
     repo = pname;
     rev = "v${version}";
     deepClone = true;
-    hash = "sha256-H17SB9nSlSRKBYDWhLIRXv/ya3iutnltF8RxA9PXPpg=";
+    hash = "sha256-A4XgB10QVU/zv6TXILIQ73FyZ/msb7vDss3vXAEaJiA=";
   };
 in
   buildPythonPackage {
