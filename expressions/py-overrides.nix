@@ -44,12 +44,6 @@
 
   cq-warehouse = self.callPackage ./cq-warehouse.nix { };
 
-  qtconsole = self.callPackage ./qtconsole.nix {};
-
-  spyder-kernels = self.callPackage ./spyder-kernels.nix {};
-
-  spyder = self.callPackage ./spyder {};
-
   svgpathtools = self.callPackage ./svgpathtools.nix {};
 
   ocpsvg = self.callPackage ./ocpsvg.nix {};
