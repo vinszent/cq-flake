@@ -3,17 +3,17 @@
     "cadquery-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1705326221,
-        "narHash": "sha256-f/qnq5g4FOiit9WQ7zs0axCJBITcAtqF18txMV97Gb8=",
+        "lastModified": 1741533881,
+        "narHash": "sha256-LNzo356Chh52Soi91i/z5fD9mDlh3P0saUieS5f399g=",
         "owner": "CadQuery",
         "repo": "cadquery",
-        "rev": "c44978d60cee2d61bdadf4cb4498286b7034b4c6",
+        "rev": "471ab6fcc79b6ce64b857d33d06202c030cf5459",
         "type": "github"
       },
       "original": {
         "owner": "CadQuery",
-        "ref": "2.4.0",
         "repo": "cadquery",
+        "rev": "471ab6fcc79b6ce64b857d33d06202c030cf5459",
         "type": "github"
       }
     },

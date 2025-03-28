@@ -18,6 +18,11 @@ buildPythonPackage rec {
     fetchSubmodules = true;
   };
 
+  postPatch = ''
+    substituteInPlace cqkit/cq_discrete.py \
+      --replace-fail "tri.Value" "tri"
+  '';
+
   propagatedBuildInputs = [ cadquery ];
 
   checkInputs = [ pytestCheckHook rich ];
