@@ -20,17 +20,17 @@
     "cq-editor-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1701895648,
-        "narHash": "sha256-mHXEaA6vphps6F0WemdB6fGRY4lzpcxLU7WuYEp8c20=",
+        "lastModified": 1739812831,
+        "narHash": "sha256-6cFVT+HIRoht1XPY+mvk9iTQ50Q8kqx9XxgNsRMFQ9c=",
         "owner": "CadQuery",
         "repo": "CQ-editor",
-        "rev": "4ef178af06d24a53fee87d576f8cada14c0111a3",
+        "rev": "7c92ec9d967f0f1e295a0f2dcf779ea871338e08",
         "type": "github"
       },
       "original": {
         "owner": "CadQuery",
+        "ref": "0.4.0",
         "repo": "CQ-editor",
-        "rev": "4ef178af06d24a53fee87d576f8cada14c0111a3",
         "type": "github"
       }
     },

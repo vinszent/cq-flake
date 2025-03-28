@@ -13,7 +13,7 @@
       flake = false;
     };
     cq-editor-src = {
-      url = "github:CadQuery/CQ-editor/4ef178af06d24a53fee87d576f8cada14c0111a3";
+      url = "github:CadQuery/CQ-editor/0.4.0";
       flake = false;
     };
     ocp-src = {
