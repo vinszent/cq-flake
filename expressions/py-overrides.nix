@@ -1,29 +1,33 @@
 {
-  llvmPackages
-  , pywrap-src
+  pywrap-src
   , ocp-src
   , ocp-stubs-src
   , cadquery-src
-  , occt
-  , fetchFromGitHub
-  , casadi
   , pybind11-stubgen-src
-  , lib3mf
-}: self: super: rec {
+}: self: super: {
+
+  # NOTE(vinszent): Latest dev env uses LLVM 15 (https://github.com/CadQuery/OCP/blob/master/environment.devenv.yml)
+
+  cqLlvmPackages = self.pkgs.llvmPackages_15;
+
+  opencascade-occt = self.callPackage ./opencascade-occt { };
+
+  casadi = super.casadi.override {
+    pythonSupport = true;
+  };
 
   clang = self.callPackage ./clang.nix {
-    inherit llvmPackages;
+    llvmPackages = self.cqLlvmPackages;
   };
 
   pywrap = self.callPackage ./pywrap {
-    inherit llvmPackages;
+    llvmPackages = self.cqLlvmPackages;
     src = pywrap-src;
   };
 
   ocp = self.callPackage ./OCP {
-    llvmPackages = llvmPackages;
+    llvmPackages = self.cqLlvmPackages;
     src = ocp-src;
-    opencascade-occt = occt;
   };
 
   ocp-stubs = self.callPackage ./OCP/stubs.nix {
@@ -54,7 +58,11 @@
 
   ocpsvg = self.callPackage ./ocpsvg.nix {};
 
-  py-lib3mf = self.callPackage ./py-lib3mf.nix {inherit lib3mf;};
+  lib3mf = self.callPackage ./lib3mf.nix {};
+
+  py-lib3mf = self.callPackage ./py-lib3mf.nix {
+    inherit (self) lib3mf;
+  };
 
   trianglesolver = self.callPackage ./trianglesolver.nix {};
 
