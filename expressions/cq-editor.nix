@@ -22,7 +22,7 @@ mkDerivationWith python3Packages.buildPythonApplication {
     pyparsing
     pyqtgraph
     cq-kit
-    cq-warehouse
+    #broken with CQ 0.5.2: cq-warehouse
     build123d
     # spyder_3
     spyder
@@ -30,6 +30,23 @@ mkDerivationWith python3Packages.buildPythonApplication {
     qtconsole
     requests
   ];
+
+  postPatch = ''
+    # "fa." icons were removed from qtawesome
+    substituteInPlace cq_editor/widgets/viewer.py \
+      --replace-fail "fa.square-o" "fa5.square" \
+      --replace-fail "fa.square" "fa5s.square" \
+      --replace-fail "fa.arrows-alt" "fa5s.arrows-alt"
+    substituteInPlace cq_editor/icons.py \
+      --replace-fail "fa.clock-o" "fa5.clock" \
+      --replace-fail "fa.file-o" "fa5.file" \
+      --replace-fail "fa.folder-open-o" "fa5.folder-open" \
+      --replace-fail "fa.pencil" "fa5s.pencil-alt" \
+      --replace-fail "fa.repeat" "fa6s.repeat" \
+      --replace-fail "fa." "fa5s."
+    # spyder no longer registers run cell actions
+    sed -i '/removeAction/d' cq_editor/widgets/editor.py
+  '';
 
   build-system = [ python3Packages.setuptools ];
 
@@ -47,7 +64,7 @@ mkDerivationWith python3Packages.buildPythonApplication {
   postInstall = ''
     install -Dm644 icons/cadquery_logo_dark.svg $out/share/icons/hicolor/scalable/apps/cadquery.svg
 
-    rm $out/bin/CQ-editor
+    mv $out/bin/CQ-editor $out/bin/cq-editor
   '';
 
   checkInputs = with python3Packages; [
