@@ -1,6 +1,7 @@
 {
   lib
   , buildPythonPackage
+  , setuptools
   , fetchFromGitHub
   , cadquery
   , pytestCheckHook
@@ -17,6 +18,9 @@ buildPythonPackage rec {
     sha256 = "sha256-opk2eESaZoel9Oc8UYi7DsDnMJf623twQ77DHHLzfHo=";
     fetchSubmodules = true;
   };
+
+  pyproject = true;
+  build-system = [ setuptools ];
 
   postPatch = ''
     substituteInPlace cqkit/cq_discrete.py \

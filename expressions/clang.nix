@@ -28,6 +28,7 @@ let
 in buildPythonPackage rec {
   pname = "clang";
   version = llvmPackages.clang-unwrapped.version;
+  pyproject = true;
 
   src = fetchFromGitHub {
     owner = "llvm";
@@ -35,6 +36,8 @@ in buildPythonPackage rec {
     rev = "llvmorg-${version}";
     sha256 = "sha256-wjuZQyXQ/jsmvy6y1aksCcEDXGBjuhpgngF3XQJ/T4s=";
   };
+
+  build-system = [ setuptools ];
 
   unpackPhase = ''
     export sourceRoot=$PWD/source

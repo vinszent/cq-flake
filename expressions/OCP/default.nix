@@ -1,5 +1,6 @@
 { lib
   , stdenv
+  , clangStdenv
   , src
   , buildPythonPackage
   , pythonOlder
@@ -11,13 +12,20 @@
   , pybind11
   , libglvnd
   , xorg
+  , freetype
   , python
   , writeTextFile
   , pywrap
-  , vtk
+  , utf8cpp
   , rapidjson
+  , nlohmann_json
   , lief
   , path
+  , setuptools
+
+  , vtk
+  , tbb_2021
+  , fontconfig
 }:
 let
   # We need to use an unmodified version number for the dist-utils version so
@@ -62,74 +70,87 @@ let
 
 
   # intermediate step, do pybind, cmake in the next step
-  ocp-pybound = stdenv.mkDerivation rec {
+  # llvmPackages.stdenv
+  ocp-pybound = llvmPackages.stdenv.mkDerivation rec {
     pname = "pybound-ocp";
     inherit version src;
 
+    /*
     phases = [
       "unpackPhase"
       "patchPhase"
       "buildPhase"
       "installPhase"
-    ];
+    ];*/
 
     nativeBuildInputs = [
+      # cmake
       pywrap
       rapidjson
+      nlohmann_json
       ocp-dump-symbols
+    ] ++ (with llvmPackages; [
+      libllvm
+      libclang
+    ]);
+
+    buildInputs = [
+      freetype
+      libglvnd
+      llvmPackages.openmp
+      tbb_2021
+      utf8cpp
+      xorg.xorgproto
+      xorg.libX11
     ];
+
+    dontWrapQtApps = true;
 
     postPatch = ''
       cp ${ocp-dump-symbols}/symbols_mangled_linux.dat ./
+      substituteInPlace CMakeLists.txt \
+        --replace-fail "\''${CMAKE_SOURCE_DIR}/pywrap" \
+        "${python.pkgs.makePythonPath [ pywrap ]}" \
+        --replace-fail "\''${VTK_INCLUDE_DIR}" \
+        "${vtk}/include/vtk" \
+        --replace-fail "\''${N_PROC}" \
+        "\$ENV{NIX_BUILD_CORES}" \
+        --replace-fail "\''${CLANG_INSTALL_PREFIX}" \
+        "${llvmPackages.libclang.lib}" \
+        --replace-fail "add_subdirectory( \''${CMAKE_SOURCE_DIR}/OCP )" \
+        ""
     '';
+    # env.PYBIND11_USE_CMAKE = 1;
 
-    # should this actually be in pywrap?
-    preBuild = ''
-      export PYBIND11_USE_CMAKE=1
-    '';
+    cmakeFlags = with llvmPackages; [
+      "-GNinja"
+      "-DVTK_DIR=${vtk}/lib/cmake/vtk"
+      "-DOpenCASCADE_DIR=${opencascade-occt}/lib/cmake/opencascade"
+      "-Dpybind11_DIR=${pybind11}/share/cmake/pybind11"
 
-  # the order of the following includes is critical, but makes utterly zero sense to me. Order discovered by trial and error and hulk smashing the keyboard.
-    pywrapFlags = 
-    let
-      system = stdenv.hostPlatform.system;
-      compiler = if system == "x86_64-linux" then "x86_64-unknown-linux-gnu"
-                 else if system == "aarch64-linux" then "aarch64-unknown-linux-gnu"
-                 else (throw "unsupported system ${system}");
+      "-DCMAKE_C_COMPILER=${clang}/bin/clang"
+      "-DCMAKE_CXX_COMPILER=${clang}/bin/clang++"
+    ];
 
-    in builtins.concatStringsSep " " (
-      map (p: ''-i '' + p) [
-        "${rapidjson}/include"
-        "${vtk}/include/vtk/"
-        "${xorg.xorgproto}/include"
-        "${xorg.libX11.dev}/include"
-        "${libglvnd.dev}/include"
-        "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}"
-        "${stdenv.cc.cc}/include/c++/${stdenv.cc.version}/${compiler}"
-        "${glibc.dev}/include"
-        # gcc-14-20241116 has its include files in lib/gcc/x86_64-unknown-linux-gnu/14.2.1/
-        "${stdenv.cc.cc}/lib/gcc/${compiler}/*/include-fixed"
-        "${stdenv.cc.cc}/lib/gcc/${compiler}/*/include"
-    ]);
-
-    buildPhase = ''
-      runHook preBuild
-      pywrap -n $NIX_BUILD_CORES ${pywrapFlags} all ocp.toml
-      runHook postBuild
-    '';
+    dontBuild = true;
 
     installPhase = ''
       mkdir -p $out
-      cp -r ./* $out/
+      cd ..
+      cp -r ./OCP/* $out/
     '';
   };
 
-  ocp-result = stdenv.mkDerivation rec {
+  # llvmPackages.stdenv
+  ocp-result = llvmPackages.stdenv.mkDerivation rec {
     pname = "ocp-result";
     inherit version;
 
     src = ocp-pybound;
 
     disabled = pythonOlder "3.6";
+
+    # env.NIX_DEBUG = "1";
 
     # do not put glibc.dev in here https://discourse.nixos.org/t/how-to-get-this-basic-c-build-to-work-in-a-nix-shell/12262/3
     # https://github.com/NixOS/nixpkgs/pull/28748
@@ -139,23 +160,43 @@ let
       pywrap
       pybind11
       python
-      rapidjson
-    ];
+    ] /*++ (with llvmPackages; [
+      libllvm
+      libclang
+    ])*/;
 
     buildInputs = [
+      rapidjson
       libglvnd.dev
       xorg.libX11.dev
       xorg.xorgproto
       vtk
-    ] ++ opencascade-occt.buildInputs ++ vtk.buildInputs;
+      tbb_2021
+
+      # > The link interface of target "VTK::CommonCore" contains:
+      # >
+      # > OpenMP::OpenMP_CXX
+      llvmPackages.openmp
+      fontconfig
+    ];
+
+    /*
+    postPatch = ''
+      substituteInPlace OCP/CMakeLists.txt \
+        --replace-fail \
+        "include_directories( \''${PROJECT_SOURCE_DIR}" \
+        "include_directories( \''${PROJECT_SOURCE_DIR} \''${OpenCASCADE_VENDORED_INCLUDE_DIR}"
+    '';*/
+
+    env = {
+      PYBIND11_USE_CMAKE = 1;
+      CMAKE_PREFIX_PATH = "${pybind11}/share/cmake/pybind11:\${CMAKE_PREFIX_PATH}:${glibc.dev}/include";
+      NIX_CFLAGS_COMPILE = "-Wno-deprecated-declarations";
+    };
 
     preConfigure = ''
-      export CMAKE_PREFIX_PATH=${pybind11}/share/cmake/pybind11:$CMAKE_PREFIX_PATH
-      export PYBIND11_USE_CMAKE=1
-      export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:${glibc.dev}/include
       echo "CMAKE_INCLUDE_PATH is:"
       echo $CMAKE_INCLUDE_PATH
-      export NIX_CFLAGS_COMPILE="$NIX_CFLAGS_COMPILE -Wno-deprecated-declarations"
       echo "NIX_CFLAGS_COMPILE: $NIX_CFLAGS_COMPILE"
     '';
 
@@ -166,15 +207,20 @@ let
       opencascade-occt
     ];
 
-    cmakeFlags = [
-      "-S ../OCP"
+    cmakeFlags = with llvmPackages; [
       "-DPYTHON_EXECUTABLE=${python}/bin/python"
-      "-DOpenCASCADE_INCLUDE_DIR=${src}/opencascade"
       "-DVTK_DIR=${vtk}/lib/cmake/vtk/"
+      # "-DOpenCASCADE_VENDORED_INCLUDE_DIR=${src}/opencascade"
       "-Wno-dev"
+
+      /*
+      "-DCMAKE_C_COMPILER=${clang}/bin/clang"
+      "-DCMAKE_CXX_COMPILER=${clang}/bin/clang++"*/
     ];
 
-    seperateDebugInfo = true;
+    separateDebugInfo = true;
+    # vtk uses qtbase so we're forced to specify wrapping behavior
+    dontWrapQtApps = true;
 
     checkPhase = ''
       pushd .
@@ -224,6 +270,8 @@ in buildPythonPackage {
   pname = "OCP";
   inherit version;
   src = ocp-result;
+  pyproject = true;
+  build-system = [ setuptools ];
 
   SETUPTOOLS_SCM_PRETEND_VERSION="${base-version}";
 

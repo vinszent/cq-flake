@@ -4,26 +4,28 @@
   , ocp-src
   , ocp-stubs-src
   , cadquery-src
-  , occt
-  , fetchFromGitHub
+  # , opencascade-occt
   , casadi
   , pybind11-stubgen-src
   , lib3mf
-}: self: super: rec {
-
-  clang = self.callPackage ./clang.nix {
-    inherit llvmPackages;
-  };
-
+  , vtk
+  , yacv-frontend
+}: self: super: let
+  vtkModule = self.toPythonModule (vtk.override {
+    python3Packages = self;
+    pythonSupport = true;
+  });
+in rec {
   pywrap = self.callPackage ./pywrap {
     inherit llvmPackages;
     src = pywrap-src;
   };
 
   ocp = self.callPackage ./OCP {
-    llvmPackages = llvmPackages;
+    inherit llvmPackages;
     src = ocp-src;
-    opencascade-occt = occt;
+    vtk = vtkModule;
+    # inherit opencascade-occt;
   };
 
   ocp-stubs = self.callPackage ./OCP/stubs.nix {
@@ -32,9 +34,12 @@
 
   cadquery = self.callPackage ./cadquery.nix {
     src = cadquery-src;
+    vtk = vtkModule;
   };
 
-  nlopt = self.callPackage ./nlopt.nix { };
+  taskipy = self.callPackage ./taskipy.nix {};
+
+  # nlopt = self.callPackage ./nlopt.nix { };
 
   pybind11-stubgen = self.callPackage ./OCP/pybind11-stubgen.nix {
     src = pybind11-stubgen-src;
@@ -52,7 +57,13 @@
 
   trianglesolver = self.callPackage ./trianglesolver.nix {};
 
-  build123d = self.callPackage ./build123d.nix {};
+  build123d = self.callPackage ./build123d.nix {
+    vtk = vtkModule;
+  };
 
-  yacv-server = self.callPackage ./yacv/server.nix {};
+  bd_warehouse = self.callPackage ./bd-warehouse.nix {};
+
+  yacv-server = self.callPackage ./yacv/server.nix {
+    inherit yacv-frontend;
+  };
 }
