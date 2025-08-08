@@ -9,6 +9,8 @@
   ocp,
   svgpathtools,
   svgelements,
+
+  breakpointHook,
 }:
 let
   pname = "ocpsvg";
@@ -21,6 +23,8 @@ in
 buildPythonPackage {
   inherit src pname version;
   pyproject = true;
+
+  nativeBuildInputs = [ breakpointHook ];
 
   patchPhase = ''
     substituteInPlace pyproject.toml \

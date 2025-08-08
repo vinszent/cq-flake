@@ -3,7 +3,6 @@
   , buildPythonPackage
   , pythonOlder
   , src
-  , clang
   , pybind11
   , joblib
   , toml
@@ -21,15 +20,20 @@
   , llvmPackages
   , python
   , fetchpatch
-}:
-
-buildPythonPackage rec {
+  , setuptools
+}: let
+  pyclang = python.pkgs.libclang.override {
+    inherit llvmPackages;
+  };
+in buildPythonPackage rec {
   version = "git-" + builtins.substring 0 7 src.rev;
   pname = "pywrap";
   inherit src;
+  pyproject = true;
+  build-system = [ setuptools ];
 
   propagatedBuildInputs = [
-    clang
+    pyclang
     pybind11
     joblib
     toml
@@ -44,7 +48,6 @@ buildPythonPackage rec {
     schema
     tqdm
     toposort
-    llvmPackages.libclang
   ];
 
   dontUseCmakeConfigure = true;
@@ -60,6 +63,7 @@ buildPythonPackage rec {
 
   pythonImportCheck = [ "bindgen" ];
 
+  # the nixpkgs `libclang` can't find the library path itself?
   makeWrapperArgs = [
     ''--add-flags "-l ${llvmPackages.libclang.lib}/lib/libclang.so"''
   ];

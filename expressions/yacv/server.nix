@@ -1,4 +1,5 @@
 {
+  lib,
   buildPythonPackage,
   fetchFromGitHub,
   # Buildtime dependencies
@@ -7,24 +8,26 @@
   build123d,
   pygltflib,
   pillow,
+  taskipy,
+
+  yacv-frontend,
 }: let
   pname = "yacv-server";
-  version = "0.9.2";
+  version = "0.10.10";
   src = fetchFromGitHub {
     owner = "yeicor-3d";
     repo = "yet-another-cad-viewer";
     rev = "v${version}";
-    hash = "sha256-4rNwYXjpf462zLf96QgMwPDPwoEyT5QrdUgZ7Run1fU=";
+    hash = "sha256-NELVfi9NI2ovyb5G03Z81htnyY8p6SaGtje7IQaljDM=";
   };
 in
   buildPythonPackage {
     inherit src pname version;
     pyproject = true;
 
-    SKIP_BUILD_FRONTEND = "1";
-
     build-system = [
       poetry-core
+      taskipy
     ];
 
     dependencies = [
@@ -32,4 +35,8 @@ in
       pygltflib
       pillow
     ];
+
+    preBuild = ''
+    cp -r ${yacv-frontend} frontend
+    '';
   }

@@ -17,6 +17,7 @@
   svgpathtools,
   trianglesolver,
   vtk,
+  breakpointHook, gdb,
 }: let
   pname = "build123d";
   version = "0.9.1";
@@ -25,7 +26,7 @@
     repo = pname;
     rev = "v${version}";
     deepClone = true;
-    hash = "sha256-A4XgB10QVU/zv6TXILIQ73FyZ/msb7vDss3vXAEaJiA=";
+    hash = "sha256-A3hB804paNhndYHPaosh4dwH0OwyQy9nDsM+TTwZ+mE=";
   };
 in
   buildPythonPackage {
@@ -34,13 +35,17 @@ in
 
     patchPhase = ''
       substituteInPlace pyproject.toml \
-        --replace "cadquery-ocp" "ocp"
+        --replace-fail "cadquery-ocp" "ocp" \
+        --replace-fail "ipython >= 8.0.0, < 9" "ipython >= 8.0.0, < 10"
     '';
 
     nativeBuildInputs = [
       git
       pytestCheckHook
       setuptools-scm
+
+      breakpointHook
+      gdb
     ];
 
     propagatedBuildInputs = [

@@ -11,6 +11,9 @@ mkDerivationWith python3Packages.buildPythonApplication {
   pname = "cq-editor";
   version = "local";
 
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
+
   # src = ./CQ-editor;
   inherit src;
 
@@ -21,9 +24,10 @@ mkDerivationWith python3Packages.buildPythonApplication {
     pyqt5
     pyparsing
     pyqtgraph
-    cq-kit
+    # cq-kit
     #broken with CQ 0.5.2: cq-warehouse
     build123d
+    bd_warehouse
     # spyder_3
     spyder
     pathpy
@@ -32,6 +36,9 @@ mkDerivationWith python3Packages.buildPythonApplication {
   ];
 
   postPatch = ''
+    substituteInPlace pyproject.toml \
+      --replace-fail "spyder>=5.5.6,<6" "spyder>=5.5.6,<=6.1" \
+      --replace-fail "qtconsole>=5.5.1,<5.6.0" "qtconsole>=5.5.1,<=5.6.1"
     # "fa." icons were removed from qtawesome
     substituteInPlace cq_editor/widgets/viewer.py \
       --replace-fail "fa.square-o" "fa5.square" \
@@ -47,8 +54,6 @@ mkDerivationWith python3Packages.buildPythonApplication {
     # spyder no longer registers run cell actions
     sed -i '/removeAction/d' cq_editor/widgets/editor.py
   '';
-
-  build-system = [ python3Packages.setuptools ];
 
   nativeBuildInputs = [
     copyDesktopItems

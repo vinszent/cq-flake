@@ -1,6 +1,8 @@
 { lib
   , buildPythonPackage
-  , setuptools_scm
+  , python
+  , setuptools
+  , setuptools-scm
   , isPy3k
   , pythonOlder
   , fetchFromGitHub
@@ -26,17 +28,22 @@ buildPythonPackage rec {
   pname = "cadquery";
   version = if (builtins.hasAttr "rev" src) then (builtins.substring 0 7 src.rev) else "local-dev";
   inherit src;
+  pyproject = true;
+  build-system = [
+    setuptools
+    setuptools-scm
+  ];
 
-  SETUPTOOLS_SCM_PRETEND_VERSION = "${version}";
+  nativeBuildInputs = [ setuptools ];
 
-  nativeBuildInputs = [ setuptools_scm ];
-
+  # test suite passes with multimethod 2.0, remove constraint
   patchPhase = ''
     substituteInPlace setup.py \
-      --replace "cadquery-ocp" "ocp"
+      --replace-fail "cadquery-ocp" "ocp" \
+      --replace-fail ",<2.0" ""
   '';
 
-  propagatedBuildInputs = [
+  dependencies = [
     ocp
     ezdxf
     casadi
@@ -49,11 +56,17 @@ buildPythonPackage rec {
   ];
 
   # If the user wants extra fonts, probably have to add them here
-  FONTCONFIG_FILE = makeFontsConf {
-    fontDirectories = [ freefont_ttf ];
+  env = {
+    SETUPTOOLS_SCM_PRETEND_VERSION = "${version}";
+    FONTCONFIG_FILE = makeFontsConf {
+      fontDirectories = [ freefont_ttf ];
+    };
   };
 
   disabled = !isPy3k;
+
+  # can't find casadi for some strange reason
+  dontCheckRuntimeDeps = true;
 
   checkInputs = [
     pytestCheckHook

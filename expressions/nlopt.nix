@@ -11,13 +11,13 @@
 
 buildPythonPackage rec {
   pname = "nlopt";
-  version = "2.7.1";
+  version = "2.10.0dev";
 
   src = fetchFromGitHub {
     owner = "stevengj";
     repo = pname;
-    rev = "v${version}";
-    sha256 = "sha256-TgieCX7yUdTAEblzXY/gCN0r6F9TVDh4RdNDjQdXZ1o=";
+    rev = "a75f3d99785a3f99ecdf851c8f32718466907017"; # v${version}
+    sha256 = "sha256-lUk1h2cRlvxox5zaJHd4iHagLr2EgIaXTkAJoXsnPok=";
   };
 
   format = "other";
@@ -55,5 +55,4 @@ buildPythonPackage rec {
     license = lib.licenses.lgpl21Plus;
     hydraPlatforms = lib.platforms.linux;
   };
-
 }
