@@ -32,6 +32,14 @@
       url = "github:CadQuery/pybind11-stubgen";
       flake = false;
     };
+    cq-cli-src = {
+      url = "github:CadQuery/cq-cli";
+      flake = false;
+    };
+    cadquery-freecad-import-plugin-src = {
+      url = "github:jmwright/cadquery-freecad-import-plugin";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... } @ inputs:
@@ -48,7 +56,7 @@
         lib3mf-231 = final.callPackage ./expressions/lib3mf.nix {};
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [(
           import expressions/py-overrides.nix {
-            inherit (inputs) pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src;
+            inherit (inputs) pywrap-src ocp-src ocp-stubs-src cadquery-src pybind11-stubgen-src cq-cli-src cadquery-freecad-import-plugin-src;
             inherit (final) fetchFromGitHub;
             # NOTE(vinszent): Latest dev env uses LLVM 15 (https://github.com/CadQuery/OCP/blob/master/environment.devenv.yml)
             llvmPackages = final.llvmPackages_15;
@@ -76,7 +84,7 @@
           };
         in rec {
           packages = {
-            inherit (pkgs.python3.pkgs) cadquery cq-kit cq-warehouse build123d;
+            inherit (pkgs.python3.pkgs) cadquery cq-kit cq-warehouse build123d cq-cli cadquery-freecad-import-plugin;
             inherit (pkgs) python3 cq-editor yacv-env yacv-frontend;
             python = pkgs.python3;
           };

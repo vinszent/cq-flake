@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "cadquery-freecad-import-plugin-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1734615666,
+        "narHash": "sha256-/puHlsdDqdVbVdxOkkwMEW/S//BztFA8fNkTp9PbSYY=",
+        "owner": "jmwright",
+        "repo": "cadquery-freecad-import-plugin",
+        "rev": "a0f72aedafc80e40b486d991f8659ed4ce5eb147",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jmwright",
+        "repo": "cadquery-freecad-import-plugin",
+        "type": "github"
+      }
+    },
     "cadquery-src": {
       "flake": false,
       "locked": {
@@ -14,6 +30,22 @@
         "owner": "CadQuery",
         "repo": "cadquery",
         "rev": "471ab6fcc79b6ce64b857d33d06202c030cf5459",
+        "type": "github"
+      }
+    },
+    "cq-cli-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1742395288,
+        "narHash": "sha256-aiLjhyQLeXy4kDW9C8n5XL2BqKGixufTgVKOPWiTZ9c=",
+        "owner": "CadQuery",
+        "repo": "cq-cli",
+        "rev": "6a6076a1659fe3cfd706cb353725e5cf3f4b4715",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CadQuery",
+        "repo": "cq-cli",
         "type": "github"
       }
     },
@@ -135,7 +167,9 @@
     },
     "root": {
       "inputs": {
+        "cadquery-freecad-import-plugin-src": "cadquery-freecad-import-plugin-src",
         "cadquery-src": "cadquery-src",
+        "cq-cli-src": "cq-cli-src",
         "cq-editor-src": "cq-editor-src",
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",

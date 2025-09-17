@@ -8,6 +8,8 @@
   , fetchFromGitHub
   , casadi
   , pybind11-stubgen-src
+  , cq-cli-src
+  , cadquery-freecad-import-plugin-src
   , lib3mf
 }: self: super: rec {
 
@@ -53,6 +55,14 @@
   trianglesolver = self.callPackage ./trianglesolver.nix {};
 
   build123d = self.callPackage ./build123d.nix {};
+
+  cadquery-freecad-import-plugin = self.callPackage ./cadquery-freecad-import-plugin.nix {
+    src = cadquery-freecad-import-plugin-src;
+  };
+
+  cq-cli = self.callPackage ./cq-cli.nix {
+    src = cq-cli-src;
+  };
 
   yacv-server = self.callPackage ./yacv/server.nix {};
 }
