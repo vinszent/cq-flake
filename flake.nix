@@ -61,7 +61,6 @@
           src = inputs.cq-editor-src;
         };
         yacv-env = final.python3.withPackages (pkgs: [pkgs.yacv-server]);
-        yacv-frontend = final.callPackage ./expressions/yacv/frontend.nix {};
       };
     in {
       overlays.default = overlay;
@@ -76,8 +75,8 @@
           };
         in rec {
           packages = {
-            inherit (pkgs.python3.pkgs) cadquery cq-kit cq-warehouse build123d;
-            inherit (pkgs) python3 cq-editor yacv-env yacv-frontend;
+            inherit (pkgs.python3.pkgs) cadquery cq-kit cq-warehouse build123d yacv-server;
+            inherit (pkgs) python3 cq-editor yacv-env;
             python = pkgs.python3;
           };
 
