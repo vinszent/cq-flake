@@ -54,5 +54,5 @@
 
   build123d = self.callPackage ./build123d.nix {};
 
-  yacv-server = self.callPackage ./yacv/server.nix {};
+  yacv-server = self.callPackage ./yacv {};
 }

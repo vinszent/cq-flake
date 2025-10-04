@@ -41,14 +41,6 @@ To create an environment with [yacv-server](https://github.com/yeicor-3d/yet-ano
 ```sh
 nix shell github:marcus7070/cq-flake#yacv-env
 ```
-By default this environment does not supply the frontend. You can either use
-the github pages frontend hosted
-[here](https://yeicor-3d.github.io/yet-another-cad-viewer/). Or you can start a
-local version of the frontend with:
-
-```sh
-nix shell github:marcus7070/cq-flake#yacv-frontend
-```
 
 To get the most out of this flake you should specify a commit along with those commands and note it down so you are always using the same CadQuery, eg.
 ```sh
