@@ -2,7 +2,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   # Buildtime dependencies
-  git,
   pytestCheckHook,
   setuptools-scm,
   # Runtime dependencies
@@ -24,13 +23,14 @@
     owner = "gumyr";
     repo = pname;
     rev = "v${version}";
-    deepClone = true;
-    hash = "sha256-XHBli47MvaX8BNxQeBoVw3Vxp80eNi9WFSKDenw5dJE=";
+    hash = "sha256-pOYK6zXC5z0JohL4k/NMI/ALfHVKSJM5eM2bLcyKhpQ=";
   };
 in
   buildPythonPackage {
     inherit src pname version;
     format = "pyproject";
+
+    env.SETUPTOOLS_SCM_PRETEND_VERSION = version;
 
     patchPhase = ''
       substituteInPlace pyproject.toml \
@@ -38,7 +38,6 @@ in
     '';
 
     nativeBuildInputs = [
-      git
       pytestCheckHook
       setuptools-scm
     ];
