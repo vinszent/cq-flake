@@ -57,7 +57,11 @@ mkDerivationWith python3Packages.buildPythonApplication {
   ];
 
   # cq-editor crashes when trying to use Wayland, so force xcb
-  qtWrapperArgs = [ "--set QT_QPA_PLATFORM xcb" ];
+  qtWrapperArgs = [
+    "--set QT_QPA_PLATFORM xcb"
+    "--unset QT_PLUGIN_PATH"
+    "--unset NIXPKGS_QT5_QML_IMPORT_PATH"
+  ];
 
   postFixup = ''
     wrapQtApp "$out/bin/cq-editor"
